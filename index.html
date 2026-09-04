@@ -726,48 +726,33 @@
 </section><!-- =========================================
      HISTORY SECTION
 ========================================= --><section
-    class="section history-section"
-    id="history"
-><div class="container">
+    <section class="section history-section" id="history">
+    <div class="container">
 
-    <div class="section-heading">
+        <div class="section-heading">
+            <span>ORDER RECORD</span>
+            <h2>📜 History</h2>
+            <p>Your previous orders are saved here.</p>
+        </div>
 
-        <span>
-            ORDER RECORD
-        </span>
+        <div class="history-header">
+            <h3>Previous Orders</h3>
+            <button onclick="clearHistory()" class="clear-history-btn">
+                🗑️ Clear History
+            </button>
+        </div>
 
-        <h2>
-            📜 History
-        </h2>
+        <div id="order-history">
 
-        <p>
-            Previous orders will be saved here.
-        </p>
-
-    </div>
-
-
-    <div id="order-history">
-
-        <div class="history-empty">
-
-            <div class="empty-icon">
-                📜
+            <div class="history-empty">
+                <div class="empty-icon">📜</div>
+                <h3>No order history yet</h3>
+                <p>Your previous orders will appear here.</p>
             </div>
-
-            <h3>
-                No order history yet
-            </h3>
-
-            <p>
-                Your previous orders will appear here.
-            </p>
 
         </div>
 
     </div>
-
-</div>
 
 </section><!-- =========================================
      FOOTER

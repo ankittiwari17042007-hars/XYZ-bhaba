@@ -27,6 +27,61 @@ let customerLocation = null;
 
 
 /* =========================================
+   SLIDER
+========================================= */
+
+let currentSlide = 0;
+
+function showSlide(index) {
+
+    const slides =
+        document.querySelectorAll(".slide");
+
+    const dots =
+        document.querySelectorAll(".dot");
+
+    if (!slides.length) return;
+
+    if (index >= slides.length) {
+        index = 0;
+    }
+
+    if (index < 0) {
+        index = slides.length - 1;
+    }
+
+    currentSlide = index;
+
+    slides.forEach(slide => {
+        slide.classList.remove("active");
+    });
+
+    dots.forEach(dot => {
+        dot.classList.remove("active");
+    });
+
+    slides[index].classList.add("active");
+
+    if (dots[index]) {
+        dots[index].classList.add("active");
+    }
+}
+
+
+function startSlider() {
+
+    setInterval(() => {
+
+        currentSlide++;
+
+        showSlide(currentSlide);
+
+    }, 4000);
+
+}
+
+
+/* =========================================
    LOAD CART
 ========================================= */
 
@@ -35,21 +90,19 @@ function loadCart() {
     const savedCart =
         localStorage.getItem("xyzCart");
 
-    if (savedCart) {
+    if (!savedCart) return;
 
-        try {
+    try {
 
-            cart = JSON.parse(savedCart);
+        cart = JSON.parse(savedCart);
 
-            if (!Array.isArray(cart)) {
-                cart = [];
-            }
-
-        } catch {
-
+        if (!Array.isArray(cart)) {
             cart = [];
-
         }
+
+    } catch {
+
+        cart = [];
 
     }
 
@@ -154,10 +207,11 @@ function clearCart() {
 
     }
 
-    const confirmClear =
-        confirm("Are you sure you want to clear your cart?");
-
-    if (!confirmClear) return;
+    if (
+        !confirm(
+            "Are you sure you want to clear your cart?"
+        )
+    ) return;
 
     cart = [];
 
@@ -169,16 +223,19 @@ function clearCart() {
 
 
 /* =========================================
-   CALCULATE CART TOTAL
+   CART SUBTOTAL
 ========================================= */
 
 function getCartSubtotal() {
 
     return cart.reduce(
-        (total, item) =>
-            total +
-            Number(item.price) *
-            Number(item.quantity),
+        (total, item) => {
+
+            return total +
+                Number(item.price) *
+                Number(item.quantity);
+
+        },
         0
     );
 
@@ -192,9 +249,7 @@ function getCartSubtotal() {
 function getDeliveryCharge() {
 
     if (deliveryDistance <= 0) {
-
         return 0;
-
     }
 
     return Math.ceil(
@@ -210,179 +265,223 @@ function getDeliveryCharge() {
 
 function updateCart() {
 
-    const cartContainer =
+    const container =
         document.getElementById("cart-items");
 
-    const countElement =
-        document.getElementById("cart-items-count");
+    const count =
+        document.getElementById("cart-count");
 
-    if (!cartContainer) return;
+    const itemCount =
+        document.getElementById(
+            "cart-items-count"
+        );
+
+    if (!container) return;
 
 
     if (cart.length === 0) {
 
-        cartContainer.innerHTML = `
-            <div class="history-empty">
-                <div class="empty-icon">🛒</div>
-                <h3>Your cart is empty</h3>
-                <p>Add some delicious food from our menu.</p>
+        container.innerHTML = `
+
+            <div class="empty-cart">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h3>
+                    Your cart is empty
+                </h3>
+
+                <p>
+                    Menu se apna favourite
+                    food add karein.
+                </p>
+
+                <a href="#menu">
+                    Explore Menu →
+                </a>
+
             </div>
+
         `;
 
-        if (countElement) {
-            countElement.textContent = "0 items";
-        }
+    } else {
 
-        updateSummary();
+        let html = `
 
-        return;
+            <table class="cart-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+        `;
+
+
+        cart.forEach((item, index) => {
+
+            const total =
+                Number(item.price) *
+                Number(item.quantity);
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${item.name}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ₹${item.price}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="quantity-btn"
+                            onclick="changeQuantity(${index}, -1)"
+                        >
+                            −
+                        </button>
+
+                        <strong style="margin:0 7px;">
+                            ${item.quantity}
+                        </strong>
+
+                        <button
+                            class="quantity-btn"
+                            onclick="changeQuantity(${index}, 1)"
+                        >
+                            +
+                        </button>
+
+                    </td>
+
+                    <td>
+                        ₹${total}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="remove-btn"
+                            onclick="removeFromCart(${index})"
+                        >
+                            Remove
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        html += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+        container.innerHTML = html;
 
     }
 
 
-    let html = `
-
-        <table class="cart-table">
-
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-    `;
+    const totalItems =
+        cart.reduce(
+            (sum, item) =>
+                sum + Number(item.quantity),
+            0
+        );
 
 
-    cart.forEach((item, index) => {
-
-        const total =
-            Number(item.price) *
-            Number(item.quantity);
-
-        html += `
-
-            <tr>
-
-                <td>
-                    <strong>${item.name}</strong>
-                </td>
-
-                <td>
-                    ₹${item.price}
-                </td>
-
-                <td>
-
-                    <button
-                        class="quantity-btn"
-                        onclick="changeQuantity(${index}, -1)">
-                        −
-                    </button>
-
-                    <strong style="margin:0 8px;">
-                        ${item.quantity}
-                    </strong>
-
-                    <button
-                        class="quantity-btn"
-                        onclick="changeQuantity(${index}, 1)">
-                        +
-                    </button>
-
-                </td>
-
-                <td>
-                    ₹${total}
-                </td>
-
-                <td>
-
-                    <button
-                        class="remove-btn"
-                        onclick="removeFromCart(${index})">
-                        Remove
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    });
+    if (count) {
+        count.textContent = totalItems;
+    }
 
 
-    html += `
-            </tbody>
-        </table>
-    `;
+    if (itemCount) {
 
-
-    cartContainer.innerHTML = html;
-
-
-    if (countElement) {
-
-        const totalItems =
-            cart.reduce(
-                (sum, item) =>
-                    sum + Number(item.quantity),
-                0
-            );
-
-        countElement.textContent =
+        itemCount.textContent =
             `${totalItems} item${totalItems !== 1 ? "s" : ""}`;
 
     }
 
 
-    updateSummary();
+    updateBill();
 
 }
 
 
 /* =========================================
-   UPDATE SUMMARY
+   UPDATE BILL
 ========================================= */
 
-function updateSummary() {
+function updateBill() {
 
-    const subtotal =
+    const foodTotal =
         getCartSubtotal();
 
     const delivery =
         getDeliveryCharge();
 
     const grandTotal =
-        subtotal + delivery;
+        foodTotal + delivery;
 
 
-    const subtotalElement =
-        document.getElementById("cart-subtotal");
+    const foodElement =
+        document.getElementById("food-total");
 
     const deliveryElement =
-        document.getElementById("delivery-charge");
+        document.getElementById(
+            "delivery-price"
+        );
+
+    const distanceElement =
+        document.getElementById(
+            "distance"
+        );
 
     const totalElement =
-        document.getElementById("grand-total");
+        document.getElementById(
+            "grand-total"
+        );
 
 
-    if (subtotalElement) {
-
-        subtotalElement.textContent =
-            `₹${subtotal}`;
-
+    if (foodElement) {
+        foodElement.textContent =
+            `₹${foodTotal}`;
     }
 
     if (deliveryElement) {
-
         deliveryElement.textContent =
             `₹${delivery}`;
+    }
+
+    if (distanceElement) {
+
+        distanceElement.textContent =
+            `${deliveryDistance.toFixed(2)} km`;
 
     }
 
@@ -393,11 +492,24 @@ function updateSummary() {
 
     }
 
+
+    const hiddenDelivery =
+        document.getElementById(
+            "delivery-charge"
+        );
+
+    if (hiddenDelivery) {
+
+        hiddenDelivery.textContent =
+            `₹${delivery}`;
+
+    }
+
 }
 
 
 /* =========================================
-   HAVERSINE DISTANCE
+   DISTANCE
 ========================================= */
 
 function calculateDistance(
@@ -418,14 +530,17 @@ function calculateDistance(
         Math.PI / 180;
 
     const a =
-        Math.sin(dLat / 2) *
-        Math.sin(dLat / 2) +
+        Math.sin(dLat / 2) ** 2 +
 
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
+        Math.cos(
+            lat1 * Math.PI / 180
+        ) *
 
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+        Math.cos(
+            lat2 * Math.PI / 180
+        ) *
+
+        Math.sin(dLon / 2) ** 2;
 
     const c =
         2 *
@@ -440,10 +555,10 @@ function calculateDistance(
 
 
 /* =========================================
-   GET CUSTOMER LOCATION
+   LOCATION
 ========================================= */
 
-function getCustomerLocation() {
+function getLocation() {
 
     if (!navigator.geolocation) {
 
@@ -453,6 +568,23 @@ function getCustomerLocation() {
 
         return;
 
+    }
+
+
+    const button =
+        document.getElementById(
+            "location-button"
+        );
+
+    const status =
+        document.getElementById(
+            "location-status"
+        );
+
+
+    if (button) {
+        button.textContent =
+            "📍 Detecting Location...";
     }
 
 
@@ -482,21 +614,23 @@ function getCustomerLocation() {
                 );
 
 
-            updateSummary();
+            if (status) {
 
-
-            const locationText =
-                document.getElementById(
-                    "location-status"
-                );
-
-
-            if (locationText) {
-
-                locationText.textContent =
-                    `Location detected • ${deliveryDistance.toFixed(2)} km away`;
+                status.textContent =
+                    `✅ Location detected • ${deliveryDistance.toFixed(2)} km away`;
 
             }
+
+
+            if (button) {
+
+                button.textContent =
+                    "✅ Location Detected";
+
+            }
+
+
+            updateBill();
 
 
             alert(
@@ -507,10 +641,23 @@ function getCustomerLocation() {
 
         function() {
 
+            if (button) {
+
+                button.textContent =
+                    "📍 Use My Location";
+
+            }
+
+
             alert(
                 "Please allow location permission to place the order."
             );
 
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000
         }
 
     );
@@ -518,8 +665,17 @@ function getCustomerLocation() {
 }
 
 
+/* Keep old function working too */
+
+function getCustomerLocation() {
+
+    getLocation();
+
+}
+
+
 /* =========================================
-   GOOGLE MAPS LOCATION
+   GOOGLE MAP
 ========================================= */
 
 function getGoogleMapsLink() {
@@ -536,7 +692,7 @@ function getGoogleMapsLink() {
 
 
 /* =========================================
-   SAVE OWNER ORDER
+   OWNER ORDER
 ========================================= */
 
 function saveOwnerOrder(order) {
@@ -550,25 +706,121 @@ function saveOwnerOrder(order) {
 
 
 /* =========================================
-   SAVE ORDER HISTORY
+   SHOW OWNER ORDER
+========================================= */
+
+function showOwnerOrder(order) {
+
+    const container =
+        document.getElementById(
+            "owner-order"
+        );
+
+    if (!container) return;
+
+
+    let itemsHTML = "";
+
+
+    order.items.forEach(item => {
+
+        itemsHTML += `
+
+            <p>
+                ${item.name}
+                × ${item.quantity}
+                = ₹${item.price * item.quantity}
+            </p>
+
+        `;
+
+    });
+
+
+    container.innerHTML = `
+
+        <div class="owner-order-card">
+
+            <h3>
+                📦 ${order.id}
+            </h3>
+
+            <div class="owner-row">
+                <span>Customer</span>
+                <strong>
+                    ${order.name}
+                </strong>
+            </div>
+
+            <div class="owner-row">
+                <span>Phone</span>
+                <strong>
+                    ${order.phone}
+                </strong>
+            </div>
+
+            <div class="owner-row">
+                <span>Date</span>
+                <strong>
+                    ${order.time}
+                </strong>
+            </div>
+
+            <div class="owner-row">
+                <span>Address</span>
+                <strong>
+                    ${order.address}
+                </strong>
+            </div>
+
+            <div class="owner-items">
+
+                <strong>
+                    Items
+                </strong>
+
+                ${itemsHTML}
+
+            </div>
+
+            <div class="owner-row">
+
+                <span>
+                    Grand Total
+                </span>
+
+                <strong>
+                    ₹${order.grandTotal}
+                </strong>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================
+   SAVE HISTORY
 ========================================= */
 
 function saveOrderHistory(order) {
 
     let history = [];
 
-    const savedHistory =
+    const saved =
         localStorage.getItem(
             "xyzOrderHistory"
         );
 
 
-    if (savedHistory) {
+    if (saved) {
 
         try {
 
-            history =
-                JSON.parse(savedHistory);
+            history = JSON.parse(saved);
 
         } catch {
 
@@ -580,19 +832,17 @@ function saveOrderHistory(order) {
 
 
     if (!Array.isArray(history)) {
-
         history = [];
-
     }
 
 
-    const alreadyExists =
+    const exists =
         history.some(
             item => item.id === order.id
         );
 
 
-    if (!alreadyExists) {
+    if (!exists) {
 
         history.unshift(order);
 
@@ -611,7 +861,7 @@ function saveOrderHistory(order) {
 
 
 /* =========================================
-   SHOW ORDER HISTORY
+   SHOW HISTORY
 ========================================= */
 
 function showOrderHistory() {
@@ -621,17 +871,16 @@ function showOrderHistory() {
             "order-history"
         );
 
-
     if (!container) return;
 
 
-    const savedHistory =
+    const saved =
         localStorage.getItem(
             "xyzOrderHistory"
         );
 
 
-    if (!savedHistory) {
+    if (!saved) {
 
         showEmptyHistory();
 
@@ -645,8 +894,7 @@ function showOrderHistory() {
 
     try {
 
-        history =
-            JSON.parse(savedHistory);
+        history = JSON.parse(saved);
 
     } catch {
 
@@ -669,12 +917,12 @@ function showOrderHistory() {
     }
 
 
-    let historyHTML = "";
+    let html = "";
 
 
     history.forEach(order => {
 
-        let itemsHTML = "";
+        let items = "";
 
 
         if (Array.isArray(order.items)) {
@@ -682,11 +930,11 @@ function showOrderHistory() {
             order.items.forEach(item => {
 
                 const subtotal =
-                    Number(item.price || 0) *
-                    Number(item.quantity || 0);
+                    Number(item.price) *
+                    Number(item.quantity);
 
 
-                itemsHTML += `
+                items += `
 
                     <tr>
 
@@ -715,7 +963,7 @@ function showOrderHistory() {
         }
 
 
-        historyHTML += `
+        html += `
 
             <div class="history-card">
 
@@ -741,7 +989,7 @@ function showOrderHistory() {
                         </span>
 
                         <span class="history-value">
-                            ${order.time || "Date not available"}
+                            ${order.time || "Not available"}
                         </span>
 
                     </div>
@@ -764,10 +1012,9 @@ function showOrderHistory() {
 
                         </thead>
 
-
                         <tbody>
 
-                            ${itemsHTML}
+                            ${items}
 
                         </tbody>
 
@@ -795,8 +1042,7 @@ function showOrderHistory() {
     });
 
 
-    container.innerHTML =
-        historyHTML;
+    container.innerHTML = html;
 
 }
 
@@ -811,7 +1057,6 @@ function showEmptyHistory() {
         document.getElementById(
             "order-history"
         );
-
 
     if (!container) return;
 
@@ -829,7 +1074,8 @@ function showEmptyHistory() {
             </h3>
 
             <p>
-                Your previous orders will appear here.
+                Your previous orders
+                will appear here.
             </p>
 
         </div>
@@ -845,13 +1091,41 @@ function showEmptyHistory() {
 
 function clearHistory() {
 
-    const savedHistory =
+    const saved =
         localStorage.getItem(
             "xyzOrderHistory"
         );
 
 
-    if (!savedHistory) {
+    if (!saved) {
+
+        alert(
+            "No order history to clear."
+        );
+
+        return;
+
+    }
+
+
+    let history = [];
+
+
+    try {
+
+        history = JSON.parse(saved);
+
+    } catch {
+
+        history = [];
+
+    }
+
+
+    if (
+        !Array.isArray(history) ||
+        history.length === 0
+    ) {
 
         alert(
             "No order history to clear."
@@ -887,7 +1161,7 @@ function clearHistory() {
 
 
 /* =========================================
-   LOAD LAST ORDER + MIGRATE
+   LOAD OWNER ORDER
 ========================================= */
 
 function loadOwnerOrder() {
@@ -913,19 +1187,13 @@ function loadOwnerOrder() {
             JSON.parse(saved);
 
 
-        if (
-            typeof showOwnerOrder ===
-            "function"
-        ) {
-
-            showOwnerOrder(order);
-
-        }
+        showOwnerOrder(order);
 
 
-        /* =================================
-           OLD ORDER MIGRATION
-        ================================= */
+        /*
+         * Old latest order ko history
+         * me automatically add karega.
+         */
 
         let history = [];
 
@@ -953,22 +1221,19 @@ function loadOwnerOrder() {
 
 
         if (!Array.isArray(history)) {
-
             history = [];
-
         }
 
 
-        const alreadyExists =
+        const exists =
             history.some(
                 item => item.id === order.id
             );
 
 
-        if (!alreadyExists) {
+        if (!exists) {
 
             history.unshift(order);
-
 
             localStorage.setItem(
                 "xyzOrderHistory",
@@ -982,11 +1247,6 @@ function loadOwnerOrder() {
 
     } catch {
 
-        console.log(
-            "Unable to load saved order."
-        );
-
-
         showOrderHistory();
 
     }
@@ -995,7 +1255,7 @@ function loadOwnerOrder() {
 
 
 /* =========================================
-   PLACE ORDER ON WHATSAPP
+   PLACE ORDER
 ========================================= */
 
 function orderOnWhatsApp() {
@@ -1011,30 +1271,22 @@ function orderOnWhatsApp() {
     }
 
 
-    const nameInput =
-        document.getElementById("customer-name");
-
-    const phoneInput =
-        document.getElementById("customer-phone");
-
-    const addressInput =
-        document.getElementById("customer-address");
-
-
     const name =
-        nameInput ?
-        nameInput.value.trim() :
-        "";
+        document.getElementById(
+            "customer-name"
+        ).value.trim();
+
 
     const phone =
-        phoneInput ?
-        phoneInput.value.trim() :
-        "";
+        document.getElementById(
+            "customer-phone"
+        ).value.trim();
+
 
     const address =
-        addressInput ?
-        addressInput.value.trim() :
-        "";
+        document.getElementById(
+            "customer-address"
+        ).value.trim();
 
 
     if (!name) {
@@ -1048,7 +1300,9 @@ function orderOnWhatsApp() {
 
     if (!phone) {
 
-        alert("Please enter your phone number.");
+        alert(
+            "Please enter your mobile number."
+        );
 
         return;
 
@@ -1057,7 +1311,9 @@ function orderOnWhatsApp() {
 
     if (!address) {
 
-        alert("Please enter your address.");
+        alert(
+            "Please enter your delivery address."
+        );
 
         return;
 
@@ -1067,7 +1323,7 @@ function orderOnWhatsApp() {
     if (!customerLocation) {
 
         alert(
-            "Please click the location button and allow location access."
+            "Please click 'Use My Location' first."
         );
 
         return;
@@ -1078,31 +1334,20 @@ function orderOnWhatsApp() {
     const subtotal =
         getCartSubtotal();
 
+
     const delivery =
         getDeliveryCharge();
+
 
     const grandTotal =
         subtotal + delivery;
 
 
-    const orderId =
-        "XYZ-" +
-        Date.now();
-
-
-    const orderTime =
-        new Date().toLocaleString(
-            "en-IN",
-            {
-                dateStyle: "medium",
-                timeStyle: "short"
-            }
-        );
-
-
     const order = {
 
-        id: orderId,
+        id:
+            "XYZ-" +
+            Date.now(),
 
         name: name,
 
@@ -1110,13 +1355,26 @@ function orderOnWhatsApp() {
 
         address: address,
 
-        time: orderTime,
+        time:
+            new Date().toLocaleString(
+                "en-IN",
+                {
+                    dateStyle: "medium",
+                    timeStyle: "short"
+                }
+            ),
 
-        items: cart.map(item => ({
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity
-        })),
+        items:
+            cart.map(item => ({
+
+                name: item.name,
+
+                price: Number(item.price),
+
+                quantity:
+                    Number(item.quantity)
+
+            })),
 
         subtotal: subtotal,
 
@@ -1135,14 +1393,16 @@ function orderOnWhatsApp() {
     };
 
 
-    /* SAVE ORDER */
+    /* Save order */
 
     saveOwnerOrder(order);
 
     saveOrderHistory(order);
 
 
-    /* WHATSAPP MESSAGE */
+    /* =================================
+       WHATSAPP MESSAGE
+    ================================= */
 
     let message =
         `*XYZ DHABA ORDER*%0A%0A`;
@@ -1169,6 +1429,7 @@ function orderOnWhatsApp() {
             Number(item.price) *
             Number(item.quantity);
 
+
         message +=
             `${item.name} x ${item.quantity} = ₹${itemTotal}%0A`;
 
@@ -1176,16 +1437,16 @@ function orderOnWhatsApp() {
 
 
     message +=
-        `%0ASubtotal: ₹${subtotal}%0A`;
+        `%0AFood Total: ₹${subtotal}%0A`;
 
     message +=
         `Delivery: ₹${delivery}%0A`;
 
     message +=
-        `*Grand Total: ₹${grandTotal}*%0A%0A`;
+        `Distance: ${deliveryDistance.toFixed(2)} km%0A`;
 
     message +=
-        `Distance: ${deliveryDistance.toFixed(2)} km%0A`;
+        `*Grand Total: ₹${grandTotal}*%0A%0A`;
 
     message +=
         `Location: ${getGoogleMapsLink()}`;
@@ -1219,5 +1480,9 @@ document.addEventListener(
 
         showOrderHistory();
 
+        showSlide(0);
+
+        startSlider();
+
     }
-);
+);1

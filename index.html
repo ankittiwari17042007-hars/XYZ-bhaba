@@ -1,159 +1,653 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>XYZ Dhaba | Kanpur</title>
 
-    <title>XYZ Dhaba | Fresh & Delicious Food</title>
+    <meta name="description"
+          content="XYZ Dhaba Kanpur - Fresh food, delicious taste and fast home delivery.">
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
+<!-- ================= HEADER ================= -->
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+<header class="header">
 
-    <header>
+    <div class="nav-container">
 
-        <nav class="navbar">
-
-            <div class="logo">
-                XYZ Dhaba
+        <div class="logo">
+            <span>🍛</span>
+            <div>
+                <h2>XYZ Dhaba</h2>
+                <small>Kanpur</small>
             </div>
+        </div>
 
-
-            <ul class="nav-links">
-
-                <li>
-                    <a href="#home">
-                        Home
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#menu">
-                        Menu
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#cart">
-                        Cart
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#contact">
-                        Contact
-                    </a>
-                </li>
-
-            </ul>
-
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#order">Order</a>
+            <a href="#delivery">Delivery</a>
         </nav>
 
-    </header>
+        <a href="#order" class="cart-top">
+            🛒 <span id="cart-count">0</span>
+        </a>
+
+    </div>
+
+</header>
 
 
+<!-- ================= HOME ================= -->
 
-    <!-- =========================
-         HERO SECTION
-    ========================== -->
+<section id="home" class="hero">
 
-    <section id="home"
-             class="hero">
+    <div class="hero-slider">
 
-        <div class="hero-content">
+        <div class="slide active"
+             style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85');">
+        </div>
 
-            <h1>
-                Welcome to XYZ Dhaba
-            </h1>
+        <div class="slide"
+             style="background-image:url('https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1800&q=85');">
+        </div>
 
-            <p>
-                Ghar jaisa swad, fresh aur tasty khana.
-            </p>
+        <div class="slide"
+             style="background-image:url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1800&q=85');">
+        </div>
 
-            <a href="#menu"
-               class="main-button">
+        <div class="slide"
+             style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1800&q=85');">
+        </div>
 
-                Order Now
+        <div class="slide"
+             style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1800&q=85');">
+        </div>
 
+    </div>
+
+
+    <div class="hero-overlay"></div>
+
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            🍽️ Welcome to XYZ Dhaba
+        </div>
+
+        <h1>
+            Kanpur Ka<br>
+            <span>Apna Dhaba</span>
+        </h1>
+
+        <p>
+            Ghar jaisa swaad • Fresh food • Reasonable price
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#menu" class="primary-btn">
+                🍛 Explore Menu
+            </a>
+
+            <a href="#order" class="secondary-btn">
+                🛒 My Order
             </a>
 
         </div>
 
-    </section>
+    </div>
 
 
+    <div class="slider-dots">
 
-    <!-- =========================
-         MENU SECTION
-    ========================== -->
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
 
-    <section id="menu"
-             class="menu-section">
+    </div>
 
-        <h2>
-            Our Menu
-        </h2>
+</section>
 
-        <p class="section-subtitle">
-            Fresh food, simple prices.
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about">
+
+    <div class="about-container">
+
+        <div>
+            <span class="section-label">WHY XYZ DHABA?</span>
+
+            <h2>
+                Kanpur mein ghar jaisa
+                <span>swaad</span>
+            </h2>
+        </div>
+
+        <p>
+            Freshly prepared food, simple pricing aur
+            bharpet khana. Aap ghar se order karke
+            apna favourite khana enjoy kar sakte hain.
         </p>
 
+    </div>
 
-        <div class="menu-container">
+</section>
 
 
-            <!-- NORMAL THALI -->
+<!-- ================= MENU ================= -->
 
-            <div class="food-card">
+<section id="menu" class="menu-section">
+
+    <div class="section-heading">
+
+        <span class="section-label">OUR MENU</span>
+
+        <h2>Khana Kya Milega?</h2>
+
+        <p>
+            Apni quantity choose karo aur cart mein add karo.
+        </p>
+
+    </div>
+
+
+    <div class="menu-container">
+
+
+        <!-- NORMAL THALI -->
+
+        <div class="menu-card">
+
+            <div class="food-image">
 
                 <img
-                    src="https://images.unsplash.com/photo-1546833999-b9f581a1996d"
-                    alt="Normal Thali">
+                    src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=900&q=85"
+                    alt="Normal Thali"
+                >
 
-                <div class="food-card-content">
+                <span class="food-tag">
+                    Popular
+                </span>
 
-                    <h3>
-                        Normal Thali
-                    </h3>
+            </div>
 
-                    <h4>
-                        ₹60
-                    </h4>
+            <div class="menu-info">
+
+                <div class="food-title">
+
+                    <h3>Normal Thali</h3>
+
+                    <strong>₹60</strong>
+
+                </div>
+
+                <p>
+                    Roti, Dal, Sabji, Rice, Salad & Achar
+                </p>
+
+                <button
+                    class="add-cart"
+                    onclick="addToCart('Normal Thali',60)">
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- EXTRA ROTI -->
+
+        <div class="menu-card">
+
+            <div class="food-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=85"
+                    alt="Roti"
+                >
+
+                <span class="food-tag">
+                    Extra
+                </span>
+
+            </div>
+
+            <div class="menu-info">
+
+                <div class="food-title">
+
+                    <h3>Extra Roti</h3>
+
+                    <strong>₹6</strong>
+
+                </div>
+
+                <p>
+                    Fresh hot roti — ₹6 per piece
+                </p>
+
+                <button
+                    class="add-cart"
+                    onclick="addToCart('Extra Roti',6)">
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SABJI -->
+
+        <div class="menu-card">
+
+            <div class="food-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85"
+                    alt="Sabji"
+                >
+
+                <span class="food-tag">
+                    250 ml
+                </span>
+
+            </div>
+
+            <div class="menu-info">
+
+                <div class="food-title">
+
+                    <h3>Seasonal Sabji</h3>
+
+                    <strong>₹30</strong>
+
+                </div>
+
+                <p>
+                    250 ml fresh seasonal sabji
+                </p>
+
+                <button
+                    class="add-cart"
+                    onclick="addToCart('Seasonal Sabji 250ml',30)">
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- DAL -->
+
+        <div class="menu-card">
+
+            <div class="food-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=85"
+                    alt="Dal"
+                >
+
+                <span class="food-tag">
+                    250 ml
+                </span>
+
+            </div>
+
+            <div class="menu-info">
+
+                <div class="food-title">
+
+                    <h3>Dal Tadka</h3>
+
+                    <strong>₹40</strong>
+
+                </div>
+
+                <p>
+                    250 ml tasty dal tadka
+                </p>
+
+                <button
+                    class="add-cart"
+                    onclick="addToCart('Dal Tadka 250ml',40)">
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= ORDER ================= -->
+
+<section id="order" class="order-section">
+
+    <div class="section-heading">
+
+        <span class="section-label">YOUR ORDER</span>
+
+        <h2>Order Details</h2>
+
+        <p>
+            Yahan aapke order ki complete details dikhegi.
+        </p>
+
+    </div>
+
+
+    <div class="order-container">
+
+
+        <!-- CART -->
+
+        <div class="cart-box">
+
+            <div class="cart-header">
+
+                <div>
+                    <span class="section-label">
+                        CART
+                    </span>
+
+                    <h3>Your Food</h3>
+                </div>
+
+                <span id="cart-items-count">
+                    0 items
+                </span>
+
+            </div>
+
+
+            <div id="cart-items">
+
+                <div class="empty-cart">
+
+                    <div class="empty-icon">
+                        🛒
+                    </div>
+
+                    <h3>Your cart is empty</h3>
 
                     <p>
-                        4 Roti, Daal, Chawal,
-                        Seasonal Sabji, Salad,
-                        Achar & More
+                        Menu se apna favourite food add karein.
                     </p>
 
-                    <button
-                        class="order-button"
-                        onclick="addToCart('Normal Thali', 60)">
-
-                        Add to Cart
-
-                    </button>
+                    <a href="#menu">
+                        Explore Menu →
+                    </a>
 
                 </div>
 
             </div>
 
+        </div>
 
 
-            <!-- PANEER THALI -->
+        <!-- BILL -->
 
-            <div class="food-card">
+        <div class="bill-box">
 
-                <img
-                    src="https://images.unsplash.com/photo-1601050690597-df0568
+            <h3>Bill Summary</h3>
+
+            <div class="bill-line">
+
+                <span>Food Total</span>
+
+                <strong id="food-total">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+            <div class="bill-line">
+
+                <span>
+                    Delivery
+                    <small>(₹15/km)</small>
+                </span>
+
+                <strong id="delivery-price">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+            <div class="bill-line distance-line">
+
+                <span>Distance</span>
+
+                <strong id="distance">
+                    0 km
+                </strong>
+
+            </div>
+
+
+            <div class="grand-total">
+
+                <span>Grand Total</span>
+
+                <strong id="grand-total">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+            <!-- CUSTOMER -->
+
+            <div class="customer-form">
+
+                <h3>Delivery Details</h3>
+
+                <input
+                    type="text"
+                    id="customer-name"
+                    placeholder="Your Name"
+                >
+
+                <input
+                    type="tel"
+                    id="customer-phone"
+                    placeholder="Mobile Number"
+                >
+
+                <textarea
+                    id="customer-address"
+                    rows="3"
+                    placeholder="Full Delivery Address"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                class="whatsapp-order"
+                onclick="orderOnWhatsApp()">
+
+                📱 Order on WhatsApp
+
+            </button>
+
+            <button
+                class="clear-order"
+                onclick="clearCart()">
+
+                Clear Order
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DELIVERY ================= -->
+
+<section id="delivery" class="delivery-section">
+
+    <div class="delivery-container">
+
+        <div class="delivery-content">
+
+            <span class="section-label">
+                HOME DELIVERY
+            </span>
+
+            <h2>
+                Khana ghar tak 🚚
+            </h2>
+
+            <p>
+                Apni current location select karein.
+                Delivery charge ₹15/km ke according calculate hoga.
+            </p>
+
+            <button
+                class="location-btn"
+                onclick="getLocation()">
+
+                📍 Use My Location
+
+            </button>
+
+            <div
+                id="location-status"
+                class="location-status">
+
+                Location not selected
+
+            </div>
+
+        </div>
+
+
+        <div class="delivery-card">
+
+            <div>
+                <span>Delivery Rate</span>
+                <strong>₹15 / km</strong>
+            </div>
+
+            <div>
+                <span>Your Distance</span>
+                <strong id="delivery-distance">
+                    0 km
+                </strong>
+            </div>
+
+            <div>
+                <span>Delivery Charge</span>
+                <strong id="delivery-charge">
+                    ₹0
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OWNER ORDER PANEL ================= -->
+
+<section class="owner-section">
+
+    <div class="owner-container">
+
+        <div class="owner-heading">
+
+            <span class="section-label">
+                FOR MALIK
+            </span>
+
+            <h2>Latest Order</h2>
+
+            <p>
+                Customer ne jo order place kiya hai
+                uski details yahan save hongi.
+            </p>
+
+        </div>
+
+
+        <div id="owner-order">
+
+            <div class="owner-empty">
+                📦 Abhi koi order place nahi hua.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <h2>🍛 XYZ Dhaba</h2>
+
+            <p>
+                Kanpur ka apna dhaba.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="#home">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#order">Order</a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 XYZ Dhaba • Kanpur
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

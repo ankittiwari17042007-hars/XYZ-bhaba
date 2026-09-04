@@ -286,4 +286,515 @@
 
                         <strong>
                             ₹6 / piece
-                        </
+                        </strong>
+
+
+                        <button
+                            onclick="addToCart('Extra Roti', 6)"
+                        >
+                            Add +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SEASONAL SABJI -->
+
+            <div class="menu-card">
+
+                <div class="food-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=80"
+                        alt="Seasonal Sabji"
+                    >
+
+                </div>
+
+
+                <div class="menu-content">
+
+                    <h3>
+                        Seasonal Sabji
+                    </h3>
+
+                    <p>
+                        Fresh seasonal vegetable
+                        prepared with homestyle taste.
+                    </p>
+
+
+                    <div class="menu-bottom">
+
+                        <strong>
+                            ₹30 / 250ml
+                        </strong>
+
+
+                        <button
+                            onclick="addToCart('Seasonal Sabji 250ml', 30)"
+                        >
+                            Add +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DAL TADKA -->
+
+            <div class="menu-card">
+
+                <div class="food-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=700&q=80"
+                        alt="Dal Tadka"
+                    >
+
+                </div>
+
+
+                <div class="menu-content">
+
+                    <h3>
+                        Dal Tadka
+                    </h3>
+
+                    <p>
+                        Hot and tasty dal tadka.
+                    </p>
+
+
+                    <div class="menu-bottom">
+
+                        <strong>
+                            ₹40 / 250ml
+                        </strong>
+
+
+                        <button
+                            onclick="addToCart('Dal Tadka 250ml', 40)"
+                        >
+                            Add +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     ORDER SECTION
+========================================= -->
+
+<section
+    class="section order-section"
+    id="order"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <span>
+                YOUR ORDER
+            </span>
+
+            <h2>
+                Place Your Order
+            </h2>
+
+            <p>
+                Fill your details and order directly
+                on WhatsApp.
+            </p>
+
+        </div>
+
+
+
+        <div class="order-layout">
+
+
+            <!-- =================================
+                 CART
+            ================================= -->
+
+            <div class="order-card">
+
+
+                <div class="order-card-header">
+
+                    <div>
+
+                        <h3>
+                            🛒 Your Cart
+                        </h3>
+
+                        <span id="cart-items-count">
+                            0 items
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        onclick="clearCart()"
+                        class="clear-cart"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+                <div id="cart-items">
+
+                    <div class="empty-cart">
+
+                        <div class="empty-icon">
+                            🛒
+                        </div>
+
+                        <h3>
+                            Your cart is empty
+                        </h3>
+
+                        <p>
+                            Menu se apna favourite
+                            food add karein.
+                        </p>
+
+                        <a href="#menu">
+                            Explore Menu →
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 CUSTOMER DETAILS
+            ================================= -->
+
+            <div class="order-card">
+
+
+                <div class="order-card-header">
+
+                    <div>
+
+                        <h3>
+                            📦 Delivery Details
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="customer-name">
+                        Your Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customer-name"
+                        placeholder="Enter your name"
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="customer-phone">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customer-phone"
+                        placeholder="Enter mobile number"
+                    >
+
+                </div>
+
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="customer-address">
+                        Delivery Address
+                    </label>
+
+                    <textarea
+                        id="customer-address"
+                        rows="3"
+                        placeholder="Enter your delivery address"
+                    ></textarea>
+
+
+                    <!-- LOCATION BUTTON -->
+
+                    <button
+                        type="button"
+                        id="location-button"
+                        onclick="getLocation()"
+                        class="location-button"
+                    >
+
+                        📍 Use My Location
+
+                    </button>
+
+
+                    <div
+                        id="location-status"
+                        class="location-status"
+                    >
+
+                        📍 Location required for delivery
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     BILL
+                ================================= -->
+
+                <div class="bill">
+
+
+                    <div class="bill-row">
+
+                        <span>
+                            Food Total
+                        </span>
+
+                        <strong id="food-total">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bill-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <strong id="delivery-price">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bill-row">
+
+                        <span>
+                            Distance
+                        </span>
+
+                        <strong id="distance">
+                            0 km
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bill-divider"></div>
+
+
+                    <div class="bill-row grand-total">
+
+                        <span>
+                            Grand Total
+                        </span>
+
+                        <strong id="grand-total">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- HIDDEN/ADDITIONAL BILL IDs -->
+
+                <div style="display:none;">
+
+                    <span id="delivery-charge">
+                        ₹0
+                    </span>
+
+                    <span id="delivery-distance">
+                        0 km
+                    </span>
+
+                </div>
+
+
+
+                <!-- WHATSAPP BUTTON -->
+
+                <button
+                    type="button"
+                    onclick="orderOnWhatsApp()"
+                    class="whatsapp-button"
+                >
+
+                    📲 Place Order on WhatsApp
+
+                </button>
+
+
+                <p class="order-note">
+
+                    📍 Location sharing is required
+                    for delivery.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     OWNER PANEL
+========================================= -->
+
+<section
+    class="section owner-section"
+    id="owner"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <span>
+                OWNER PANEL
+            </span>
+
+            <h2>
+                Latest Order
+            </h2>
+
+            <p>
+                Latest order details are shown here.
+            </p>
+
+        </div>
+
+
+        <div id="owner-order">
+
+            <div class="empty-cart">
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
+                <h3>
+                    No order yet
+                </h3>
+
+                <p>
+                    Latest order will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <h3>
+            🍛 XYZ Dhaba
+        </h3>
+
+        <p>
+            Fresh • Delicious • Homemade
+        </p>
+
+        <p>
+            © 2026 XYZ Dhaba. All Rights Reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

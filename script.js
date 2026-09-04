@@ -1,208 +1,608 @@
-// ===============================
-// XYZ DHABA - COMPLETE CART + DELIVERY SYSTEM
-// ===============================
-
-// ===============================
-// 1. DHABA LOCATION
-// ===============================
-
-// Demo location
-// Baad mein apne Dhaba ki location ke coordinates yahan change kar dena.
-const DHABA_LATITUDE = 26.4499;
-const DHABA_LONGITUDE = 80.3319;
+/* =========================================
+   XYZ DHABA
+   ORDERING SYSTEM
+========================================= */
 
 
-// ===============================
-// 2. DELIVERY RULES
-// ===============================
+/* =========================================
+   SETTINGS
+========================================= */
 
-const FREE_DELIVERY_DISTANCE = 1; // 1 KM tak FREE
-const DELIVERY_RATE_PER_KM = 15;   // ₹15 per KM
+/*
+    XYZ Dhaba location
+
+    Baad mein apne actual Dhaba ke
+    coordinates yahan change karna.
+*/
+
+const SHOP_LAT = 26.4499;
+const SHOP_LNG = 80.3319;
 
 
-// ===============================
-// 3. CART
-// ===============================
+/*
+    WhatsApp number
+
+    Example:
+
+    919876543210
+
+    + ya spaces mat lagana.
+*/
+
+const WHATSAPP_NUMBER = "919XXXXXXXXX";
+
+
+/*
+    Delivery rate
+*/
+
+const DELIVERY_RATE = 15;
+
+
+/* =========================================
+   VARIABLES
+========================================= */
 
 let cart = [];
 
-
-// ===============================
-// 4. CUSTOMER DISTANCE
-// ===============================
-
-let customerDistance = null;
+let deliveryDistance = 0;
 
 
-// ===============================
-// 5. ADD TO CART
-// ===============================
+/* =========================================
+   HOME IMAGE SLIDER
+========================================= */
+
+const slides =
+    document.querySelectorAll(".slide");
+
+const dots =
+    document.querySelectorAll(".dot");
+
+let currentSlide = 0;
+
+
+function showSlide(index) {
+
+    slides.forEach(slide => {
+
+        slide.classList.remove("active");
+
+    });
+
+    dots.forEach(dot => {
+
+        dot.classList.remove("active");
+
+    });
+
+
+    slides[index].classList.add("active");
+
+    dots[index].classList.add("active");
+
+}
+
+
+function nextSlide() {
+
+    currentSlide++;
+
+    if (currentSlide >= slides.length) {
+
+        currentSlide = 0;
+
+    }
+
+    showSlide(currentSlide);
+
+}
+
+
+setInterval(nextSlide, 4500);
+
+
+/* =========================================
+   ADD TO CART
+========================================= */
 
 function addToCart(name, price) {
 
-    const existingItem = cart.find(item => item.name === name);
+    const existing =
+        cart.find(item => item.name === name);
 
-    if (existingItem) {
 
-        existingItem.quantity++;
+    if (existing) {
+
+        existing.quantity++;
 
     } else {
 
         cart.push({
+
             name: name,
+
             price: price,
+
             quantity: 1
+
         });
 
     }
 
-    displayCart();
 
-    document.getElementById("cart").scrollIntoView({
-        behavior: "smooth"
-    });
+    updateCart();
+
+    scrollToOrder();
+
 }
 
 
-// ===============================
-// 6. DISPLAY CART
-// ===============================
+/* =========================================
+   SCROLL TO ORDER
+========================================= */
 
-function displayCart() {
+function scrollToOrder() {
 
-    const cartItems = document.getElementById("cart-items");
+    const orderSection =
+        document.getElementById("order");
 
-    cartItems.innerHTML = "";
+    /*
+       Small delay so cart updates
+       before scrolling.
+    */
 
-    if (cart.length === 0) {
+    setTimeout(() => {
 
-        cartItems.innerHTML = `
-            <p class="empty-cart">
-                Your cart is empty.
-            </p>
-        `;
+        orderSection.scrollIntoView({
+            behavior: "smooth"
+        });
 
-        updateTotal();
+    }, 150);
 
-        return;
-    }
-
-
-    cart.forEach((item, index) => {
-
-        const itemTotal =
-            item.price * item.quantity;
-
-
-        const cartItem =
-            document.createElement("div");
-
-        cartItem.className = "cart-item";
-
-
-        cartItem.innerHTML = `
-
-            <div class="cart-item-info">
-
-                <h3>${item.name}</h3>
-
-                <p>
-                    ₹${item.price} × ${item.quantity}
-                </p>
-
-                <strong>
-                    ₹${itemTotal}
-                </strong>
-
-            </div>
-
-
-            <div class="quantity-controls">
-
-                <button
-                    onclick="decreaseQuantity(${index})">
-                    −
-                </button>
-
-                <span>
-                    ${item.quantity}
-                </span>
-
-                <button
-                    onclick="increaseQuantity(${index})">
-                    +
-                </button>
-
-            </div>
-
-
-            <button
-                class="remove-button"
-                onclick="removeItem(${index})">
-
-                Remove
-
-            </button>
-
-        `;
-
-
-        cartItems.appendChild(cartItem);
-
-    });
-
-
-    updateTotal();
 }
 
 
-// ===============================
-// 7. INCREASE QUANTITY
-// ===============================
+/* =========================================
+   CHANGE QUANTITY
+========================================= */
 
-function increaseQuantity(index) {
+function changeQuantity(index, amount) {
 
-    cart[index].quantity++;
-
-    displayCart();
-}
+    cart[index].quantity += amount;
 
 
-// ===============================
-// 8. DECREASE QUANTITY
-// ===============================
-
-function decreaseQuantity(index) {
-
-    if (cart[index].quantity > 1) {
-
-        cart[index].quantity--;
-
-    } else {
+    if (cart[index].quantity <= 0) {
 
         cart.splice(index, 1);
 
     }
 
-    displayCart();
+
+    updateCart();
+
 }
 
 
-// ===============================
-// 9. REMOVE ITEM
-// ===============================
+/* =========================================
+   REMOVE ITEM
+========================================= */
 
 function removeItem(index) {
 
     cart.splice(index, 1);
 
-    displayCart();
+    updateCart();
+
 }
 
 
-// ===============================
-// 10. DISTANCE CALCULATION
-// ===============================
+/* =========================================
+   UPDATE CART
+========================================= */
+
+function updateCart() {
+
+    const cartContainer =
+        document.getElementById("cart-items");
+
+
+    const cartCount =
+        document.getElementById("cart-count");
+
+
+    const itemCount =
+        document.getElementById(
+            "cart-items-count"
+        );
+
+
+    /*
+       Total quantity
+    */
+
+    let totalQuantity = 0;
+
+
+    cart.forEach(item => {
+
+        totalQuantity += item.quantity;
+
+    });
+
+
+    cartCount.innerText =
+        totalQuantity;
+
+
+    itemCount.innerText =
+        `${totalQuantity} items`;
+
+
+    /*
+       Empty cart
+    */
+
+    if (cart.length === 0) {
+
+        cartContainer.innerHTML = `
+
+            <div class="empty-cart">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h3>Your cart is empty</h3>
+
+                <p>
+                    Menu se apna favourite food add karein.
+                </p>
+
+                <a href="#menu">
+                    Explore Menu →
+                </a>
+
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+        cartContainer.innerHTML = "";
+
+
+        cart.forEach((item, index) => {
+
+            const subtotal =
+                item.price *
+                item.quantity;
+
+
+            const div =
+                document.createElement("div");
+
+
+            div.className =
+                "cart-item";
+
+
+            div.innerHTML = `
+
+                <div>
+
+                    <div class="cart-item-name">
+                        ${item.name}
+                    </div>
+
+                    <div class="cart-item-price">
+                        ₹${item.price} × ${item.quantity}
+                    </div>
+
+                </div>
+
+
+                <div class="quantity">
+
+                    <button
+                        onclick="changeQuantity(${index}, -1)">
+                        −
+                    </button>
+
+                    <strong>
+                        ${item.quantity}
+                    </strong>
+
+                    <button
+                        onclick="changeQuantity(${index}, 1)">
+                        +
+                    </button>
+
+                </div>
+
+
+                <strong>
+                    ₹${subtotal}
+                </strong>
+
+
+                <button
+                    class="remove-item"
+                    onclick="removeItem(${index})">
+
+                    ✕
+
+                </button>
+
+            `;
+
+
+            cartContainer.appendChild(div);
+
+        });
+
+    }
+
+
+    updateBill();
+
+}
+
+
+/* =========================================
+   FOOD TOTAL
+========================================= */
+
+function getFoodTotal() {
+
+    let total = 0;
+
+
+    cart.forEach(item => {
+
+        total +=
+            item.price *
+            item.quantity;
+
+    });
+
+
+    return total;
+
+}
+
+
+/* =========================================
+   DELIVERY CHARGE
+========================================= */
+
+function getDeliveryCharge() {
+
+    if (deliveryDistance <= 0) {
+
+        return 0;
+
+    }
+
+
+    /*
+       ₹15 per km
+
+       Decimal distance ko
+       next rupee tak round karenge.
+    */
+
+    return Math.ceil(
+        deliveryDistance *
+        DELIVERY_RATE
+    );
+
+}
+
+
+/* =========================================
+   UPDATE BILL
+========================================= */
+
+function updateBill() {
+
+    const foodTotal =
+        getFoodTotal();
+
+
+    const deliveryCharge =
+        getDeliveryCharge();
+
+
+    const grandTotal =
+        foodTotal +
+        deliveryCharge;
+
+
+    document.getElementById(
+        "food-total"
+    ).innerText =
+        `₹${foodTotal}`;
+
+
+    document.getElementById(
+        "delivery-price"
+    ).innerText =
+        `₹${deliveryCharge}`;
+
+
+    document.getElementById(
+        "delivery-charge"
+    ).innerText =
+        `₹${deliveryCharge}`;
+
+
+    document.getElementById(
+        "grand-total"
+    ).innerText =
+        `₹${grandTotal}`;
+
+
+    document.getElementById(
+        "distance"
+    ).innerText =
+        `${deliveryDistance} km`;
+
+
+    document.getElementById(
+        "delivery-distance"
+    ).innerText =
+        `${deliveryDistance} km`;
+
+}
+
+
+/* =========================================
+   CLEAR CART
+========================================= */
+
+function clearCart() {
+
+    cart = [];
+
+    updateCart();
+
+}
+
+
+/* =========================================
+   LOCATION
+========================================= */
+
+function getLocation() {
+
+    const status =
+        document.getElementById(
+            "location-status"
+        );
+
+
+    if (!navigator.geolocation) {
+
+        status.innerText =
+            "❌ Browser location support nahi karta.";
+
+        return;
+
+    }
+
+
+    status.innerText =
+        "📍 Location detect ho rahi hai...";
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const userLat =
+                position.coords.latitude;
+
+
+            const userLng =
+                position.coords.longitude;
+
+
+            deliveryDistance =
+                calculateDistance(
+                    SHOP_LAT,
+                    SHOP_LNG,
+                    userLat,
+                    userLng
+                );
+
+
+            /*
+               1 decimal place
+            */
+
+            deliveryDistance =
+                Math.round(
+                    deliveryDistance * 10
+                ) / 10;
+
+
+            const charge =
+                getDeliveryCharge();
+
+
+            document.getElementById(
+                "delivery-distance"
+            ).innerText =
+                `${deliveryDistance} km`;
+
+
+            document.getElementById(
+                "distance"
+            ).innerText =
+                `${deliveryDistance} km`;
+
+
+            document.getElementById(
+                "delivery-charge"
+            ).innerText =
+                `₹${charge}`;
+
+
+            status.innerText =
+                `✅ Location detected • ${deliveryDistance} km away`;
+
+
+            updateBill();
+
+        },
+
+
+        function(error) {
+
+            if (error.code === 1) {
+
+                status.innerText =
+                    "❌ Location permission denied.";
+
+            }
+
+            else if (error.code === 2) {
+
+                status.innerText =
+                    "❌ Location unavailable.";
+
+            }
+
+            else {
+
+                status.innerText =
+                    "❌ Location detect nahi ho payi.";
+
+            }
+
+        },
+
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 0
+
+        }
+
+    );
+
+}
+
+
+/* =========================================
+   HAVERSINE DISTANCE
+========================================= */
 
 function calculateDistance(
     lat1,
@@ -211,28 +611,29 @@ function calculateDistance(
     lon2
 ) {
 
-    const earthRadius = 6371;
+    const R = 6371;
 
 
     const dLat =
-        (lat2 - lat1) *
-        Math.PI / 180;
+        toRadians(lat2 - lat1);
 
 
     const dLon =
-        (lon2 - lon1) *
-        Math.PI / 180;
+        toRadians(lon2 - lon1);
 
 
     const a =
-        Math.sin(dLat / 2) *
-        Math.sin(dLat / 2) +
+        Math.sin(dLat / 2) ** 2 +
 
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
+        Math.cos(
+            toRadians(lat1)
+        ) *
 
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+        Math.cos(
+            toRadians(lat2)
+        ) *
+
+        Math.sin(dLon / 2) ** 2;
 
 
     const c =
@@ -243,184 +644,36 @@ function calculateDistance(
         );
 
 
-    return earthRadius * c;
+    return R * c;
+
 }
 
 
-// ===============================
-// 11. GET CUSTOMER LOCATION
-// ===============================
+function toRadians(value) {
 
-function getCustomerLocation() {
+    return value *
+        Math.PI /
+        180;
 
-    if (!navigator.geolocation) {
+}
+
+
+/* =========================================
+   WHATSAPP ORDER
+========================================= */
+
+function orderOnWhatsApp() {
+
+    if (cart.length === 0) {
 
         alert(
-            "Your browser does not support location."
+            "Pehle menu se food add karo."
         );
 
         return;
+
     }
 
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            const customerLatitude =
-                position.coords.latitude;
-
-
-            const customerLongitude =
-                position.coords.longitude;
-
-
-            customerDistance =
-                calculateDistance(
-
-                    DHABA_LATITUDE,
-                    DHABA_LONGITUDE,
-
-                    customerLatitude,
-                    customerLongitude
-
-                );
-
-
-            customerDistance =
-                Number(customerDistance.toFixed(2));
-
-
-            calculateDeliveryCharge();
-
-
-            alert(
-                "📍 Location detected!\n\n" +
-                "Distance from XYZ Dhaba: " +
-                customerDistance +
-                " KM"
-            );
-
-        },
-
-
-        function(error) {
-
-            alert(
-                "Unable to get your location.\n" +
-                "Please allow location permission."
-            );
-
-        }
-
-    );
-}
-
-
-// ===============================
-// 12. DELIVERY CHARGE
-// ===============================
-
-function calculateDeliveryCharge() {
-
-    if (customerDistance === null) {
-
-        return 0;
-    }
-
-
-    // 1 KM tak FREE
-
-    if (
-        customerDistance <=
-        FREE_DELIVERY_DISTANCE
-    ) {
-
-        return 0;
-    }
-
-
-    // More than 1 KM
-
-    return Math.ceil(customerDistance)
-        * DELIVERY_RATE_PER_KM;
-}
-
-
-// ===============================
-// 13. UPDATE TOTAL
-// ===============================
-
-function updateTotal() {
-
-    let foodTotal = 0;
-
-    let totalThalis = 0;
-
-
-    cart.forEach(item => {
-
-        foodTotal +=
-            item.price *
-            item.quantity;
-
-
-        totalThalis +=
-            item.quantity;
-
-    });
-
-
-    // ₹10 packing per thali
-
-    const packingCharge =
-        totalThalis * 10;
-
-
-    // Delivery charge
-
-    const deliveryCharge =
-        calculateDeliveryCharge();
-
-
-    // Grand total
-
-    const grandTotal =
-        foodTotal +
-        packingCharge +
-        deliveryCharge;
-
-
-    document.getElementById(
-        "food-total"
-    ).textContent =
-        "₹" + foodTotal;
-
-
-    document.getElementById(
-        "packing-total"
-    ).textContent =
-        "₹" + packingCharge;
-
-
-    document.getElementById(
-        "delivery-total"
-    ).textContent =
-        "₹" + deliveryCharge;
-
-
-    document.getElementById(
-        "grand-total"
-    ).textContent =
-        "₹" + grandTotal;
-}
-
-
-// ===============================
-// 14. PLACE ORDER
-// ===============================
-
-function placeOrder() {
 
     const name =
         document.getElementById(
@@ -440,174 +693,389 @@ function placeOrder() {
         ).value.trim();
 
 
-    // Cart check
+    if (!name) {
 
-    if (cart.length === 0) {
-
-        alert(
-            "Please add a thali to your cart first."
-        );
+        alert("Apna naam enter karo.");
 
         return;
+
     }
 
 
-    // Name check
+    if (!phone) {
 
-    if (name === "") {
-
-        alert(
-            "Please enter your name."
-        );
+        alert("Mobile number enter karo.");
 
         return;
+
     }
 
 
-    // Phone check
+    if (!address) {
 
-    if (phone === "") {
-
-        alert(
-            "Please enter your mobile number."
-        );
+        alert("Delivery address enter karo.");
 
         return;
+
     }
 
 
-    // Address check
-
-    if (address === "") {
-
-        alert(
-            "Please enter your delivery address."
-        );
-
-        return;
-    }
-
-
-    // Location check
-
-    if (customerDistance === null) {
-
-        alert(
-            "Please detect your location first."
-        );
-
-        return;
-    }
-
-
-    let foodTotal = 0;
-
-    let totalThalis = 0;
-
-
-    cart.forEach(item => {
-
-        foodTotal +=
-            item.price *
-            item.quantity;
-
-
-        totalThalis +=
-            item.quantity;
-
-    });
-
-
-    const packingCharge =
-        totalThalis * 10;
+    const foodTotal =
+        getFoodTotal();
 
 
     const deliveryCharge =
-        calculateDeliveryCharge();
+        getDeliveryCharge();
 
 
     const grandTotal =
         foodTotal +
-        packingCharge +
         deliveryCharge;
 
 
-    let deliveryMessage;
+    /*
+       Order ID
+    */
+
+    const orderId =
+        "XYZ" +
+        Date.now().toString().slice(-6);
 
 
-    if (deliveryCharge === 0) {
+    /*
+       Current time
+    */
 
-        deliveryMessage =
-            "FREE";
+    const orderTime =
+        new Date().toLocaleString(
+            "en-IN"
+        );
 
-    } else {
 
-        deliveryMessage =
-            "₹" + deliveryCharge;
+    /*
+       WhatsApp message
+    */
+
+    let message =
+        `🍛 *XYZ DHABA - NEW ORDER*%0A`;
+
+    message +=
+        `━━━━━━━━━━━━━━━━━━%0A`;
+
+
+    message +=
+        `🆔 Order ID: ${orderId}%0A`;
+
+
+    message +=
+        `🕐 Time: ${orderTime}%0A%0A`;
+
+
+    message +=
+        `👤 *CUSTOMER DETAILS*%0A`;
+
+
+    message +=
+        `Name: ${name}%0A`;
+
+
+    message +=
+        `Phone: ${phone}%0A`;
+
+
+    message +=
+        `Address: ${address}%0A%0A`;
+
+
+    message +=
+        `🍽️ *FOOD ORDER*%0A`;
+
+
+    message +=
+        `━━━━━━━━━━━━━━━━━━%0A`;
+
+
+    cart.forEach(item => {
+
+        const subtotal =
+            item.price *
+            item.quantity;
+
+
+        message +=
+            `• ${item.name}%0A`;
+
+
+        message +=
+            `  Qty: ${item.quantity} × ₹${item.price} = ₹${subtotal}%0A`;
+
+    });
+
+
+    message +=
+        `━━━━━━━━━━━━━━━━━━%0A`;
+
+
+    message +=
+        `🍽️ Food Total: ₹${foodTotal}%0A`;
+
+
+    message +=
+        `🚚 Delivery: ₹${deliveryCharge}%0A`;
+
+
+    message +=
+        `📏 Distance: ${deliveryDistance} km%0A`;
+
+
+    message +=
+        `💰 *GRAND TOTAL: ₹${grandTotal}*%0A`;
+
+
+    message +=
+        `━━━━━━━━━━━━━━━━━━%0A`;
+
+
+    message +=
+        `🙏 Thank you for ordering from XYZ Dhaba!`;
+
+
+    /*
+       Save order for Malik
+    */
+
+    saveOwnerOrder({
+
+        id: orderId,
+
+        time: orderTime,
+
+        name: name,
+
+        phone: phone,
+
+        address: address,
+
+        items: [...cart],
+
+        foodTotal: foodTotal,
+
+        delivery: deliveryCharge,
+
+        distance: deliveryDistance,
+
+        grandTotal: grandTotal
+
+    });
+
+
+    /*
+       Open WhatsApp
+    */
+
+    const whatsappURL =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+}
+
+
+/* =========================================
+   OWNER ORDER
+========================================= */
+
+function saveOwnerOrder(order) {
+
+    localStorage.setItem(
+        "xyzLatestOrder",
+        JSON.stringify(order)
+    );
+
+
+    showOwnerOrder(order);
+
+}
+
+
+/* =========================================
+   SHOW OWNER ORDER
+========================================= */
+
+function showOwnerOrder(order) {
+
+    const container =
+        document.getElementById(
+            "owner-order"
+        );
+
+
+    let itemsHTML = "";
+
+
+    order.items.forEach(item => {
+
+        const subtotal =
+            item.price *
+            item.quantity;
+
+
+        itemsHTML += `
+
+            <div class="owner-item">
+
+                <span>
+                    ${item.name}
+                    × ${item.quantity}
+                </span>
+
+                <strong>
+                    ₹${subtotal}
+                </strong>
+
+            </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML = `
+
+        <div class="owner-order-card">
+
+            <div class="owner-order-top">
+
+                <div>
+
+                    <small>
+                        ORDER ID
+                    </small>
+
+                    <strong>
+                        ${order.id}
+                    </strong>
+
+                </div>
+
+                <div>
+                    ${order.time}
+                </div>
+
+            </div>
+
+
+            <div class="owner-customer">
+
+                <div>
+
+                    <small>
+                        Customer
+                    </small>
+
+                    ${order.name}
+
+                </div>
+
+
+                <div>
+
+                    <small>
+                        Phone
+                    </small>
+
+                    ${order.phone}
+
+                </div>
+
+
+                <div>
+
+                    <small>
+                        Address
+                    </small>
+
+                    ${order.address}
+
+                </div>
+
+            </div>
+
+
+            <div class="owner-items">
+
+                ${itemsHTML}
+
+            </div>
+
+
+            <div class="owner-total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong>
+                    ₹${order.grandTotal}
+                </strong>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================
+   LOAD LAST ORDER
+========================================= */
+
+function loadOwnerOrder() {
+
+    const saved =
+        localStorage.getItem(
+            "xyzLatestOrder"
+        );
+
+
+    if (!saved) {
+
+        return;
 
     }
 
 
-    // Order confirmation
+    try {
 
-    alert(
-
-        "🎉 ORDER PLACED SUCCESSFULLY!\n\n" +
-
-        "Customer: " +
-        name +
-        "\n" +
-
-        "Phone: " +
-        phone +
-        "\n\n" +
-
-        "Distance: " +
-        customerDistance +
-        " KM\n\n" +
-
-        "Food Total: ₹" +
-        foodTotal +
-        "\n" +
-
-        "Packing: ₹" +
-        packingCharge +
-        "\n" +
-
-        "Delivery: " +
-        deliveryMessage +
-        "\n\n" +
-
-        "GRAND TOTAL: ₹" +
-        grandTotal
-
-    );
+        const order =
+            JSON.parse(saved);
 
 
-    // Clear cart
+        showOwnerOrder(order);
 
-    cart = [];
+    }
 
-    customerDistance = null;
+    catch {
 
+        console.log(
+            "Unable to load saved order."
+        );
 
-    displayCart();
-
-
-    // Clear form
-
-    document.getElementById(
-        "customer-name"
-    ).value = "";
-
-
-    document.getElementById(
-        "customer-phone"
-    ).value = "";
-
-
-    document.getElementById(
-        "customer-address"
-    ).value = "";
+    }
 
 }
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
+updateCart();
+
+loadOwnerOrder();

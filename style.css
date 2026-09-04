@@ -1,5 +1,5 @@
 /* =========================================
-   RESET
+   XYZ DHABA - STYLE
 ========================================= */
 
 * {
@@ -29,8 +29,12 @@ button {
     cursor: pointer;
 }
 
+a {
+    text-decoration: none;
+}
+
 .container {
-    width: 90%;
+    width: 92%;
     max-width: 1100px;
     margin: auto;
 }
@@ -40,79 +44,149 @@ button {
    HEADER
 ========================================= */
 
-header {
+.header {
     background: #ffffff;
-    padding: 15px 0;
+    padding: 14px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-.navbar {
-    width: 90%;
-    max-width: 1100px;
-    margin: auto;
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.logo {
+.logo h1 {
+    color: #e67e22;
     font-size: 25px;
-    font-weight: 800;
-    color: #e67e22;
 }
 
-.nav-links {
-    display: flex;
-    gap: 20px;
-    list-style: none;
+.logo p {
+    color: #777;
+    font-size: 12px;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #222;
-    font-weight: 600;
+.cart-button {
+    background: #20bd5a;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
 }
 
-.nav-links a:hover {
-    color: #e67e22;
+#cart-count {
+    background: white;
+    color: #159447;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 4px;
 }
 
 
 /* =========================================
-   HERO
+   HERO / SLIDER
 ========================================= */
 
 .hero {
-    min-height: 430px;
     position: relative;
-    background: url("https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1400&q=80")
-        center/cover no-repeat;
+    width: 100%;
+}
+
+.slider {
+    position: relative;
+    height: 470px;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.43);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    color: white;
+    padding: 20px;
 }
 
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
+.hero-overlay > div {
+    max-width: 700px;
 }
 
 .welcome-text {
-    position: relative;
-    z-index: 2;
+    display: inline-block;
     background: #f39c12;
     color: white;
-    padding: 14px 25px;
-    border-radius: 10px;
-    font-size: 28px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 25px;
     font-weight: 800;
-    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.hero-overlay h2 {
+    font-size: 43px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+}
+
+.hero-overlay p {
+    font-size: 18px;
+    margin-bottom: 22px;
+}
+
+.hero-button {
+    display: inline-block;
+    background: #20bd5a;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 5;
+}
+
+.dot {
+    width: 11px;
+    height: 11px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.2);
 }
 
 
@@ -121,12 +195,12 @@ header {
 ========================================= */
 
 .section {
-    padding: 65px 0;
+    padding: 55px 0;
 }
 
 .section-heading {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
 .section-heading span {
@@ -135,12 +209,12 @@ header {
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 2px;
-    margin-bottom: 6px;
 }
 
 .section-heading h2 {
     font-size: 38px;
-    margin-bottom: 8px;
+    font-weight: 900;
+    margin: 3px 0 7px;
 }
 
 .section-heading p {
@@ -150,7 +224,6 @@ header {
 .menu-heading h2,
 .order-main-heading h2 {
     font-size: 42px;
-    font-weight: 900;
 }
 
 
@@ -160,21 +233,21 @@ header {
 
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 }
 
 .menu-card {
     background: white;
-    border-radius: 15px;
+    border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 5px 18px rgba(0,0,0,0.08);
 }
 
 .food-image {
     height: 210px;
-    background: #eee;
     overflow: hidden;
+    background: #eee;
 }
 
 .food-image img {
@@ -183,77 +256,37 @@ header {
     object-fit: cover;
 }
 
-.menu-card-content {
-    padding: 18px;
-}
-
-.menu-card-content h3 {
-    font-size: 21px;
-    margin-bottom: 5px;
-}
-
-.menu-card-content p {
-    color: #777;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.price {
-    font-size: 20px;
-    font-weight: 800;
-    color: #159447;
-}
-
-.add-btn {
-    border: none;
-    background: #20bd5a;
-    color: white;
-    padding: 9px 17px;
-    border-radius: 7px;
-    font-weight: 700;
-}
-
-.add-btn:hover {
-    background: #159447;
-}
-
 
 /* =========================================
-   NORMAL THALI SPECIAL
+   NORMAL THALI
 ========================================= */
 
 .normal-thali-card {
-    overflow: hidden;
+    grid-column: 1 / -1;
 }
 
 .normal-thali-layout {
     display: grid;
-    grid-template-columns: 1fr 105px;
-    min-height: 125px;
+    grid-template-columns: 1fr 125px;
+    min-height: 120px;
 }
 
 .normal-thali-info {
     background: #ffd84d;
-    padding: 18px;
+    padding: 18px 22px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .normal-thali-info h3 {
-    font-size: 23px;
-    margin-bottom: 5px;
+    font-size: 25px;
+    margin-bottom: 3px;
 }
 
 .normal-thali-info p {
-    font-size: 14px;
     color: #444;
+    font-size: 14px;
 }
 
 .thali-action-box {
@@ -263,25 +296,71 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .thali-action-box strong {
-    font-size: 22px;
+    font-size: 23px;
 }
 
 .thali-action-box button {
     border: none;
     background: white;
     color: #159447;
-    padding: 7px 14px;
+    padding: 7px 15px;
     border-radius: 6px;
     font-weight: 800;
 }
 
 
 /* =========================================
-   ORDER SECTION
+   OTHER MENU CARDS
+========================================= */
+
+.menu-content {
+    padding: 18px;
+}
+
+.menu-content h3 {
+    font-size: 21px;
+    margin-bottom: 4px;
+}
+
+.menu-content p {
+    color: #777;
+    font-size: 14px;
+    min-height: 45px;
+}
+
+.menu-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.menu-bottom strong {
+    color: #159447;
+    font-size: 17px;
+}
+
+.menu-bottom button {
+    border: none;
+    background: #20bd5a;
+    color: white;
+    padding: 9px 17px;
+    border-radius: 7px;
+    font-weight: 800;
+}
+
+.menu-bottom button:hover,
+.thali-action-box button:hover {
+    opacity: 0.88;
+}
+
+
+/* =========================================
+   ORDER
 ========================================= */
 
 .order-section {
@@ -289,72 +368,34 @@ header {
 }
 
 .order-main-heading p {
-    font-size: 23px;
-    font-weight: 700;
     color: #e67e22;
-    margin-top: 5px;
+    font-size: 23px;
+    font-weight: 800;
 }
 
 .order-main-heading small {
     color: #777;
 }
 
+.order-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
 
-/* =========================================
-   FORM
-========================================= */
-
-.order-form {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 15px;
+.order-card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-    margin-bottom: 30px;
 }
 
-.form-group {
-    margin-bottom: 18px;
+.order-card-header {
+    margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 7px;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    outline: none;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: #e67e22;
-}
-
-.location-btn {
-    border: none;
-    background: #3498db;
-    color: white;
-    padding: 11px 18px;
-    border-radius: 8px;
-    font-weight: 700;
-}
-
-.place-order-btn {
-    width: 100%;
-    border: none;
-    background: #20bd5a;
-    color: white;
-    padding: 15px;
-    border-radius: 9px;
-    font-size: 17px;
-    font-weight: 800;
+.order-card-header h3 {
+    font-size: 22px;
 }
 
 
@@ -364,11 +405,11 @@ header {
 
 .cart-title {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .cart-title h3 {
-    font-size: 30px;
+    font-size: 29px;
 }
 
 .cart-title span {
@@ -377,25 +418,25 @@ header {
 
 .cart-table-wrapper {
     overflow-x: auto;
-    background: white;
-    border-radius: 12px;
 }
 
 .cart-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 560px;
 }
 
 .cart-table th {
     background: #f2f2f2;
-    padding: 13px;
+    padding: 11px;
     text-align: left;
+    font-size: 14px;
 }
 
 .cart-table td {
-    padding: 12px;
+    padding: 11px;
     border-bottom: 1px solid #eee;
+    font-size: 14px;
 }
 
 .quantity-btn {
@@ -417,39 +458,170 @@ header {
 
 .clear-cart {
     display: block;
-    margin: 15px auto;
+    margin: 17px auto 0;
     border: none;
     background: #555;
     color: white;
-    padding: 10px 18px;
+    padding: 9px 18px;
     border-radius: 7px;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 30px 15px;
+}
+
+.empty-cart .empty-icon {
+    font-size: 40px;
+}
+
+.empty-cart h3 {
+    margin: 5px 0;
+}
+
+.empty-cart p {
+    color: #777;
+}
+
+.empty-cart a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #159447;
+    font-weight: 700;
 }
 
 
 /* =========================================
-   TOTAL
+   FORM
 ========================================= */
 
-.order-summary {
-    background: white;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+.form-group {
+    margin-bottom: 17px;
 }
 
-.summary-row {
+.form-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 11px;
+    font-size: 15px;
+    outline: none;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #e67e22;
+}
+
+.location-button {
+    border: none;
+    background: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 7px;
+    font-weight: 700;
+    margin-top: 9px;
+}
+
+.location-status {
+    color: #777;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+
+/* =========================================
+   BILL
+========================================= */
+
+.bill {
+    background: #fffaf2;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.bill-row {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
+    padding: 6px 0;
+}
+
+.bill-divider {
+    height: 1px;
+    background: #ddd;
+    margin: 8px 0;
 }
 
 .grand-total {
-    border-top: 2px solid #eee;
-    margin-top: 8px;
-    padding-top: 14px;
-    font-size: 21px;
+    font-size: 20px;
+}
+
+.grand-total strong {
+    color: #159447;
+}
+
+.whatsapp-button {
+    width: 100%;
+    border: none;
+    background: #20bd5a;
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: 800;
+    margin-top: 18px;
+}
+
+.order-note {
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+
+/* =========================================
+   OWNER
+========================================= */
+
+.owner-section {
+    background: #fffaf2;
+}
+
+.owner-order-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+
+.owner-order-card h3 {
+    margin-bottom: 12px;
+}
+
+.owner-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.owner-items {
+    margin-top: 15px;
+}
+
+.owner-items p {
+    padding: 5px 0;
 }
 
 
@@ -458,7 +630,7 @@ header {
 ========================================= */
 
 .history-section {
-    background: #f8f8f8;
+    background: #f5f5f5;
 }
 
 .history-header {
@@ -466,7 +638,6 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    gap: 15px;
 }
 
 .history-header h3 {
@@ -477,9 +648,8 @@ header {
     border: none;
     background: #e53935;
     color: white;
-    padding: 11px 18px;
+    padding: 10px 16px;
     border-radius: 8px;
-    font-size: 14px;
     font-weight: 700;
 }
 
@@ -487,51 +657,39 @@ header {
     background: #c62828;
 }
 
-
-/* =========================================
-   HISTORY CARD
-========================================= */
-
 .history-card {
     background: white;
     border-radius: 14px;
     padding: 20px;
     margin-bottom: 18px;
-    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
     border-left: 5px solid #f39c12;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.07);
 }
 
 .history-top {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    padding-bottom: 15px;
+    gap: 20px;
+    padding-bottom: 14px;
     border-bottom: 1px solid #ddd;
 }
 
 .history-info {
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
 .history-label {
+    color: #888;
     font-size: 12px;
-    color: #777;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 .history-value {
     font-size: 16px;
-    color: #222;
-    font-weight: 700;
+    font-weight: 800;
 }
-
-
-/* =========================================
-   HISTORY ITEMS TABLE
-========================================= */
 
 .history-items-table-wrapper {
     overflow-x: auto;
@@ -546,12 +704,12 @@ header {
 
 .history-items-table th {
     background: #f2f2f2;
-    padding: 11px;
+    padding: 10px;
     text-align: left;
 }
 
 .history-items-table td {
-    padding: 11px;
+    padding: 10px;
     border-bottom: 1px solid #eee;
 }
 
@@ -560,137 +718,22 @@ header {
     text-align: right;
 }
 
-
-/* =========================================
-   HISTORY TOTAL
-========================================= */
-
 .history-total {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
-    padding-top: 15px;
+    margin-top: 15px;
+    padding-top: 13px;
     border-top: 2px solid #eee;
 }
 
-.history-total span {
-    font-size: 16px;
-    font-weight: 700;
-}
-
 .history-total strong {
-    font-size: 22px;
     color: #159447;
+    font-size: 21px;
 }
-
-
-/* =========================================
-   EMPTY HISTORY
-========================================= */
 
 .history-empty {
     background: white;
     text-align: center;
-    padding: 40px 20px;
-    border-radius: 14px;
-    box-shadow: 0 5px 18px rgba(0,0,0,0.06);
-}
-
-.empty-icon {
-    font-size: 45px;
-    margin-bottom: 10px;
-}
-
-.history-empty h3 {
-    margin-bottom: 8px;
-}
-
-.history-empty p {
-    color: #777;
-}
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-footer {
-    background: #222;
-    color: white;
-    text-align: center;
-    padding: 25px 0;
-}
-
-footer p {
-    color: #ddd;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    .menu-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .nav-links {
-        gap: 10px;
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 600px) {
-
-    .navbar {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .hero {
-        min-height: 350px;
-    }
-
-    .welcome-text {
-        font-size: 21px;
-        padding: 12px 18px;
-    }
-
-    .section {
-        padding: 45px 0;
-    }
-
-    .section-heading h2,
-    .menu-heading h2,
-    .order-main-heading h2 {
-        font-size: 31px;
-    }
-
-    .menu-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .normal-thali-layout {
-        grid-template-columns: 1fr 100px;
-    }
-
-    .history-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .clear-history-btn {
-        width: 100%;
-    }
-
-    .history-top {
-        grid-template-columns: 1fr;
-    }
-
-    .history-card {
-        padding: 15px;
-    }
-}
+    padding: 35px 20px;
+    border-radius:

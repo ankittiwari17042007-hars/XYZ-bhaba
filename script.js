@@ -29,7 +29,7 @@ const SHOP_LNG = 80.3319;
     + ya spaces mat lagana.
 */
 
-const WHATSAPP_NUMBER = "919XXXXXXXXX";
+const WHATSAPP_NUMBER = "919795521543";
 
 
 /*

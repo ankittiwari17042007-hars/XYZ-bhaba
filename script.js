@@ -1,11 +1,10 @@
 /* =========================================
-   XYZ DHABA
-   ORDERING SYSTEM
+XYZ DHABA
+ORDERING SYSTEM
 ========================================= */
 
-
 /* =========================================
-   SETTINGS
+SETTINGS
 ========================================= */
 
 const SHOP_LAT = 26.4941963;
@@ -15,883 +14,1104 @@ const WHATSAPP_NUMBER = "919795521543";
 
 const DELIVERY_RATE = 15;
 
-
 /* =========================================
-   VARIABLES
+VARIABLES
 ========================================= */
 
 let cart = [];
 
 let deliveryDistance = 0;
 
-// Customer GPS location
 let customerLocationLink = "";
 
-
 /* =========================================
-   HOME IMAGE SLIDER
+HOME IMAGE SLIDER
 ========================================= */
 
 const slides =
-    document.querySelectorAll(".slide");
+document.querySelectorAll(".slide");
 
 const dots =
-    document.querySelectorAll(".dot");
+document.querySelectorAll(".dot");
 
 let currentSlide = 0;
 
-
 function showSlide(index) {
 
-    slides.forEach(slide => {
-        slide.classList.remove("active");
-    });
+slides.forEach(slide => {
+    slide.classList.remove("active");
+});
 
-    dots.forEach(dot => {
-        dot.classList.remove("active");
-    });
+dots.forEach(dot => {
+    dot.classList.remove("active");
+});
 
-    slides[index].classList.add("active");
+slides[index].classList.add("active");
 
-    dots[index].classList.add("active");
+dots[index].classList.add("active");
 
 }
-
 
 function nextSlide() {
 
-    currentSlide++;
+currentSlide++;
 
-    if (currentSlide >= slides.length) {
-        currentSlide = 0;
-    }
+if (currentSlide >= slides.length) {
+    currentSlide = 0;
+}
 
-    showSlide(currentSlide);
+showSlide(currentSlide);
 
 }
 
-
 setInterval(nextSlide, 4500);
 
-
 /* =========================================
-   ADD TO CART
+ADD TO CART
 ========================================= */
 
 function addToCart(name, price) {
 
-    const existing =
-        cart.find(item => item.name === name);
+const existing =
+    cart.find(item => item.name === name);
 
-    if (existing) {
+if (existing) {
 
-        existing.quantity++;
+    existing.quantity++;
 
-    } else {
+} else {
 
-        cart.push({
-            name: name,
-            price: price,
-            quantity: 1
-        });
-
-    }
-
-    updateCart();
-
-    scrollToOrder();
+    cart.push({
+        name: name,
+        price: price,
+        quantity: 1
+    });
 
 }
 
+updateCart();
+
+scrollToOrder();
+
+}
 
 /* =========================================
-   SCROLL TO ORDER
+SCROLL TO ORDER
 ========================================= */
 
 function scrollToOrder() {
 
-    const orderSection =
-        document.getElementById("order");
+const orderSection =
+    document.getElementById("order");
 
-    setTimeout(() => {
+setTimeout(() => {
 
-        orderSection.scrollIntoView({
-            behavior: "smooth"
-        });
+    orderSection.scrollIntoView({
+        behavior: "smooth"
+    });
 
-    }, 150);
+}, 150);
 
 }
 
-
 /* =========================================
-   CHANGE QUANTITY
+CHANGE QUANTITY
 ========================================= */
 
 function changeQuantity(index, amount) {
 
-    cart[index].quantity += amount;
+cart[index].quantity += amount;
 
-    if (cart[index].quantity <= 0) {
+if (cart[index].quantity <= 0) {
 
-        cart.splice(index, 1);
-
-    }
-
-    updateCart();
+    cart.splice(index, 1);
 
 }
 
+updateCart();
+
+}
 
 /* =========================================
-   REMOVE ITEM
+REMOVE ITEM
 ========================================= */
 
 function removeItem(index) {
 
-    cart.splice(index, 1);
+cart.splice(index, 1);
 
-    updateCart();
+updateCart();
 
 }
 
-
 /* =========================================
-   UPDATE CART
+UPDATE CART
 ========================================= */
 
 function updateCart() {
 
-    const cartContainer =
-        document.getElementById("cart-items");
+const cartContainer =
+    document.getElementById("cart-items");
 
-    const cartCount =
-        document.getElementById("cart-count");
+const cartCount =
+    document.getElementById("cart-count");
 
-    const itemCount =
-        document.getElementById("cart-items-count");
+const itemCount =
+    document.getElementById("cart-items-count");
 
-    let totalQuantity = 0;
+let totalQuantity = 0;
 
-    cart.forEach(item => {
+cart.forEach(item => {
 
-        totalQuantity += item.quantity;
+    totalQuantity += item.quantity;
 
-    });
-
-    cartCount.innerText =
-        totalQuantity;
-
-    itemCount.innerText =
-        `${totalQuantity} items`;
+});
 
 
-    if (cart.length === 0) {
+cartCount.innerText =
+    totalQuantity;
 
-        cartContainer.innerHTML = `
+itemCount.innerText =
+    `${totalQuantity} items`;
 
-            <div class="empty-cart">
 
-                <div class="empty-icon">
-                    🛒
-                </div>
+if (cart.length === 0) {
 
-                <h3>Your cart is empty</h3>
+    cartContainer.innerHTML = `
 
-                <p>
-                    Menu se apna favourite food add karein.
-                </p>
+        <div class="empty-cart">
 
-                <a href="#menu">
-                    Explore Menu →
-                </a>
-
+            <div class="empty-icon">
+                🛒
             </div>
 
-        `;
+            <h3>
+                Your cart is empty
+            </h3>
 
-    }
+            <p>
+                Menu se apna favourite food add karein.
+            </p>
 
-    else {
+            <a href="#menu">
+                Explore Menu →
+            </a>
 
-        cartContainer.innerHTML = "";
+        </div>
 
-        cart.forEach((item, index) => {
-
-            const subtotal =
-                item.price * item.quantity;
-
-            const div =
-                document.createElement("div");
-
-            div.className =
-                "cart-item";
-
-            div.innerHTML = `
-
-                <div>
-
-                    <div class="cart-item-name">
-                        ${item.name}
-                    </div>
-
-                    <div class="cart-item-price">
-                        ₹${item.price} × ${item.quantity}
-                    </div>
-
-                </div>
-
-
-                <div class="quantity">
-
-                    <button
-                        onclick="changeQuantity(${index}, -1)">
-                        −
-                    </button>
-
-                    <strong>
-                        ${item.quantity}
-                    </strong>
-
-                    <button
-                        onclick="changeQuantity(${index}, 1)">
-                        +
-                    </button>
-
-                </div>
-
-
-                <strong>
-                    ₹${subtotal}
-                </strong>
-
-
-                <button
-                    class="remove-item"
-                    onclick="removeItem(${index})">
-
-                    ✕
-
-                </button>
-
-            `;
-
-            cartContainer.appendChild(div);
-
-        });
-
-    }
-
-    updateBill();
+    `;
 
 }
 
+else {
+
+    let tableHTML = `
+
+        <table class="cart-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Item</th>
+
+                    <th>Price</th>
+
+                    <th>Quantity</th>
+
+                    <th>Total</th>
+
+                    <th>Remove</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    cart.forEach((item, index) => {
+
+        const subtotal =
+            item.price * item.quantity;
+
+
+        tableHTML += `
+
+            <tr>
+
+                <td>
+
+                    <div class="cart-product">
+                        ${item.name}
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <span class="cart-price">
+                        ₹${item.price}
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <div class="quantity">
+
+                        <button
+                            onclick="changeQuantity(${index}, -1)"
+                        >
+                            −
+                        </button>
+
+                        <strong>
+                            ${item.quantity}
+                        </strong>
+
+                        <button
+                            onclick="changeQuantity(${index}, 1)"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ₹${subtotal}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="remove-item"
+                        onclick="removeItem(${index})"
+                        title="Remove item"
+                    >
+                        ✕
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    tableHTML += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    cartContainer.innerHTML =
+        tableHTML;
+
+}
+
+updateBill();
+
+}
 
 /* =========================================
-   FOOD TOTAL
+FOOD TOTAL
 ========================================= */
 
 function getFoodTotal() {
 
-    let total = 0;
+let total = 0;
 
-    cart.forEach(item => {
+cart.forEach(item => {
 
-        total +=
-            item.price * item.quantity;
+    total +=
+        item.price * item.quantity;
 
-    });
+});
 
-    return total;
+return total;
 
 }
 
-
 /* =========================================
-   DELIVERY CHARGE
+DELIVERY CHARGE
 ========================================= */
 
 function getDeliveryCharge() {
 
-    if (deliveryDistance <= 0) {
+if (deliveryDistance <= 0) {
 
-        return 0;
-
-    }
-
-    return Math.ceil(
-        deliveryDistance * DELIVERY_RATE
-    );
+    return 0;
 
 }
 
+return Math.ceil(
+    deliveryDistance * DELIVERY_RATE
+);
+
+}
 
 /* =========================================
-   UPDATE BILL
+UPDATE BILL
 ========================================= */
 
 function updateBill() {
 
-    const foodTotal =
-        getFoodTotal();
+const foodTotal =
+    getFoodTotal();
 
-    const deliveryCharge =
-        getDeliveryCharge();
+const deliveryCharge =
+    getDeliveryCharge();
 
-    const grandTotal =
-        foodTotal + deliveryCharge;
-
-
-    document.getElementById(
-        "food-total"
-    ).innerText =
-        `₹${foodTotal}`;
+const grandTotal =
+    foodTotal + deliveryCharge;
 
 
-    document.getElementById(
-        "delivery-price"
-    ).innerText =
-        `₹${deliveryCharge}`;
+document.getElementById(
+    "food-total"
+).innerText =
+    `₹${foodTotal}`;
 
 
-    document.getElementById(
-        "delivery-charge"
-    ).innerText =
-        `₹${deliveryCharge}`;
+document.getElementById(
+    "delivery-price"
+).innerText =
+    `₹${deliveryCharge}`;
 
 
-    document.getElementById(
-        "grand-total"
-    ).innerText =
-        `₹${grandTotal}`;
+document.getElementById(
+    "delivery-charge"
+).innerText =
+    `₹${deliveryCharge}`;
 
 
-    document.getElementById(
-        "distance"
-    ).innerText =
-        `${deliveryDistance} km`;
+document.getElementById(
+    "grand-total"
+).innerText =
+    `₹${grandTotal}`;
 
 
-    document.getElementById(
-        "delivery-distance"
-    ).innerText =
-        `${deliveryDistance} km`;
+document.getElementById(
+    "distance"
+).innerText =
+    `${deliveryDistance} km`;
+
+
+document.getElementById(
+    "delivery-distance"
+).innerText =
+    `${deliveryDistance} km`;
 
 }
 
-
 /* =========================================
-   CLEAR CART
+CLEAR CART
 ========================================= */
 
 function clearCart() {
 
-    cart = [];
+cart = [];
 
-    updateCart();
+updateCart();
 
 }
 
-
 /* =========================================
-   LOCATION
+LOCATION
 ========================================= */
 
 function getLocation() {
 
-    const status =
-        document.getElementById(
-            "location-status"
-        );
+const status =
+    document.getElementById(
+        "location-status"
+    );
 
-    const button =
-        document.getElementById(
-            "location-button"
-        );
+const button =
+    document.getElementById(
+        "location-button"
+    );
 
 
-    if (!navigator.geolocation) {
-
-        status.innerText =
-            "❌ Browser location support nahi karta.";
-
-        return;
-
-    }
-
+if (!navigator.geolocation) {
 
     status.innerText =
-        "📍 Location detect ho rahi hai...";
+        "❌ Browser location support nahi karta.";
+
+    return;
+
+}
 
 
-    button.innerText =
-        "📍 Detecting Location...";
+status.innerText =
+    "📍 Location detect ho rahi hai...";
 
 
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            const userLat =
-                position.coords.latitude;
-
-            const userLng =
-                position.coords.longitude;
+button.innerText =
+    "📍 Detecting Location...";
 
 
-            /* =================================
-               CUSTOMER GOOGLE MAPS LOCATION
-            ================================= */
+navigator.geolocation.getCurrentPosition(
 
-            customerLocationLink =
-                `https://www.google.com/maps?q=${userLat},${userLng}`;
+    function(position) {
 
+        const userLat =
+            position.coords.latitude;
 
-            /* =================================
-               CALCULATE DISTANCE
-            ================================= */
-
-            deliveryDistance =
-                calculateDistance(
-                    SHOP_LAT,
-                    SHOP_LNG,
-                    userLat,
-                    userLng
-                );
+        const userLng =
+            position.coords.longitude;
 
 
-            deliveryDistance =
-                Math.round(
-                    deliveryDistance * 10
-                ) / 10;
+        customerLocationLink =
+            `https://www.google.com/maps?q=${userLat},${userLng}`;
 
 
-            const charge =
-                getDeliveryCharge();
+        deliveryDistance =
+            calculateDistance(
+                SHOP_LAT,
+                SHOP_LNG,
+                userLat,
+                userLng
+            );
 
 
-            document.getElementById(
-                "delivery-distance"
-            ).innerText =
-                `${deliveryDistance} km`;
+        deliveryDistance =
+            Math.round(
+                deliveryDistance * 10
+            ) / 10;
 
 
-            document.getElementById(
-                "distance"
-            ).innerText =
-                `${deliveryDistance} km`;
+        const charge =
+            getDeliveryCharge();
 
 
-            document.getElementById(
-                "delivery-charge"
-            ).innerText =
-                `₹${charge}`;
+        document.getElementById(
+            "delivery-distance"
+        ).innerText =
+            `${deliveryDistance} km`;
 
+
+        document.getElementById(
+            "distance"
+        ).innerText =
+            `${deliveryDistance} km`;
+
+
+        document.getElementById(
+            "delivery-charge"
+        ).innerText =
+            `₹${charge}`;
+
+
+        status.innerText =
+            `✅ Location detected • ${deliveryDistance} km away`;
+
+
+        button.innerText =
+            "📍 Location Detected ✓";
+
+
+        updateBill();
+
+    },
+
+
+    function(error) {
+
+        customerLocationLink = "";
+
+
+        button.innerText =
+            "📍 Use My Location";
+
+
+        if (error.code === 1) {
 
             status.innerText =
-                `✅ Location detected • ${deliveryDistance} km away`;
-
-
-            button.innerText =
-                "📍 Location Detected ✓";
-
-
-            updateBill();
-
-        },
-
-
-        function(error) {
-
-            customerLocationLink = "";
-
-
-            button.innerText =
-                "📍 Use My Location";
-
-
-            if (error.code === 1) {
-
-                status.innerText =
-                    "❌ Location permission denied. Please allow location.";
-
-            }
-
-            else if (error.code === 2) {
-
-                status.innerText =
-                    "❌ Location unavailable.";
-
-            }
-
-            else if (error.code === 3) {
-
-                status.innerText =
-                    "❌ Location request timed out.";
-
-            }
-
-            else {
-
-                status.innerText =
-                    "❌ Location detect nahi ho payi.";
-
-            }
-
-        },
-
-
-        {
-
-            enableHighAccuracy: true,
-
-            timeout: 10000,
-
-            maximumAge: 0
+                "❌ Location permission denied. Please allow location.";
 
         }
 
-    );
+        else if (error.code === 2) {
+
+            status.innerText =
+                "❌ Location unavailable.";
+
+        }
+
+        else if (error.code === 3) {
+
+            status.innerText =
+                "❌ Location request timed out.";
+
+        }
+
+        else {
+
+            status.innerText =
+                "❌ Location detect nahi ho payi.";
+
+        }
+
+    },
+
+
+    {
+
+        enableHighAccuracy: true,
+
+        timeout: 10000,
+
+        maximumAge: 0
+
+    }
+
+);
 
 }
 
-
 /* =========================================
-   HAVERSINE DISTANCE
+HAVERSINE DISTANCE
 ========================================= */
 
 function calculateDistance(
-    lat1,
-    lon1,
-    lat2,
-    lon2
+lat1,
+lon1,
+lat2,
+lon2
 ) {
 
-    const R = 6371;
+const R = 6371;
 
-    const dLat =
-        toRadians(lat2 - lat1);
+const dLat =
+    toRadians(lat2 - lat1);
 
-    const dLon =
-        toRadians(lon2 - lon1);
+const dLon =
+    toRadians(lon2 - lon1);
 
-    const a =
-        Math.sin(dLat / 2) ** 2 +
+const a =
+    Math.sin(dLat / 2) ** 2 +
 
-        Math.cos(
-            toRadians(lat1)
-        ) *
+    Math.cos(
+        toRadians(lat1)
+    ) *
 
-        Math.cos(
-            toRadians(lat2)
-        ) *
+    Math.cos(
+        toRadians(lat2)
+    ) *
 
-        Math.sin(dLon / 2) ** 2;
+    Math.sin(dLon / 2) ** 2;
 
-    const c =
-        2 *
-        Math.atan2(
-            Math.sqrt(a),
-            Math.sqrt(1 - a)
-        );
+const c =
+    2 *
+    Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+    );
 
-    return R * c;
+return R * c;
 
 }
-
 
 function toRadians(value) {
 
-    return value *
-        Math.PI /
-        180;
+return value *
+    Math.PI /
+    180;
 
 }
 
-
 /* =========================================
-   WHATSAPP ORDER
+WHATSAPP ORDER
 ========================================= */
 
 function orderOnWhatsApp() {
 
-    /* =================================
-       CHECK CART
-    ================================= */
+if (cart.length === 0) {
 
-    if (cart.length === 0) {
-
-        alert(
-            "Pehle menu se food add karo."
-        );
-
-        return;
-
-    }
-
-
-    /* =================================
-       CUSTOMER DETAILS
-    ================================= */
-
-    const name =
-        document.getElementById(
-            "customer-name"
-        ).value.trim();
-
-
-    const phone =
-        document.getElementById(
-            "customer-phone"
-        ).value.trim();
-
-
-    const address =
-        document.getElementById(
-            "customer-address"
-        ).value.trim();
-
-
-    if (!name) {
-
-        alert("Apna naam enter karo.");
-
-        return;
-
-    }
-
-
-    if (!phone) {
-
-        alert("Mobile number enter karo.");
-
-        return;
-
-    }
-
-
-    if (!address) {
-
-        alert("Delivery address enter karo.");
-
-        return;
-
-    }
-
-
-    /* =================================
-       MANDATORY LOCATION CHECK
-    ================================= */
-
-    if (!customerLocationLink) {
-
-        alert(
-            "📍 Order place karne se pehle 'Use My Location' button press karke location allow karo."
-        );
-
-        document.getElementById(
-            "location-button"
-        ).scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
-        return;
-
-    }
-
-
-    /* =================================
-       BILL
-    ================================= */
-
-    const foodTotal =
-        getFoodTotal();
-
-
-    const deliveryCharge =
-        getDeliveryCharge();
-
-
-    const grandTotal =
-        foodTotal +
-        deliveryCharge;
-
-
-    /* =================================
-       ORDER ID
-    ================================= */
-
-    const orderId =
-        "XYZ" +
-        Date.now().toString().slice(-6);
-
-
-    /* =================================
-       CURRENT TIME
-    ================================= */
-
-    const orderTime =
-        new Date().toLocaleString(
-            "en-IN"
-        );
-
-
-    /* =================================
-       WHATSAPP MESSAGE
-    ================================= */
-
-    let message =
-        `🍛 *XYZ DHABA - NEW ORDER*%0A`;
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-    message +=
-        `🆔 Order ID: ${orderId}%0A`;
-
-    message +=
-        `🕐 Time: ${orderTime}%0A%0A`;
-
-
-    message +=
-        `👤 *CUSTOMER DETAILS*%0A`;
-
-    message +=
-        `Name: ${name}%0A`;
-
-    message +=
-        `Phone: ${phone}%0A`;
-
-    message +=
-        `Address: ${address}%0A`;
-
-    message +=
-        `📍 *Customer Location:*%0A`;
-
-    message +=
-        `${customerLocationLink}%0A%0A`;
-
-
-    message +=
-        `🍽️ *FOOD ORDER*%0A`;
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-
-    cart.forEach(item => {
-
-        const subtotal =
-            item.price *
-            item.quantity;
-
-
-        message +=
-            `• ${item.name}%0A`;
-
-        message +=
-            `  Qty: ${item.quantity} × ₹${item.price} = ₹${subtotal}%0A`;
-
-    });
-
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-    message +=
-        `🍽️ Food Total: ₹${foodTotal}%0A`;
-
-    message +=
-        `🚚 Delivery: ₹${deliveryCharge}%0A`;
-
-    message +=
-        `📏 Distance: ${deliveryDistance} km%0A`;
-
-    message +=
-        `💰 *GRAND TOTAL: ₹${grandTotal}*%0A`;
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-    message +=
-        `🙏 Thank you for ordering from XYZ Dhaba!`;
-
-
-    /* =================================
-       SAVE ORDER FOR OWNER
-    ================================= */
-
-    saveOwnerOrder({
-
-        id: orderId,
-
-        time: orderTime,
-
-        name: name,
-
-        phone: phone,
-
-        address: address,
-
-        location: customerLocationLink,
-
-        items: [...cart],
-
-        foodTotal: foodTotal,
-
-        delivery: deliveryCharge,
-
-        distance: deliveryDistance,
-
-        grandTotal: grandTotal
-
-    });
-
-
-    /* =================================
-       OPEN WHATSAPP
-    ================================= */
-
-    const whatsappURL =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-
-
-    window.open(
-        whatsappURL,
-        "_blank"
+    alert(
+        "Pehle menu se food add karo."
     );
+
+    return;
 
 }
 
 
+const name =
+    document.getElementById(
+        "customer-name"
+    ).value.trim();
+
+
+const phone =
+    document.getElementById(
+        "customer-phone"
+    ).value.trim();
+
+
+const address =
+    document.getElementById(
+        "customer-address"
+    ).value.trim();
+
+
+if (!name) {
+
+    alert("Apna naam enter karo.");
+
+    return;
+
+}
+
+
+if (!phone) {
+
+    alert("Mobile number enter karo.");
+
+    return;
+
+}
+
+
+if (!address) {
+
+    alert("Delivery address enter karo.");
+
+    return;
+
+}
+
+
+if (!customerLocationLink) {
+
+    alert(
+        "📍 Order place karne se pehle 'Use My Location' button press karke location allow karo."
+    );
+
+    document.getElementById(
+        "location-button"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    return;
+
+}
+
+
+const foodTotal =
+    getFoodTotal();
+
+
+const deliveryCharge =
+    getDeliveryCharge();
+
+
+const grandTotal =
+    foodTotal +
+    deliveryCharge;
+
+
+const orderId =
+    "XYZ" +
+    Date.now().toString().slice(-6);
+
+
+const orderTime =
+    new Date().toLocaleString(
+        "en-IN"
+    );
+
+
+let message =
+    `🍛 *XYZ DHABA - NEW ORDER*%0A`;
+
+message +=
+    `━━━━━━━━━━━━━━━━━━%0A`;
+
+message +=
+    `🆔 Order ID: ${orderId}%0A`;
+
+message +=
+    `🕐 Time: ${orderTime}%0A%0A`;
+
+
+message +=
+    `👤 *CUSTOMER DETAILS*%0A`;
+
+message +=
+    `Name: ${name}%0A`;
+
+message +=
+    `Phone: ${phone}%0A`;
+
+message +=
+    `Address: ${address}%0A`;
+
+message +=
+    `📍 *Customer Location:*%0A`;
+
+message +=
+    `${customerLocationLink}%0A%0A`;
+
+
+message +=
+    `🍽️ *FOOD ORDER*%0A`;
+
+message +=
+    `━━━━━━━━━━━━━━━━━━%0A`;
+
+
+cart.forEach(item => {
+
+    const subtotal =
+        item.price *
+        item.quantity;
+
+
+    message +=
+        `• ${item.name}%0A`;
+
+    message +=
+        `  Qty: ${item.quantity} × ₹${item.price} = ₹${subtotal}%0A`;
+
+});
+
+
+message +=
+    `━━━━━━━━━━━━━━━━━━%0A`;
+
+message +=
+    `🍽️ Food Total: ₹${foodTotal}%0A`;
+
+message +=
+    `🚚 Delivery: ₹${deliveryCharge}%0A`;
+
+message +=
+    `📏 Distance: ${deliveryDistance} km%0A`;
+
+message +=
+    `💰 *GRAND TOTAL: ₹${grandTotal}*%0A`;
+
+message +=
+    `━━━━━━━━━━━━━━━━━━%0A`;
+
+message +=
+    `🙏 Thank you for ordering from XYZ Dhaba!`;
+
+
+const order = {
+
+    id: orderId,
+
+    time: orderTime,
+
+    name: name,
+
+    phone: phone,
+
+    address: address,
+
+    location: customerLocationLink,
+
+    items: [...cart],
+
+    foodTotal: foodTotal,
+
+    delivery: deliveryCharge,
+
+    distance: deliveryDistance,
+
+    grandTotal: grandTotal
+
+};
+
+
+/* SAVE LATEST ORDER */
+
+saveOwnerOrder(order);
+
+
+/* SAVE HISTORY */
+
+saveOrderHistory(order);
+
+
+/* OPEN WHATSAPP */
+
+const whatsappURL =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+
+
+window.open(
+    whatsappURL,
+    "_blank"
+);
+
+}
+
 /* =========================================
-   OWNER ORDER
+OWNER ORDER
 ========================================= */
 
 function saveOwnerOrder(order) {
 
-    localStorage.setItem(
-        "xyzLatestOrder",
-        JSON.stringify(order)
-    );
+localStorage.setItem(
+    "xyzLatestOrder",
+    JSON.stringify(order)
+);
 
-    showOwnerOrder(order);
+showOwnerOrder(order);
 
 }
 
-
 /* =========================================
-   SHOW OWNER ORDER
+SHOW OWNER ORDER
 ========================================= */
 
 function showOwnerOrder(order) {
 
-    const container =
-        document.getElementById(
-            "owner-order"
-        );
+const container =
+    document.getElementById(
+        "owner-order"
+    );
 
+
+let itemsHTML = "";
+
+
+order.items.forEach(item => {
+
+    const subtotal =
+        item.price *
+        item.quantity;
+
+
+    itemsHTML += `
+
+        <div class="owner-item">
+
+            <span>
+                ${item.name}
+                × ${item.quantity}
+            </span>
+
+            <strong>
+                ₹${subtotal}
+            </strong>
+
+        </div>
+
+    `;
+
+});
+
+
+container.innerHTML = `
+
+    <div class="owner-order-card">
+
+        <div class="owner-order-top">
+
+            <div>
+
+                <small>
+                    ORDER ID
+                </small>
+
+                <strong>
+                    ${order.id}
+                </strong>
+
+            </div>
+
+            <div>
+                ${order.time}
+            </div>
+
+        </div>
+
+
+        <div class="owner-customer">
+
+            <div>
+
+                <small>
+                    Customer
+                </small>
+
+                ${order.name}
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Phone
+                </small>
+
+                ${order.phone}
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Address
+                </small>
+
+                ${order.address}
+
+            </div>
+
+        </div>
+
+
+        <div class="owner-items">
+
+            ${itemsHTML}
+
+        </div>
+
+
+        <div class="owner-total">
+
+            <span>
+                Total
+            </span>
+
+            <strong>
+                ₹${order.grandTotal}
+            </strong>
+
+        </div>
+
+    </div>
+
+`;
+
+}
+
+/* =========================================
+ORDER HISTORY
+========================================= */
+
+function saveOrderHistory(order) {
+
+let history = [];
+
+
+const savedHistory =
+    localStorage.getItem(
+        "xyzOrderHistory"
+    );
+
+
+if (savedHistory) {
+
+    try {
+
+        history =
+            JSON.parse(savedHistory);
+
+    }
+
+    catch {
+
+        history = [];
+
+    }
+
+}
+
+
+history.unshift(order);
+
+
+localStorage.setItem(
+    "xyzOrderHistory",
+    JSON.stringify(history)
+);
+
+
+showOrderHistory();
+
+}
+
+/* =========================================
+SHOW ORDER HISTORY
+========================================= */
+
+function showOrderHistory() {
+
+const container =
+    document.getElementById(
+        "order-history"
+    );
+
+
+const savedHistory =
+    localStorage.getItem(
+        "xyzOrderHistory"
+    );
+
+
+if (!savedHistory) {
+
+    return;
+
+}
+
+
+let history = [];
+
+
+try {
+
+    history =
+        JSON.parse(savedHistory);
+
+}
+
+catch {
+
+    return;
+
+}
+
+
+if (!Array.isArray(history) || history.length === 0) {
+
+    return;
+
+}
+
+
+let historyHTML = "";
+
+
+history.forEach(order => {
 
     let itemsHTML = "";
 
@@ -905,7 +1125,7 @@ function showOwnerOrder(order) {
 
         itemsHTML += `
 
-            <div class="owner-item">
+            <div class="history-item">
 
                 <span>
                     ${item.name}
@@ -923,17 +1143,13 @@ function showOwnerOrder(order) {
     });
 
 
-    container.innerHTML = `
+    historyHTML += `
 
-        <div class="owner-order-card">
+        <div class="history-card">
 
-            <div class="owner-order-top">
+            <div class="history-top">
 
                 <div>
-
-                    <small>
-                        ORDER ID
-                    </small>
 
                     <strong>
                         ${order.id}
@@ -948,54 +1164,17 @@ function showOwnerOrder(order) {
             </div>
 
 
-            <div class="owner-customer">
-
-                <div>
-
-                    <small>
-                        Customer
-                    </small>
-
-                    ${order.name}
-
-                </div>
-
-
-                <div>
-
-                    <small>
-                        Phone
-                    </small>
-
-                    ${order.phone}
-
-                </div>
-
-
-                <div>
-
-                    <small>
-                        Address
-                    </small>
-
-                    ${order.address}
-
-                </div>
-
-            </div>
-
-
-            <div class="owner-items">
+            <div class="history-items">
 
                 ${itemsHTML}
 
             </div>
 
 
-            <div class="owner-total">
+            <div class="history-total">
 
                 <span>
-                    Total
+                    Grand Total
                 </span>
 
                 <strong>
@@ -1008,52 +1187,58 @@ function showOwnerOrder(order) {
 
     `;
 
+});
+
+
+container.innerHTML =
+    historyHTML;
+
 }
 
-
 /* =========================================
-   LOAD LAST ORDER
+LOAD LAST ORDER
 ========================================= */
 
 function loadOwnerOrder() {
 
-    const saved =
-        localStorage.getItem(
-            "xyzLatestOrder"
-        );
+const saved =
+    localStorage.getItem(
+        "xyzLatestOrder"
+    );
 
 
-    if (!saved) {
+if (!saved) {
 
-        return;
-
-    }
-
-
-    try {
-
-        const order =
-            JSON.parse(saved);
-
-        showOwnerOrder(order);
-
-    }
-
-    catch {
-
-        console.log(
-            "Unable to load saved order."
-        );
-
-    }
+    return;
 
 }
 
 
+try {
+
+    const order =
+        JSON.parse(saved);
+
+    showOwnerOrder(order);
+
+}
+
+catch {
+
+    console.log(
+        "Unable to load saved order."
+    );
+
+}
+
+}
+
 /* =========================================
-   INITIALIZE
+INITIALIZE
 ========================================= */
 
 updateCart();
 
 loadOwnerOrder();
+
+showOrderHistory();

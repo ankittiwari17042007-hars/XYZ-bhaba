@@ -8,33 +8,10 @@
    SETTINGS
 ========================================= */
 
-/*
-    XYZ Dhaba location
-
-    Baad mein apne actual Dhaba ke
-    coordinates yahan change karna.
-*/
-
-
 const SHOP_LAT = 26.4941963;
 const SHOP_LNG = 80.2847087;
 
-/*
-    WhatsApp number
-
-    Example:
-
-    919795521543 
-
-    + ya spaces mat lagana.
-*/
-
 const WHATSAPP_NUMBER = "919795521543";
-
-
-/*
-    Delivery rate
-*/
 
 const DELIVERY_RATE = 15;
 
@@ -46,6 +23,9 @@ const DELIVERY_RATE = 15;
 let cart = [];
 
 let deliveryDistance = 0;
+
+// Customer ki Google Maps location
+let customerLocationLink = "";
 
 
 /* =========================================
@@ -64,21 +44,20 @@ let currentSlide = 0;
 function showSlide(index) {
 
     slides.forEach(slide => {
-
         slide.classList.remove("active");
-
     });
 
     dots.forEach(dot => {
-
         dot.classList.remove("active");
-
     });
 
+    if (slides[index]) {
+        slides[index].classList.add("active");
+    }
 
-    slides[index].classList.add("active");
-
-    dots[index].classList.add("active");
+    if (dots[index]) {
+        dots[index].classList.add("active");
+    }
 
 }
 
@@ -88,9 +67,7 @@ function nextSlide() {
     currentSlide++;
 
     if (currentSlide >= slides.length) {
-
         currentSlide = 0;
-
     }
 
     showSlide(currentSlide);
@@ -110,7 +87,6 @@ function addToCart(name, price) {
     const existing =
         cart.find(item => item.name === name);
 
-
     if (existing) {
 
         existing.quantity++;
@@ -120,15 +96,12 @@ function addToCart(name, price) {
         cart.push({
 
             name: name,
-
             price: price,
-
             quantity: 1
 
         });
 
     }
-
 
     updateCart();
 
@@ -146,10 +119,9 @@ function scrollToOrder() {
     const orderSection =
         document.getElementById("order");
 
-    /*
-       Small delay so cart updates
-       before scrolling.
-    */
+    if (!orderSection) {
+        return;
+    }
 
     setTimeout(() => {
 
@@ -168,15 +140,17 @@ function scrollToOrder() {
 
 function changeQuantity(index, amount) {
 
-    cart[index].quantity += amount;
+    if (!cart[index]) {
+        return;
+    }
 
+    cart[index].quantity += amount;
 
     if (cart[index].quantity <= 0) {
 
         cart.splice(index, 1);
 
     }
-
 
     updateCart();
 
@@ -205,20 +179,17 @@ function updateCart() {
     const cartContainer =
         document.getElementById("cart-items");
 
-
     const cartCount =
         document.getElementById("cart-count");
 
-
     const itemCount =
-        document.getElementById(
-            "cart-items-count"
-        );
+        document.getElementById("cart-items-count");
 
 
-    /*
-       Total quantity
-    */
+    if (!cartContainer) {
+        return;
+    }
+
 
     let totalQuantity = 0;
 
@@ -230,17 +201,25 @@ function updateCart() {
     });
 
 
-    cartCount.innerText =
-        totalQuantity;
+    if (cartCount) {
+
+        cartCount.innerText =
+            totalQuantity;
+
+    }
 
 
-    itemCount.innerText =
-        `${totalQuantity} items`;
+    if (itemCount) {
+
+        itemCount.innerText =
+            `${totalQuantity} items`;
+
+    }
 
 
-    /*
-       Empty cart
-    */
+    /* =================================
+       EMPTY CART
+    ================================= */
 
     if (cart.length === 0) {
 
@@ -267,6 +246,11 @@ function updateCart() {
         `;
 
     }
+
+
+    /* =================================
+       CART ITEMS
+    ================================= */
 
     else {
 
@@ -386,13 +370,6 @@ function getDeliveryCharge() {
     }
 
 
-    /*
-       ₹15 per km
-
-       Decimal distance ko
-       next rupee tak round karenge.
-    */
-
     return Math.ceil(
         deliveryDistance *
         DELIVERY_RATE
@@ -420,40 +397,71 @@ function updateBill() {
         deliveryCharge;
 
 
-    document.getElementById(
-        "food-total"
-    ).innerText =
-        `₹${foodTotal}`;
+    const foodTotalElement =
+        document.getElementById("food-total");
+
+    const deliveryPriceElement =
+        document.getElementById("delivery-price");
+
+    const deliveryChargeElement =
+        document.getElementById("delivery-charge");
+
+    const grandTotalElement =
+        document.getElementById("grand-total");
+
+    const distanceElement =
+        document.getElementById("distance");
+
+    const deliveryDistanceElement =
+        document.getElementById("delivery-distance");
 
 
-    document.getElementById(
-        "delivery-price"
-    ).innerText =
-        `₹${deliveryCharge}`;
+    if (foodTotalElement) {
+
+        foodTotalElement.innerText =
+            `₹${foodTotal}`;
+
+    }
 
 
-    document.getElementById(
-        "delivery-charge"
-    ).innerText =
-        `₹${deliveryCharge}`;
+    if (deliveryPriceElement) {
+
+        deliveryPriceElement.innerText =
+            `₹${deliveryCharge}`;
+
+    }
 
 
-    document.getElementById(
-        "grand-total"
-    ).innerText =
-        `₹${grandTotal}`;
+    if (deliveryChargeElement) {
+
+        deliveryChargeElement.innerText =
+            `₹${deliveryCharge}`;
+
+    }
 
 
-    document.getElementById(
-        "distance"
-    ).innerText =
-        `${deliveryDistance} km`;
+    if (grandTotalElement) {
+
+        grandTotalElement.innerText =
+            `₹${grandTotal}`;
+
+    }
 
 
-    document.getElementById(
-        "delivery-distance"
-    ).innerText =
-        `${deliveryDistance} km`;
+    if (distanceElement) {
+
+        distanceElement.innerText =
+            `${deliveryDistance} km`;
+
+    }
+
+
+    if (deliveryDistanceElement) {
+
+        deliveryDistanceElement.innerText =
+            `${deliveryDistance} km`;
+
+    }
 
 }
 
@@ -472,7 +480,7 @@ function clearCart() {
 
 
 /* =========================================
-   LOCATION
+   CUSTOMER LOCATION
 ========================================= */
 
 function getLocation() {
@@ -483,18 +491,42 @@ function getLocation() {
         );
 
 
+    const locationButton =
+        document.getElementById(
+            "location-button"
+        );
+
+
     if (!navigator.geolocation) {
 
-        status.innerText =
-            "❌ Browser location support nahi karta.";
+        if (status) {
+
+            status.innerText =
+                "❌ Browser location support nahi karta.";
+
+        }
 
         return;
 
     }
 
 
-    status.innerText =
-        "📍 Location detect ho rahi hai...";
+    if (status) {
+
+        status.innerText =
+            "📍 Location detect ho rahi hai...";
+
+    }
+
+
+    if (locationButton) {
+
+        locationButton.disabled = true;
+
+        locationButton.innerText =
+            "📍 Detecting Location...";
+
+    }
 
 
     navigator.geolocation.getCurrentPosition(
@@ -508,6 +540,18 @@ function getLocation() {
             const userLng =
                 position.coords.longitude;
 
+
+            /* =================================
+               GOOGLE MAPS LOCATION LINK
+            ================================= */
+
+            customerLocationLink =
+                `https://www.google.com/maps?q=${userLat},${userLng}`;
+
+
+            /* =================================
+               DISTANCE
+            ================================= */
 
             deliveryDistance =
                 calculateDistance(
@@ -532,26 +576,72 @@ function getLocation() {
                 getDeliveryCharge();
 
 
-            document.getElementById(
-                "delivery-distance"
-            ).innerText =
-                `${deliveryDistance} km`;
+            /* =================================
+               UPDATE BILL
+            ================================= */
+
+            const deliveryDistanceElement =
+                document.getElementById(
+                    "delivery-distance"
+                );
 
 
-            document.getElementById(
-                "distance"
-            ).innerText =
-                `${deliveryDistance} km`;
+            const distanceElement =
+                document.getElementById(
+                    "distance"
+                );
 
 
-            document.getElementById(
-                "delivery-charge"
-            ).innerText =
-                `₹${charge}`;
+            const deliveryChargeElement =
+                document.getElementById(
+                    "delivery-charge"
+                );
 
 
-            status.innerText =
-                `✅ Location detected • ${deliveryDistance} km away`;
+            if (deliveryDistanceElement) {
+
+                deliveryDistanceElement.innerText =
+                    `${deliveryDistance} km`;
+
+            }
+
+
+            if (distanceElement) {
+
+                distanceElement.innerText =
+                    `${deliveryDistance} km`;
+
+            }
+
+
+            if (deliveryChargeElement) {
+
+                deliveryChargeElement.innerText =
+                    `₹${charge}`;
+
+            }
+
+
+            /* =================================
+               LOCATION SUCCESS
+            ================================= */
+
+            if (status) {
+
+                status.innerText =
+                    `✅ Location added • ${deliveryDistance} km away`;
+
+            }
+
+
+            if (locationButton) {
+
+                locationButton.disabled = false;
+
+                locationButton.innerText =
+                    "✅ Location Added";
+
+            }
 
 
             updateBill();
@@ -561,24 +651,53 @@ function getLocation() {
 
         function(error) {
 
+            customerLocationLink = "";
+
+            deliveryDistance = 0;
+
+            updateBill();
+
+
+            if (locationButton) {
+
+                locationButton.disabled = false;
+
+                locationButton.innerText =
+                    "📍 Use My Location";
+
+            }
+
+
             if (error.code === 1) {
 
-                status.innerText =
-                    "❌ Location permission denied.";
+                if (status) {
+
+                    status.innerText =
+                        "❌ Location permission denied. Location allow karo.";
+
+                }
 
             }
 
             else if (error.code === 2) {
 
-                status.innerText =
-                    "❌ Location unavailable.";
+                if (status) {
+
+                    status.innerText =
+                        "❌ Location unavailable. Dobara try karo.";
+
+                }
 
             }
 
             else {
 
-                status.innerText =
-                    "❌ Location detect nahi ho payi.";
+                if (status) {
+
+                    status.innerText =
+                        "❌ Location detect nahi ho payi. Dobara try karo.";
+
+                }
 
             }
 
@@ -664,6 +783,10 @@ function toRadians(value) {
 
 function orderOnWhatsApp() {
 
+    /* =================================
+       CART CHECK
+    ================================= */
+
     if (cart.length === 0) {
 
         alert(
@@ -674,6 +797,10 @@ function orderOnWhatsApp() {
 
     }
 
+
+    /* =================================
+       CUSTOMER DETAILS
+    ================================= */
 
     const name =
         document.getElementById(
@@ -693,32 +820,100 @@ function orderOnWhatsApp() {
         ).value.trim();
 
 
+    /* =================================
+       NAME CHECK
+    ================================= */
+
     if (!name) {
 
-        alert("Apna naam enter karo.");
+        alert(
+            "Apna naam enter karo."
+        );
 
         return;
 
     }
 
+
+    /* =================================
+       PHONE CHECK
+    ================================= */
 
     if (!phone) {
 
-        alert("Mobile number enter karo.");
+        alert(
+            "Mobile number enter karo."
+        );
 
         return;
 
     }
 
+
+    /* =================================
+       ADDRESS CHECK
+    ================================= */
 
     if (!address) {
 
-        alert("Delivery address enter karo.");
+        alert(
+            "Delivery address enter karo."
+        );
 
         return;
 
     }
 
+
+    /* =================================
+       LOCATION MANDATORY
+    ================================= */
+
+    if (!customerLocationLink) {
+
+        alert(
+            "📍 Order place karne se pehle 'Use My Location' button press karke location allow karo."
+        );
+
+
+        const status =
+            document.getElementById(
+                "location-status"
+            );
+
+
+        if (status) {
+
+            status.innerText =
+                "❌ Location required. Please use 'Use My Location'.";
+
+        }
+
+
+        const locationButton =
+            document.getElementById(
+                "location-button"
+            );
+
+
+        if (locationButton) {
+
+            locationButton.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+
+        return;
+
+    }
+
+
+    /* =================================
+       TOTALS
+    ================================= */
 
     const foodTotal =
         getFoodTotal();
@@ -733,18 +928,18 @@ function orderOnWhatsApp() {
         deliveryCharge;
 
 
-    /*
-       Order ID
-    */
+    /* =================================
+       ORDER ID
+    ================================= */
 
     const orderId =
         "XYZ" +
         Date.now().toString().slice(-6);
 
 
-    /*
-       Current time
-    */
+    /* =================================
+       CURRENT TIME
+    ================================= */
 
     const orderTime =
         new Date().toLocaleString(
@@ -752,12 +947,13 @@ function orderOnWhatsApp() {
         );
 
 
-    /*
-       WhatsApp message
-    */
+    /* =================================
+       WHATSAPP MESSAGE
+    ================================= */
 
     let message =
         `🍛 *XYZ DHABA - NEW ORDER*%0A`;
+
 
     message +=
         `━━━━━━━━━━━━━━━━━━%0A`;
@@ -770,6 +966,10 @@ function orderOnWhatsApp() {
     message +=
         `🕐 Time: ${orderTime}%0A%0A`;
 
+
+    /* =================================
+       CUSTOMER DETAILS
+    ================================= */
 
     message +=
         `👤 *CUSTOMER DETAILS*%0A`;
@@ -787,295 +987,8 @@ function orderOnWhatsApp() {
         `Address: ${address}%0A%0A`;
 
 
-    message +=
-        `🍽️ *FOOD ORDER*%0A`;
-
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-
-    cart.forEach(item => {
-
-        const subtotal =
-            item.price *
-            item.quantity;
-
-
-        message +=
-            `• ${item.name}%0A`;
-
-
-        message +=
-            `  Qty: ${item.quantity} × ₹${item.price} = ₹${subtotal}%0A`;
-
-    });
-
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-
-    message +=
-        `🍽️ Food Total: ₹${foodTotal}%0A`;
-
-
-    message +=
-        `🚚 Delivery: ₹${deliveryCharge}%0A`;
-
-
-    message +=
-        `📏 Distance: ${deliveryDistance} km%0A`;
-
-
-    message +=
-        `💰 *GRAND TOTAL: ₹${grandTotal}*%0A`;
-
-
-    message +=
-        `━━━━━━━━━━━━━━━━━━%0A`;
-
-
-    message +=
-        `🙏 Thank you for ordering from XYZ Dhaba!`;
-
-
-    /*
-       Save order for Malik
-    */
-
-    saveOwnerOrder({
-
-        id: orderId,
-
-        time: orderTime,
-
-        name: name,
-
-        phone: phone,
-
-        address: address,
-
-        items: [...cart],
-
-        foodTotal: foodTotal,
-
-        delivery: deliveryCharge,
-
-        distance: deliveryDistance,
-
-        grandTotal: grandTotal
-
-    });
-
-
-    /*
-       Open WhatsApp
-    */
-
-    const whatsappURL =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-
-
-    window.open(
-        whatsappURL,
-        "_blank"
-    );
-
-}
-
-
-/* =========================================
-   OWNER ORDER
-========================================= */
-
-function saveOwnerOrder(order) {
-
-    localStorage.setItem(
-        "xyzLatestOrder",
-        JSON.stringify(order)
-    );
-
-
-    showOwnerOrder(order);
-
-}
-
-
-/* =========================================
-   SHOW OWNER ORDER
-========================================= */
-
-function showOwnerOrder(order) {
-
-    const container =
-        document.getElementById(
-            "owner-order"
-        );
-
-
-    let itemsHTML = "";
-
-
-    order.items.forEach(item => {
-
-        const subtotal =
-            item.price *
-            item.quantity;
-
-
-        itemsHTML += `
-
-            <div class="owner-item">
-
-                <span>
-                    ${item.name}
-                    × ${item.quantity}
-                </span>
-
-                <strong>
-                    ₹${subtotal}
-                </strong>
-
-            </div>
-
-        `;
-
-    });
-
-
-    container.innerHTML = `
-
-        <div class="owner-order-card">
-
-            <div class="owner-order-top">
-
-                <div>
-
-                    <small>
-                        ORDER ID
-                    </small>
-
-                    <strong>
-                        ${order.id}
-                    </strong>
-
-                </div>
-
-                <div>
-                    ${order.time}
-                </div>
-
-            </div>
-
-
-            <div class="owner-customer">
-
-                <div>
-
-                    <small>
-                        Customer
-                    </small>
-
-                    ${order.name}
-
-                </div>
-
-
-                <div>
-
-                    <small>
-                        Phone
-                    </small>
-
-                    ${order.phone}
-
-                </div>
-
-
-                <div>
-
-                    <small>
-                        Address
-                    </small>
-
-                    ${order.address}
-
-                </div>
-
-            </div>
-
-
-            <div class="owner-items">
-
-                ${itemsHTML}
-
-            </div>
-
-
-            <div class="owner-total">
-
-                <span>
-                    Total
-                </span>
-
-                <strong>
-                    ₹${order.grandTotal}
-                </strong>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================
-   LOAD LAST ORDER
-========================================= */
-
-function loadOwnerOrder() {
-
-    const saved =
-        localStorage.getItem(
-            "xyzLatestOrder"
-        );
-
-
-    if (!saved) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const order =
-            JSON.parse(saved);
-
-
-        showOwnerOrder(order);
-
-    }
-
-    catch {
-
-        console.log(
-            "Unable to load saved order."
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   INITIALIZE
-========================================= */
-
-updateCart();
-
-loadOwnerOrder();
+    /* =================================
+       CUSTOMER LOCATION
+    ================================= */
+
+   

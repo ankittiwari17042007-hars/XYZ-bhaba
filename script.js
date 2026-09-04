@@ -15,9 +15,9 @@
     coordinates yahan change karna.
 */
 
-const SHOP_LAT = 26.494196;
-const SHOP_LNG = 80.284709;
 
+const SHOP_LAT = 26.4941963;
+const SHOP_LNG = 80.2847087;
 
 /*
     WhatsApp number

@@ -13,15 +13,11 @@ html {
 }
 
 body {
-    font-family:
-        Inter,
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Inter, Arial, Helvetica, sans-serif;
     background: #fffaf5;
     color: #202020;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 img {
@@ -45,6 +41,17 @@ a {
 
 
 /* =========================================
+   COMMON CONTAINER
+========================================= */
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+
+/* =========================================
    HEADER
 ========================================= */
 
@@ -54,77 +61,33 @@ a {
     z-index: 999;
 
     background: rgba(255,255,255,0.96);
-
     backdrop-filter: blur(12px);
 
     border-bottom: 1px solid #eee;
 }
 
-.nav-container {
-    max-width: 1200px;
-
-    width: 92%;
-
-    margin: auto;
-
+.header-content {
     min-height: 74px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
-    gap: 25px;
+    gap: 20px;
 }
 
-.logo {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
+.logo h1 {
+    font-size: 23px;
+    line-height: 1.2;
 }
 
-.logo > span {
-    font-size: 32px;
-}
-
-.logo h2 {
-    font-size: 21px;
-
-    line-height: 1;
-}
-
-.logo small {
+.logo p {
     color: #888;
-
     font-size: 12px;
 }
 
-nav {
-    display: flex;
-
-    gap: 30px;
-}
-
-nav a {
-    color: #333;
-
-    font-weight: 600;
-
-    font-size: 15px;
-
-    transition: 0.25s;
-}
-
-nav a:hover {
-    color: #e45716;
-}
-
-.cart-top {
+.cart-button {
     background: #e45716;
-
     color: white;
 
     padding: 10px 15px;
@@ -132,6 +95,27 @@ nav a:hover {
     border-radius: 10px;
 
     font-weight: bold;
+
+    white-space: nowrap;
+}
+
+#cart-count {
+    background: white;
+    color: #e45716;
+
+    display: inline-flex;
+
+    min-width: 22px;
+    height: 22px;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    margin-left: 5px;
+
+    font-size: 12px;
 }
 
 
@@ -141,25 +125,19 @@ nav a:hover {
 
 .hero {
     height: 650px;
-
     position: relative;
-
     overflow: hidden;
-
     color: white;
 }
 
-.hero-slider,
-.slide {
+.slider {
     position: absolute;
-
     inset: 0;
 }
 
 .slide {
-    background-size: cover;
-
-    background-position: center;
+    position: absolute;
+    inset: 0;
 
     opacity: 0;
 
@@ -170,16 +148,28 @@ nav a:hover {
         transform 6s ease;
 }
 
+.slide img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
 .slide.active {
     opacity: 1;
-
     transform: scale(1);
 }
 
 .hero-overlay {
     position: absolute;
-
     inset: 0;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 8%;
 
     background:
         linear-gradient(
@@ -190,72 +180,32 @@ nav a:hover {
         );
 }
 
-.hero-content {
-    position: relative;
-
-    z-index: 5;
-
-    max-width: 1200px;
-
-    width: 92%;
-
-    margin: auto;
-
-    height: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-}
-
-.hero-badge {
-    display: inline-block;
-
-    width: fit-content;
-
-    background: rgba(255,255,255,0.14);
-
-    border: 1px solid rgba(255,255,255,0.3);
-
-    backdrop-filter: blur(8px);
-
-    padding: 9px 15px;
-
-    border-radius: 50px;
-
-    margin-bottom: 18px;
-}
-
-.hero h1 {
-    font-size: clamp(48px, 8vw, 88px);
-
-    line-height: 0.98;
-
+.hero-overlay h2 {
     max-width: 700px;
+
+    font-size: clamp(42px, 7vw, 78px);
+
+    line-height: 1.05;
+
+    margin-bottom: 20px;
 }
 
-.hero h1 span {
-    color: #ff9a52;
-}
+.hero-overlay p {
+    max-width: 600px;
 
-.hero-content > p {
     font-size: 19px;
 
-    margin: 25px 0;
-
     color: #eee;
+
+    margin-bottom: 25px;
 }
 
-.hero-buttons {
-    display: flex;
+.hero-button {
+    display: inline-block;
 
-    gap: 13px;
-}
+    background: #e45716;
+    color: white;
 
-.primary-btn,
-.secondary-btn {
     padding: 14px 23px;
 
     border-radius: 10px;
@@ -265,37 +215,20 @@ nav a:hover {
     transition: 0.25s;
 }
 
-.primary-btn {
-    background: #e45716;
-
-    color: white;
-}
-
-.primary-btn:hover {
+.hero-button:hover {
     background: #c9470b;
-
     transform: translateY(-2px);
 }
 
-.secondary-btn {
-    color: white;
 
-    border: 1px solid rgba(255,255,255,0.5);
-
-    background: rgba(255,255,255,0.1);
-}
-
-.secondary-btn:hover {
-    background: white;
-
-    color: #222;
-}
+/* =========================================
+   SLIDER DOTS
+========================================= */
 
 .slider-dots {
     position: absolute;
 
     bottom: 30px;
-
     left: 50%;
 
     transform: translateX(-50%);
@@ -303,7 +236,6 @@ nav a:hover {
     z-index: 10;
 
     display: flex;
-
     gap: 8px;
 }
 
@@ -316,6 +248,8 @@ nav a:hover {
     background: rgba(255,255,255,0.5);
 
     transition: 0.3s;
+
+    cursor: pointer;
 }
 
 .dot.active {
@@ -328,63 +262,12 @@ nav a:hover {
 
 
 /* =========================================
-   ABOUT
+   SECTION
 ========================================= */
 
-.about {
-    padding: 70px 0;
-
-    background: white;
+.section {
+    padding: 80px 0;
 }
-
-.about-container {
-    max-width: 1100px;
-
-    width: 90%;
-
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 60px;
-
-    align-items: center;
-}
-
-.section-label {
-    color: #e45716;
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
-}
-
-.about h2 {
-    font-size: 40px;
-
-    line-height: 1.2;
-
-    margin-top: 8px;
-}
-
-.about h2 span {
-    color: #e45716;
-}
-
-.about p {
-    color: #666;
-
-    font-size: 17px;
-}
-
-
-/* =========================================
-   SECTION HEADING
-========================================= */
 
 .section-heading {
     text-align: center;
@@ -392,6 +275,16 @@ nav a:hover {
     max-width: 700px;
 
     margin: 0 auto 45px;
+}
+
+.section-heading span {
+    color: #e45716;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
 }
 
 .section-heading h2 {
@@ -409,14 +302,10 @@ nav a:hover {
    MENU
 ========================================= */
 
-.menu-section {
-    padding: 90px 0;
-}
-
-.menu-container {
+.menu-grid {
     max-width: 1150px;
 
-    width: 90%;
+    width: 100%;
 
     margin: auto;
 
@@ -453,8 +342,6 @@ nav a:hover {
 .food-image {
     height: 210px;
 
-    position: relative;
-
     overflow: hidden;
 }
 
@@ -470,49 +357,15 @@ nav a:hover {
     transform: scale(1.06);
 }
 
-.food-tag {
-    position: absolute;
-
-    top: 12px;
-
-    left: 12px;
-
-    background: white;
-
-    color: #e45716;
-
-    padding: 5px 10px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-
-    font-weight: bold;
-}
-
-.menu-info {
+.menu-content {
     padding: 18px;
 }
 
-.food-title {
-    display: flex;
-
-    justify-content: space-between;
-
-    gap: 10px;
-}
-
-.food-title h3 {
+.menu-content h3 {
     font-size: 19px;
 }
 
-.food-title strong {
-    color: #e45716;
-
-    font-size: 19px;
-}
-
-.menu-info p {
+.menu-content p {
     color: #777;
 
     font-size: 14px;
@@ -522,57 +375,68 @@ nav a:hover {
     margin: 8px 0 15px;
 }
 
-.add-cart {
-    width: 100%;
+.menu-bottom {
+    display: flex;
 
-    padding: 11px;
+    align-items: center;
 
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.menu-bottom strong {
+    color: #e45716;
+
+    font-size: 19px;
+}
+
+.menu-bottom button {
     border: 0;
-
-    border-radius: 9px;
 
     background: #222;
 
     color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 9px;
 
     font-weight: bold;
 
     transition: 0.25s;
 }
 
-.add-cart:hover {
+.menu-bottom button:hover {
     background: #e45716;
 }
 
 
 /* =========================================
-   ORDER
+   ORDER SECTION
 ========================================= */
 
 .order-section {
     background: #f7f3ee;
-
-    padding: 90px 0;
 }
 
-.order-container {
+.order-layout {
     max-width: 1100px;
 
-    width: 90%;
+    width: 100%;
 
     margin: auto;
 
     display: grid;
 
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
 
     gap: 25px;
 
     align-items: start;
 }
 
-.cart-box,
-.bill-box {
+.order-card {
     background: white;
 
     border-radius: 18px;
@@ -583,9 +447,11 @@ nav a:hover {
 
     box-shadow:
         0 8px 25px rgba(0,0,0,0.05);
+
+    min-width: 0;
 }
 
-.cart-header {
+.order-card-header {
     display: flex;
 
     justify-content: space-between;
@@ -595,17 +461,38 @@ nav a:hover {
     padding-bottom: 20px;
 
     border-bottom: 1px solid #eee;
+
+    margin-bottom: 5px;
 }
 
-.cart-header h3 {
-    font-size: 24px;
+.order-card-header h3 {
+    font-size: 22px;
 }
 
-.cart-header > span {
+#cart-items-count {
     color: #777;
 
     font-size: 14px;
 }
+
+.clear-cart {
+    border: 0;
+
+    background: #eee;
+
+    color: #555;
+
+    padding: 8px 13px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================
+   CART
+========================================= */
 
 .empty-cart {
     text-align: center;
@@ -621,6 +508,10 @@ nav a:hover {
     margin-bottom: 10px;
 }
 
+.empty-cart h3 {
+    color: #333;
+}
+
 .empty-cart a {
     display: inline-block;
 
@@ -631,15 +522,12 @@ nav a:hover {
     font-weight: bold;
 }
 
-
-/* CART ITEM */
-
 .cart-item {
     display: grid;
 
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto auto auto;
 
-    gap: 20px;
+    gap: 15px;
 
     align-items: center;
 
@@ -670,7 +558,6 @@ nav a:hover {
 
 .quantity button {
     width: 31px;
-
     height: 31px;
 
     border: 0;
@@ -706,76 +593,25 @@ nav a:hover {
 
 
 /* =========================================
-   BILL
+   CUSTOMER DETAILS
 ========================================= */
 
-.bill-box h3 {
-    margin-bottom: 20px;
-
-    font-size: 22px;
+.form-group {
+    margin-top: 17px;
 }
 
-.bill-line {
-    display: flex;
+.form-group label {
+    display: block;
 
-    justify-content: space-between;
+    margin-bottom: 6px;
 
-    padding: 10px 0;
+    font-weight: 600;
 
-    color: #555;
+    font-size: 14px;
 }
 
-.bill-line small {
-    color: #999;
-}
-
-.distance-line {
-    border-bottom: 1px solid #eee;
-
-    padding-bottom: 15px;
-}
-
-.grand-total {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 18px 0;
-
-    margin-bottom: 15px;
-
-    font-size: 21px;
-
-    font-weight: bold;
-}
-
-.grand-total strong {
-    color: #e45716;
-}
-
-
-/* =========================================
-   CUSTOMER FORM
-========================================= */
-
-.customer-form {
-    border-top: 1px solid #eee;
-
-    padding-top: 20px;
-
-    margin-top: 5px;
-}
-
-.customer-form h3 {
-    font-size: 18px;
-
-    margin-bottom: 12px;
-}
-
-.customer-form input,
-.customer-form textarea {
+.form-group input,
+.form-group textarea {
     width: 100%;
 
     border: 1px solid #ddd;
@@ -784,17 +620,110 @@ nav a:hover {
 
     padding: 12px;
 
-    margin-bottom: 10px;
-
     outline: none;
+
+    resize: vertical;
 }
 
-.customer-form input:focus,
-.customer-form textarea:focus {
+.form-group input:focus,
+.form-group textarea:focus {
     border-color: #e45716;
 }
 
-.whatsapp-order {
+
+/* =========================================
+   LOCATION
+========================================= */
+
+.location-button {
+    width: 100%;
+
+    margin-top: 9px;
+
+    padding: 12px;
+
+    border: 1px solid #e45716;
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: #e45716;
+
+    font-weight: bold;
+
+    transition: 0.25s;
+}
+
+.location-button:hover {
+    background: #e45716;
+
+    color: white;
+}
+
+.location-status {
+    margin-top: 7px;
+
+    color: #777;
+
+    font-size: 13px;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   BILL
+========================================= */
+
+.bill {
+    margin-top: 22px;
+
+    border-top: 1px solid #eee;
+
+    padding-top: 10px;
+}
+
+.bill-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 9px 0;
+
+    color: #555;
+}
+
+.bill-divider {
+    height: 1px;
+
+    background: #eee;
+
+    margin: 8px 0;
+}
+
+.bill-row.grand-total {
+    font-size: 21px;
+
+    font-weight: bold;
+
+    color: #222;
+}
+
+.bill-row.grand-total strong {
+    color: #e45716;
+}
+
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+.whatsapp-button {
     width: 100%;
 
     border: 0;
@@ -809,126 +738,23 @@ nav a:hover {
 
     font-weight: bold;
 
-    margin-top: 7px;
+    margin-top: 20px;
+
+    transition: 0.25s;
 }
 
-.whatsapp-order:hover {
+.whatsapp-button:hover {
     background: #159b47;
 }
 
-.clear-order {
-    width: 100%;
-
-    border: 0;
-
-    padding: 11px;
-
-    border-radius: 10px;
-
-    background: #eee;
-
-    color: #555;
-
-    margin-top: 9px;
-}
-
-
-/* =========================================
-   DELIVERY
-========================================= */
-
-.delivery-section {
-    padding: 80px 0;
-
-    background: #fff;
-}
-
-.delivery-container {
-    max-width: 1100px;
-
-    width: 90%;
-
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns: 1.2fr 1fr;
-
-    gap: 50px;
-
-    align-items: center;
-}
-
-.delivery-content h2 {
-    font-size: 42px;
-
-    margin: 7px 0;
-}
-
-.delivery-content p {
-    color: #666;
-
-    max-width: 550px;
-
-    margin-bottom: 22px;
-}
-
-.location-btn {
-    border: 0;
-
-    padding: 14px 20px;
-
-    background: #e45716;
-
-    color: white;
-
-    border-radius: 10px;
-
-    font-weight: bold;
-}
-
-.location-btn:hover {
-    background: #c9470b;
-}
-
-.location-status {
-    margin-top: 12px;
+.order-note {
+    text-align: center;
 
     color: #777;
 
-    font-size: 14px;
-}
+    font-size: 12px;
 
-.delivery-card {
-    background: #241f1b;
-
-    color: white;
-
-    border-radius: 18px;
-
-    padding: 28px;
-}
-
-.delivery-card div {
-    display: flex;
-
-    justify-content: space-between;
-
-    padding: 17px 0;
-
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.delivery-card div:last-child {
-    border: 0;
-}
-
-.delivery-card span {
-    color: #bbb;
-}
-
-.delivery-card strong {
-    color: #ff9a52;
+    margin-top: 10px;
 }
 
 
@@ -937,45 +763,9 @@ nav a:hover {
 ========================================= */
 
 .owner-section {
-    padding: 80px 0;
-
     background: #171513;
 
     color: white;
-}
-
-.owner-container {
-    max-width: 1000px;
-
-    width: 90%;
-
-    margin: auto;
-}
-
-.owner-heading {
-    text-align: center;
-
-    margin-bottom: 30px;
-}
-
-.owner-heading h2 {
-    font-size: 38px;
-}
-
-.owner-heading p {
-    color: #aaa;
-}
-
-.owner-empty {
-    padding: 40px;
-
-    border-radius: 15px;
-
-    background: #24211e;
-
-    text-align: center;
-
-    color: #aaa;
 }
 
 .owner-order-card {
@@ -984,243 +774,3 @@ nav a:hover {
     border: 1px solid #393531;
 
     border-radius: 16px;
-
-    padding: 25px;
-}
-
-.owner-order-top {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 20px;
-
-    padding-bottom: 15px;
-
-    border-bottom: 1px solid #393531;
-}
-
-.owner-order-top strong {
-    color: #ff9a52;
-}
-
-.owner-customer {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 12px;
-
-    margin-bottom: 20px;
-}
-
-.owner-customer div {
-    background: #1d1a18;
-
-    padding: 13px;
-
-    border-radius: 9px;
-}
-
-.owner-customer small {
-    display: block;
-
-    color: #999;
-}
-
-.owner-items {
-    margin-bottom: 20px;
-}
-
-.owner-item {
-    display: flex;
-
-    justify-content: space-between;
-
-    padding: 9px 0;
-
-    border-bottom: 1px solid #393531;
-}
-
-.owner-total {
-    display: flex;
-
-    justify-content: space-between;
-
-    font-size: 21px;
-
-    padding-top: 15px;
-}
-
-.owner-total strong {
-    color: #ff9a52;
-}
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-footer {
-    background: #0e0d0c;
-
-    color: white;
-
-    padding: 45px 0 20px;
-}
-
-.footer-container {
-    max-width: 1100px;
-
-    width: 90%;
-
-    margin: auto;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    gap: 30px;
-}
-
-.footer-brand p {
-    color: #999;
-}
-
-.footer-links {
-    display: flex;
-
-    gap: 25px;
-
-    align-items: center;
-}
-
-.footer-links a {
-    color: #bbb;
-}
-
-.footer-links a:hover {
-    color: white;
-}
-
-.copyright {
-    max-width: 1100px;
-
-    width: 90%;
-
-    margin: 30px auto 0;
-
-    padding-top: 20px;
-
-    border-top: 1px solid #292624;
-
-    color: #777;
-
-    font-size: 13px;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 900px) {
-
-    nav {
-        display: none;
-    }
-
-    .menu-container {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-    .order-container,
-    .delivery-container {
-        grid-template-columns: 1fr;
-    }
-
-    .about-container {
-        grid-template-columns: 1fr;
-
-        gap: 20px;
-    }
-
-    .owner-customer {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-@media (max-width: 600px) {
-
-    .nav-container {
-        min-height: 65px;
-    }
-
-    .logo h2 {
-        font-size: 18px;
-    }
-
-    .cart-top {
-        padding: 8px 11px;
-    }
-
-    .hero {
-        height: 570px;
-    }
-
-    .hero h1 {
-        font-size: 53px;
-    }
-
-    .hero-content > p {
-        font-size: 16px;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-
-        width: 210px;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-        text-align: center;
-    }
-
-    .section-heading h2,
-    .delivery-content h2 {
-        font-size: 31px;
-    }
-
-    .menu-container {
-        grid-template-columns: 1fr;
-    }
-
-    .cart-item {
-        grid-template-columns: 1fr auto;
-
-        gap: 8px;
-    }
-
-    .cart-item > .remove-item {
-        grid-column: 2;
-        grid-row: 1;
-    }
-
-    .quantity {
-        grid-column: 1 / -1;
-    }
-
-    .footer-container {
-        flex-direction: column;
-    }
-
-    .footer-links {
-        flex-wrap: wrap;
-    }
-       }

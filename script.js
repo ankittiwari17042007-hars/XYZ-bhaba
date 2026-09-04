@@ -24,7 +24,7 @@ const SHOP_LNG = 80.3319;
 
     Example:
 
-    919876543210
+    919795521543 
 
     + ya spaces mat lagana.
 */

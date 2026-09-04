@@ -15,8 +15,8 @@
     coordinates yahan change karna.
 */
 
-const SHOP_LAT = 26.4499;
-const SHOP_LNG = 80.3319;
+const SHOP_LAT = 26.494196;
+const SHOP_LNG = 80.284709;
 
 
 /*

@@ -3,58 +3,89 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>XYZ Dhaba | Fresh & Delicious Food</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 </head>
+
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
     <header>
 
         <nav class="navbar">
 
             <div class="logo">
-                🍛 XYZ Dhaba
+                XYZ Dhaba
             </div>
 
-            <div class="nav-links">
 
-                <a href="#home">Home</a>
-                <a href="#menu">Menu</a>
-                <a href="#cart">Cart</a>
-                <a href="#contact">Contact</a>
+            <ul class="nav-links">
 
-            </div>
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#menu">
+                        Menu
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#cart">
+                        Cart
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
 
         </nav>
 
     </header>
 
 
-    <!-- ================= HOME ================= -->
 
-    <section id="home" class="hero">
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
+    <section id="home"
+             class="hero">
 
         <div class="hero-content">
 
-            <h1>Welcome to XYZ Dhaba</h1>
+            <h1>
+                Welcome to XYZ Dhaba
+            </h1>
 
             <p>
                 Ghar jaisa swad, fresh aur tasty khana.
             </p>
 
-            <p>
-                🍛 Fresh Food &nbsp; | &nbsp;
-                🚚 Home Delivery
-            </p>
+            <a href="#menu"
+               class="main-button">
 
-            <a href="#menu" class="main-button">
-                Order Now 🍽️
+                Order Now
+
             </a>
 
         </div>
@@ -62,13 +93,21 @@
     </section>
 
 
-    <!-- ================= MENU ================= -->
 
-    <section id="menu">
+    <!-- =========================
+         MENU SECTION
+    ========================== -->
 
-        <h2 class="section-title">
-            Our Special Thali
+    <section id="menu"
+             class="menu-section">
+
+        <h2>
+            Our Menu
         </h2>
+
+        <p class="section-subtitle">
+            Fresh food, simple prices.
+        </p>
 
 
         <div class="menu-container">
@@ -80,29 +119,36 @@
 
                 <img
                     src="https://images.unsplash.com/photo-1546833999-b9f581a1996d"
-                    alt="Indian Thali"
-                >
+                    alt="Normal Thali">
 
-                <div class="food-info">
+                <div class="food-card-content">
 
-                    <h3>Normal Thali</h3>
+                    <h3>
+                        Normal Thali
+                    </h3>
+
+                    <h4>
+                        ₹60
+                    </h4>
 
                     <p>
-                        4 Roti, Daal, Chawal, Seasonal Sabji,
-                        Salad, Achar & More.
+                        4 Roti, Daal, Chawal,
+                        Seasonal Sabji, Salad,
+                        Achar & More
                     </p>
 
-                    <h4>₹60</h4>
-
                     <button
-                        onclick="addToCart('Normal Thali', 60)"
-                    >
-                        Add to Cart 🛒
+                        class="order-button"
+                        onclick="addToCart('Normal Thali', 60)">
+
+                        Add to Cart
+
                     </button>
 
                 </div>
 
             </div>
+
 
 
             <!-- PANEER THALI -->
@@ -110,256 +156,4 @@
             <div class="food-card">
 
                 <img
-                    src="https://images.unsplash.com/photo-1601050690597-df0568f70950"
-                    alt="Paneer Indian Food"
-                >
-
-                <div class="food-info">
-
-                    <h3>Paneer Thali</h3>
-
-                    <p>
-                        Normal Thali + Special Paneer Dish.
-                    </p>
-
-                    <h4>₹120</h4>
-
-                    <button
-                        onclick="addToCart('Paneer Thali', 120)"
-                    >
-                        Add to Cart 🛒
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= FOOD DETAILS ================= -->
-
-    <section class="details">
-
-        <h2>
-            🍛 Thali Mein Kya Milega?
-        </h2>
-
-        <div class="details-container">
-
-            <div class="detail-box">
-                🫓
-                <h3>4 Roti</h3>
-                <p>Freshly prepared roti.</p>
-            </div>
-
-            <div class="detail-box">
-                🍲
-                <h3>Daal</h3>
-                <p>Fresh and tasty dal.</p>
-            </div>
-
-            <div class="detail-box">
-                🍚
-                <h3>Chawal</h3>
-                <p>Fresh rice.</p>
-            </div>
-
-            <div class="detail-box">
-                🥗
-                <h3>Salad</h3>
-                <p>Fresh salad.</p>
-            </div>
-
-            <div class="detail-box">
-                🥒
-                <h3>Achar</h3>
-                <p>Tasty achar.</p>
-            </div>
-
-            <div class="detail-box">
-                🥘
-                <h3>Seasonal Sabji</h3>
-                <p>Fresh seasonal vegetable.</p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= DELIVERY INFORMATION ================= -->
-
-    <section class="delivery">
-
-        <h2>🚚 Home Delivery</h2>
-
-        <div class="delivery-container">
-
-            <div class="delivery-box">
-
-                <h3>📍 Within 1 KM</h3>
-
-                <p>
-                    Home delivery is
-                    <strong>FREE</strong>.
-                </p>
-
-            </div>
-
-
-            <div class="delivery-box">
-
-                <h3>📍 More Than 1 KM</h3>
-
-                <p>
-                    Delivery charges will be
-                    added according to distance.
-                </p>
-
-            </div>
-
-
-            <div class="delivery-box">
-
-                <h3>📦 Packing Charges</h3>
-
-                <p>
-                    ₹10 packing charge
-                    <strong>per thali</strong>.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= CART ================= -->
-
-    <section id="cart" class="cart-section">
-
-        <h2 class="section-title">
-            🛒 Your Cart
-        </h2>
-
-        <div id="cart-items">
-
-            <p class="empty-cart">
-                Your cart is empty.
-            </p>
-
-        </div>
-
-
-        <div class="cart-summary">
-
-            <p>
-                Food Total:
-                <span id="food-total">₹0</span>
-            </p>
-
-            <p>
-                Packing:
-                <span id="packing-total">₹0</span>
-            </p>
-
-            <p>
-                Delivery:
-                <span id="delivery-total">₹0</span>
-            </p>
-
-            <hr>
-
-            <h3>
-                Total:
-                <span id="grand-total">₹0</span>
-            </h3>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= ADDRESS ================= -->
-
-    <section class="address-section">
-
-        <h2 class="section-title">
-            📍 Delivery Address
-        </h2>
-
-        <div class="address-form">
-
-            <input
-                type="text"
-                id="customer-name"
-                placeholder="Your Name"
-            >
-
-            <input
-                type="tel"
-                id="customer-phone"
-                placeholder="Mobile Number"
-            >
-
-            <textarea
-                id="customer-address"
-                placeholder="Enter your complete delivery address"
-            ></textarea>
-
-            <button onclick="placeOrder()">
-                Place Order ✅
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= CONTACT ================= -->
-
-    <section id="contact" class="contact">
-
-        <h2>Contact XYZ Dhaba</h2>
-
-        <p>📞 Call us for orders</p>
-
-        <p>
-            📍 Your Dhaba Address
-        </p>
-
-        <p>
-            🕐 Open Daily
-        </p>
-
-    </section>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer>
-
-        <h3>🍛 XYZ Dhaba</h3>
-
-        <p>
-            Ghar jaisa swad, har thali mein ❤️
-        </p>
-
-        <p>
-            © 2026 XYZ Dhaba. All Rights Reserved.
-        </p>
-
-    </footer>
-
-
-    <!-- JavaScript -->
-
-    <script src="script.js"></script>
-
-</body>
-
-</html>
+                    src="https://images.unsplash.com/photo-1601050690597-df0568

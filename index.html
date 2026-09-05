@@ -1,851 +1,526 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>XYZ Dhaba | Delicious Food</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XYZ Dhaba | Delicious Food</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- =========================================
-     HEADER
-========================================= -->
-
+<!-- HEADER -->
 <header class="header">
+<div class="container header-content">
 
-    <div class="container header-content">
+<div class="logo">
+<h1>🍽️ XYZ Dhaba</h1>
+<p>Ghar Jaisa Swad</p>
+</div>
 
-        <div class="logo">
-            <h1>🍽️ XYZ Dhaba</h1>
-            <p>Ghar Jaisa Swad</p>
-        </div>
+<a href="#order" class="cart-button">
+🛒 Cart
+<span id="cart-count">0</span>
+</a>
 
-        <a href="#order" class="cart-button">
-            🛒 Cart
-            <span id="cart-count">0</span>
-        </a>
-
-    </div>
-
+</div>
 </header>
 
 
-<!-- =========================================
-     HERO
-========================================= -->
-
+<!-- HERO -->
 <section class="hero">
+<div class="slider">
 
-    <div class="slider">
+<div class="slide active">
+<img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1600&q=80" alt="Indian Food">
+</div>
 
-        <div class="slide active">
-            <img
-                src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1600&q=80"
-                alt="Indian Food">
-        </div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1600&q=80" alt="Indian Food">
+</div>
 
-        <div class="slide">
-            <img
-                src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1600&q=80"
-                alt="Indian Food">
-        </div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1600&q=80" alt="Indian Food">
+</div>
 
-        <div class="slide">
-            <img
-                src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1600&q=80"
-                alt="Indian Food">
-        </div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80" alt="Restaurant">
+</div>
 
-        <div class="slide">
-            <img
-                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80"
-                alt="Restaurant">
-        </div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=1600&q=80" alt="Delicious Food">
+</div>
 
-        <div class="slide">
-            <img
-                src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=1600&q=80"
-                alt="Delicious Food">
-        </div>
+<div class="hero-overlay">
+<div>
 
-        <div class="hero-overlay">
+<span class="welcome-text">
+Welcome to XYZ Dhaba
+</span>
 
-            <div>
+<h2>
+Delicious Food,<br>
+Ghar Jaisa Swad ❤️
+</h2>
 
-                <span class="welcome-text">
-                    Welcome to XYZ Dhaba
-                </span>
+<p>
+Fresh • Tasty • Affordable
+</p>
 
-                <h2>
-                    Delicious Food,<br>
-                    Ghar Jaisa Swad ❤️
-                </h2>
+<a href="#menu" class="hero-button">
+Explore Menu 🍽️
+</a>
 
-                <p>
-                    Fresh • Tasty • Affordable
-                </p>
+</div>
+</div>
 
-                <a href="#menu" class="hero-button">
-                    Explore Menu 🍽️
-                </a>
+<div class="slider-dots">
+<span class="dot active" onclick="showSlide(0)"></span>
+<span class="dot" onclick="showSlide(1)"></span>
+<span class="dot" onclick="showSlide(2)"></span>
+<span class="dot" onclick="showSlide(3)"></span>
+<span class="dot" onclick="showSlide(4)"></span>
+</div>
 
-            </div>
-
-        </div>
-
-        <div class="slider-dots">
-
-            <span class="dot active" onclick="showSlide(0)"></span>
-            <span class="dot" onclick="showSlide(1)"></span>
-            <span class="dot" onclick="showSlide(2)"></span>
-            <span class="dot" onclick="showSlide(3)"></span>
-            <span class="dot" onclick="showSlide(4)"></span>
-
-        </div>
-
-    </div>
-
+</div>
 </section>
 
 
-<!-- =========================================
-     MENU
-========================================= -->
-
+<!-- MENU -->
 <section class="section menu-section" id="menu">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-heading menu-heading">
+<div class="section-heading menu-heading">
 
-            <span>OUR SPECIAL MENU</span>
+<span>OUR SPECIAL MENU</span>
 
-            <h2>
-                Fresh & Delicious
-            </h2>
+<h2>
+Fresh & Delicious
+</h2>
 
-            <p>
-                Apni pasand ka food order karein
-            </p>
+<p>
+Apni pasand ka food order karein
+</p>
 
-        </div>
+</div>
 
 
-        <div class="menu-grid">
+<div class="menu-grid">
 
 
-            <!-- NORMAL THALI -->
+<!-- NORMAL THALI -->
+<div class="menu-card normal-thali-card">
 
-            <div class="menu-card normal-thali-card">
+<div class="normal-thali-layout">
 
-                <div class="normal-thali-layout">
+<div class="normal-thali-info">
 
-                    <div class="normal-thali-info">
+<h3>
+🍛 Normal Thali
+</h3>
 
-                        <h3>
-                            🍛 Normal Thali
-                        </h3>
+<p>
+Dal • Roti • Sabji • Chawal • Achar • Salad
+</p>
 
-                        <p>
-                            Dal • Roti • Sabji • Chawal • Achar • Salad
-                        </p>
+</div>
 
-                    </div>
+<div class="thali-action-box">
 
-                    <div class="thali-action-box">
+<strong>
+₹60
+</strong>
 
-                        <strong>
-                            ₹60
-                        </strong>
+<button onclick="addToCart('Normal Thali', 60)">
+Add +
+</button>
 
-                        <button
-                            onclick="addToCart('Normal Thali', 60)"
-                        >
-                            Add +
-                        </button>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
 
+<!-- EXTRA ROTI -->
+<div class="menu-card">
 
-            <!-- EXTRA ROTI -->
+<div class="food-image">
 
-            <div class="menu-card">
+<img
+src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80"
+alt="Roti">
 
-                <div class="food-image">
+</div>
 
-                    <img
-                        src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80"
-                        alt="Roti">
-                </div>
+<div class="menu-content">
 
-                <div class="menu-content">
+<h3>
+🫓 Extra Roti
+</h3>
 
-                    <h3>
-                        🫓 Extra Roti
-                    </h3>
+<p>
+Fresh hot roti
+</p>
 
-                    <p>
-                        Fresh hot roti
-                    </p>
+<div class="menu-bottom">
 
-                    <div class="menu-bottom">
+<strong>
+₹6 / piece
+</strong>
 
-                        <strong>
-                            ₹6 / piece
-                        </strong>
+<button onclick="addToCart('Extra Roti', 6)">
+Add +
+</button>
 
-                        <button
-                            onclick="addToCart('Extra Roti', 6)"
-                        >
-                            Add +
-                        </button>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
 
+<!-- SABJI -->
+<div class="menu-card">
 
-            <!-- SABJI -->
+<div class="food-image">
 
-            <div class="menu-card">
+<img
+src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=900&q=80"
+alt="Sabji">
 
-                <div class="food-image">
+</div>
 
-                    <img
-                        src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=900&q=80"
-                        alt="Sabji">
-                </div>
+<div class="menu-content">
 
-                <div class="menu-content">
+<h3>
+🥘 Seasonal Sabji
+</h3>
 
-                    <h3>
-                        🥘 Seasonal Sabji
-                    </h3>
+<p>
+Fresh seasonal sabji
+</p>
 
-                    <p>
-                        Fresh seasonal sabji
-                    </p>
+<div class="menu-bottom">
 
-                    <div class="menu-bottom">
+<strong>
+₹30 / 250ml
+</strong>
 
-                        <strong>
-                            ₹30 / 250ml
-                        </strong>
+<button onclick="addToCart('Seasonal Sabji', 30)">
+Add +
+</button>
 
-                        <button
-                            onclick="addToCart('Seasonal Sabji', 30)"
-                        >
-                            Add +
-                        </button>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
 
+<!-- DAL -->
+<div class="menu-card">
 
-            <!-- DAL -->
+<div class="food-image">
 
-            <div class="menu-card">
+<img
+src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80"
+alt="Dal">
 
-                <div class="food-image">
+</div>
 
-                    <img
-                        src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80"
-                        alt="Dal">
-                </div>
+<div class="menu-content">
 
-                <div class="menu-content">
+<h3>
+🥣 Dal Tadka
+</h3>
 
-                    <h3>
-                        🥣 Dal Tadka
-                    </h3>
+<p>
+Delicious Dal Tadka
+</p>
 
-                    <p>
-                        Delicious Dal Tadka
-                    </p>
+<div class="menu-bottom">
 
-                    <div class="menu-bottom">
+<strong>
+₹40 / 250ml
+</strong>
 
-                        <strong>
-                            ₹40 / 250ml
-                        </strong>
+<button onclick="addToCart('Dal Tadka', 40)">
+Add +
+</button>
 
-                        <button
-                            onclick="addToCart('Dal Tadka', 40)"
-                        >
-                            Add +
-                        </button>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
-
-
-        </div>
-
-    </div>
+</div>
+</div>
 
 </section>
 
 
-<!-- =========================================
-     ORDER SECTION
-========================================= -->
-
+<!-- ORDER SECTION -->
 <section class="section order-section" id="order">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-heading order-main-heading">
+<div class="section-heading order-main-heading">
 
-            <span>ORDER NOW</span>
+<span>
+ORDER NOW
+</span>
 
-            <h2>
-                Place Your Order
-            </h2>
+<h2>
+Place Your Order
+</h2>
 
-            <p>
-                ₹15 per kilometer delivery
-            </p>
+<p>
+₹15 per kilometer delivery
+</p>
 
-            <small>
-                Fresh food directly from XYZ Dhaba
-            </small>
+<small>
+Fresh food directly from XYZ Dhaba
+</small>
 
-        </div>
+</div>
 
 
-        <div class="order-layout">
+<div class="order-layout">
 
 
-            <!-- =================================
-                 CART
-            ================================= -->
+<!-- CART -->
+<div class="order-card">
 
-            <div class="order-card">
+<div class="cart-title">
 
-                <div class="cart-title">
+<h3>
+🛒 Your Order
+</h3>
 
-                    <h3>
-                        🛒 Your Order
-                    </h3>
+<span>
+<span id="cart-items-count">0</span>
+item(s)
+</span>
 
-                    <span>
-                        <span id="cart-items-count">0</span>
-                        item(s)
-                    </span>
+</div>
 
-                </div>
 
+<div
+id="cart-items"
+class="cart-container">
+</div>
 
-                <div
-                    id="cart-items"
-                    class="cart-container"
-                ></div>
 
+<button
+class="clear-cart"
+onclick="clearCart()">
 
-                <button
-                    class="clear-cart"
-                    onclick="clearCart()"
-                >
-                    Clear Cart
-                </button>
+Clear Cart
 
-            </div>
+</button>
 
+</div>
 
-            <!-- =================================
-                 DELIVERY DETAILS
-            ================================= -->
 
-            <div class="order-card">
+<!-- DELIVERY DETAILS -->
+<div class="order-card">
 
-                <div class="order-card-header">
+<div class="order-card-header">
 
-                    <h3>
-                        📦 Delivery Details
-                    </h3>
+<h3>
+📦 Delivery Details
+</h3>
 
-                    <p>
-                        Please enter your details
-                    </p>
+<p>
+Please enter your details
+</p>
 
-                </div>
+</div>
 
 
-                <div class="form-group">
+<div class="form-group">
 
-                    <label for="customer-name">
-                        👤 Name
-                    </label>
+<label for="customer-name">
+👤 Name
+</label>
 
-                    <input
-                        type="text"
-                        id="customer-name"
-                        placeholder="Enter your name"
-                    >
+<input
+type="text"
+id="customer-name"
+placeholder="Enter your name">
 
-                </div>
+</div>
 
 
-                <div class="form-group">
+<div class="form-group">
 
-                    <label for="customer-phone">
-                        📱 Phone Number
-                    </label>
+<label for="customer-phone">
+📱 Phone Number
+</label>
 
-                    <input
-                        type="tel"
-                        id="customer-phone"
-                        placeholder="Enter phone number"
-                        maxlength="10"
-                    >
+<input
+type="tel"
+id="customer-phone"
+placeholder="Enter phone number"
+maxlength="10">
 
-                </div>
+</div>
 
 
-                <div class="form-group">
+<div class="form-group">
 
-                    <label for="customer-address">
-                        🏠 Delivery Address
-                    </label>
+<label for="customer-address">
+🏠 Delivery Address
+</label>
 
-                    <textarea
-                        id="customer-address"
-                        rows="4"
-                        placeholder="Enter complete delivery address"
-                    ></textarea>
+<textarea
+id="customer-address"
+rows="4"
+placeholder="Enter complete delivery address"></textarea>
 
-                </div>
+</div>
 
 
-                <div class="form-group">
+<div class="form-group">
 
-                    <label>
-                        📍 Your Location
-                    </label>
+<label>
+📍 Your Location
+</label>
 
-                    <button
-                        type="button"
-                        class="location-button"
-                        id="location-button"
-                        onclick="getCustomerLocation()"
-                    >
-                        📍 Get My Location
-                    </button>
+<button
+type="button"
+class="location-button"
+id="location-button"
+onclick="getCustomerLocation()">
 
-                    <p
-                        class="location-status"
-                        id="location-status"
-                    >
-                        Location not selected
-                    </p>
+📍 Get My Location
 
-                </div>
+</button>
 
+<p
+class="location-status"
+id="location-status">
 
-                <!-- BILL -->
+Location not selected
 
-                <div class="bill">
+</p>
 
-                    <div class="bill-row">
+</div>
 
-                        <span>
-                            Food Total
-                        </span>
 
-                        <strong id="food-total">
-                            ₹0
-                        </strong>
+<!-- BILL -->
+<div class="bill">
 
-                    </div>
+<div class="bill-row">
 
+<span>
+Food Total
+</span>
 
-                    <div class="bill-row">
+<strong id="food-total">
+₹0
+</strong>
 
-                        <span>
-                            Delivery
-                        </span>
+</div>
 
-                        <strong id="delivery-price">
-                            ₹0
-                        </strong>
 
-                    </div>
+<div class="bill-row">
 
+<span>
+Delivery
+</span>
 
-                    <div class="bill-row">
+<strong id="delivery-price">
+₹0
+</strong>
 
-                        <span>
-                            Distance
-                        </span>
+</div>
 
-                        <strong id="distance">
-                            0 km
-                        </strong>
 
-                    </div>
+<div class="bill-row">
 
+<span>
+Distance
+</span>
 
-                    <div class="bill-divider"></div>
+<strong id="distance">
+0 km
+</strong>
 
+</div>
 
-                    <div class="bill-row grand-total">
 
-                        <span>
-                            Grand Total
-                        </span>
+<div class="bill-divider"></div>
 
-                        <strong id="grand-total">
-                            ₹0
-                        </strong>
 
-                    </div>
+<div class="bill-row grand-total">
 
+<span>
+Grand Total
+</span>
 
-                    <input
-                        type="hidden"
-                        id="delivery-charge"
-                        value="0"
-                    >
+<strong id="grand-total">
+₹0
+</strong>
 
-                    <input
-                        type="hidden"
-                        id="delivery-distance"
-                        value="0"
-                    >
+</div>
 
-                </div>
 
+<input
+type="hidden"
+id="delivery-charge"
+value="0">
 
-                <button
-                    class="whatsapp-button"
-                    onclick="orderOnWhatsApp()"
-                >
-                    📲 Order on WhatsApp
-                </button>
+<input
+type="hidden"
+id="delivery-distance"
+value="0">
 
-                <p class="order-note">
-                    Your order will be sent directly to XYZ Dhaba.
-                </p>
+</div>
 
-            </div>
 
-        </div>
+<button
+class="whatsapp-button"
+onclick="orderOnWhatsApp()">
 
-    </div>
+📲 Order on WhatsApp
+
+</button>
+
+<p class="order-note">
+Your order will be sent directly to XYZ Dhaba.
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 
-<!-- =========================================
-     OWNER DASHBOARD
-========================================= -->
-
-<section class="section owner-section" id="owner-dashboard">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <span>OWNER PANEL</span>
-
-            <h2>
-                📊 Order Dashboard
-            </h2>
-
-            <p>
-                Manage your XYZ Dhaba orders
-            </p>
-
-        </div>
-
-
-        <!-- DASHBOARD STATS -->
-
-        <div class="dashboard-stats">
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    📦
-                </div>
-
-                <div>
-
-                    <span>
-                        Total Orders
-                    </span>
-
-                    <strong id="stat-total">
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card pending-stat">
-
-                <div class="stat-icon">
-                    🟠
-                </div>
-
-                <div>
-
-                    <span>
-                        Pending
-                    </span>
-
-                    <strong id="stat-pending">
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card completed-stat">
-
-                <div class="stat-icon">
-                    ✅
-                </div>
-
-                <div>
-
-                    <span>
-                        Completed
-                    </span>
-
-                    <strong id="stat-completed">
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card sales-stat">
-
-                <div class="stat-icon">
-                    💰
-                </div>
-
-                <div>
-
-                    <span>
-                        Total Sales
-                    </span>
-
-                    <strong id="stat-sales">
-                        ₹0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-card rating-stat">
-
-                <div class="stat-icon">
-                    ⭐
-                </div>
-
-                <div>
-
-                    <span>
-                        Average Rating
-                    </span>
-
-                    <strong id="stat-rating">
-                        0.0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- DASHBOARD FILTER -->
-
-        <div class="dashboard-controls">
-
-            <div class="dashboard-title">
-
-                <h3>
-                    Orders
-                </h3>
-
-                <p>
-                    Manage incoming orders
-                </p>
-
-            </div>
-
-
-            <div class="order-filters">
-
-                <button
-                    class="filter-btn active"
-                    data-filter="all"
-                    onclick="filterOrders('all')"
-                >
-                    All
-                </button>
-
-                <button
-                    class="filter-btn"
-                    data-filter="pending"
-                    onclick="filterOrders('pending')"
-                >
-                    🟠 Pending
-                </button>
-
-                <button
-                    class="filter-btn"
-                    data-filter="completed"
-                    onclick="filterOrders('completed')"
-                >
-                    ✅ Completed
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- OWNER ORDERS -->
-
-        <div id="owner-orders">
-
-            <div class="dashboard-empty">
-
-                <div>
-                    📦
-                </div>
-
-                <h3>
-                    No orders yet
-                </h3>
-
-                <p>
-                    New orders will appear here.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- OLD ID KEPT FOR COMPATIBILITY -->
-
-        <div id="owner-order" style="display:none;"></div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     ORDER HISTORY
-========================================= -->
-
-<section class="section history-section">
-
-    <div class="container">
-
-        <div class="history-header">
-
-            <div>
-
-                <span class="history-small-title">
-                    ORDER RECORDS
-                </span>
-
-                <h2>
-                    📋 Order History
-                </h2>
-
-            </div>
-
-            <button
-                class="clear-history-btn"
-                onclick="clearHistory()"
-            >
-                🗑️ Clear History
-            </button>
-
-        </div>
-
-
-        <div id="order-history">
-
-            <div class="history-empty">
-
-                <div class="empty-icon">
-                    📋
-                </div>
-
-                <h3>
-                    No order history
-                </h3>
-
-                <p>
-                    Completed and pending orders will appear here.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     FOOTER
-========================================= -->
-
+<!-- FOOTER -->
 <footer class="footer">
 
-    <div class="container">
+<div class="container">
 
-        <h3>
-            🍽️ XYZ Dhaba
-        </h3>
+<h3>
+🍽️ XYZ Dhaba
+</h3>
 
-        <p>
-            Ghar Jaisa Swad, Har Order Mein ❤️
-        </p>
+<p>
+Ghar Jaisa Swad, Har Order Mein ❤️
+</p>
 
-        <small>
-            © 2026 XYZ Dhaba. All Rights Reserved.
-        </small>
+<small>
+© 2026 XYZ Dhaba. All Rights Reserved.
+</small>
 
-    </div>
+</div>
 
 </footer>
 
@@ -853,4 +528,4 @@
 <script src="script.js"></script>
 
 </body>
-    </html>
+</html>

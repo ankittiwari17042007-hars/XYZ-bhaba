@@ -1,5 +1,5 @@
 /* =========================================
-   XYZ DHABA - SCRIPT
+   XYZ DHABA - COMPLETE JAVASCRIPT
 ========================================= */
 
 
@@ -16,66 +16,27 @@ const DELIVERY_RATE = 15;
 
 
 /* =========================================
-   CART
+   STORAGE KEYS
+========================================= */
+
+const CART_KEY = "xyzCart";
+const HISTORY_KEY = "xyzOrderHistory";
+const LATEST_ORDER_KEY = "xyzLatestOrder";
+
+
+/* =========================================
+   GLOBAL VARIABLES
 ========================================= */
 
 let cart = [];
 
-let deliveryDistance = 0;
-
 let customerLocation = null;
-
-
-/* =========================================
-   SLIDER
-========================================= */
 
 let currentSlide = 0;
 
-function showSlide(index) {
+let currentFilter = "all";
 
-    const slides = document.querySelectorAll(".slide");
-    const dots = document.querySelectorAll(".dot");
-
-    if (!slides.length) return;
-
-    if (index >= slides.length) {
-        index = 0;
-    }
-
-    if (index < 0) {
-        index = slides.length - 1;
-    }
-
-    currentSlide = index;
-
-    slides.forEach(slide => {
-        slide.classList.remove("active");
-    });
-
-    dots.forEach(dot => {
-        dot.classList.remove("active");
-    });
-
-    slides[index].classList.add("active");
-
-    if (dots[index]) {
-        dots[index].classList.add("active");
-    }
-}
-
-
-function startSlider() {
-
-    setInterval(() => {
-
-        currentSlide++;
-
-        showSlide(currentSlide);
-
-    }, 4000);
-
-}
+let selectedRating = 0;
 
 
 /* =========================================
@@ -84,40 +45,17 @@ function startSlider() {
 
 function loadCart() {
 
-    const savedCart = localStorage.getItem("xyzCart");
-
-    if (!savedCart) {
-        cart = [];
-        return;
-    }
-
     try {
 
-        const parsedCart = JSON.parse(savedCart);
+        const savedCart = localStorage.getItem(CART_KEY);
 
-        if (Array.isArray(parsedCart)) {
+        cart = savedCart ? JSON.parse(savedCart) : [];
 
-            cart = parsedCart.map(item => ({
-
-                name: String(item.name),
-
-                price: Number(item.price),
-
-                quantity: Number(item.quantity)
-
-            })).filter(item =>
-                item.name &&
-                item.price >= 0 &&
-                item.quantity > 0
-            );
-
-        } else {
-
+        if (!Array.isArray(cart)) {
             cart = [];
-
         }
 
-    } catch {
+    } catch (error) {
 
         cart = [];
 
@@ -133,7 +71,7 @@ function loadCart() {
 function saveCart() {
 
     localStorage.setItem(
-        "xyzCart",
+        CART_KEY,
         JSON.stringify(cart)
     );
 
@@ -146,27 +84,20 @@ function saveCart() {
 
 function addToCart(name, price) {
 
-    const itemName = String(name);
-    const itemPrice = Number(price);
-
     const existingItem = cart.find(
-        item => item.name === itemName
+        item => item.name === name
     );
 
     if (existingItem) {
 
-        existingItem.quantity++;
+        existingItem.quantity += 1;
 
     } else {
 
         cart.push({
-
-            name: itemName,
-
-            price: itemPrice,
-
+            name: name,
+            price: Number(price),
             quantity: 1
-
         });
 
     }
@@ -174,6 +105,13 @@ function addToCart(name, price) {
     saveCart();
 
     updateCart();
+
+    document
+        .getElementById("order")
+        ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
 
 }
 
@@ -184,10 +122,11 @@ function addToCart(name, price) {
 
 function changeQuantity(index, change) {
 
-    if (!cart[index]) return;
+    if (!cart[index]) {
+        return;
+    }
 
-    cart[index].quantity =
-        Number(cart[index].quantity) + Number(change);
+    cart[index].quantity += change;
 
     if (cart[index].quantity <= 0) {
 
@@ -206,9 +145,11 @@ function changeQuantity(index, change) {
    REMOVE ITEM
 ========================================= */
 
-function removeFromCart(index) {
+function removeItem(index) {
 
-    if (!cart[index]) return;
+    if (!cart[index]) {
+        return;
+    }
 
     cart.splice(index, 1);
 
@@ -226,18 +167,16 @@ function removeFromCart(index) {
 function clearCart() {
 
     if (cart.length === 0) {
-
-        alert("Your cart is already empty.");
-
         return;
-
     }
 
     const confirmClear = confirm(
-        "Are you sure you want to clear your cart?"
+        "Kya aap cart clear karna chahte hain?"
     );
 
-    if (!confirmClear) return;
+    if (!confirmClear) {
+        return;
+    }
 
     cart = [];
 
@@ -274,12 +213,20 @@ function getCartSubtotal() {
 
 function getDeliveryCharge() {
 
-    if (!customerLocation || deliveryDistance <= 0) {
+    if (!customerLocation) {
         return 0;
     }
 
+    const distance =
+        calculateDistance(
+            SHOP_LAT,
+            SHOP_LNG,
+            customerLocation.lat,
+            customerLocation.lng
+        );
+
     return Math.ceil(
-        deliveryDistance * DELIVERY_RATE
+        distance * DELIVERY_RATE
     );
 
 }
@@ -291,25 +238,48 @@ function getDeliveryCharge() {
 
 function updateCart() {
 
-    const container =
+    const cartContainer =
         document.getElementById("cart-items");
 
-    const count =
+    const countElement =
         document.getElementById("cart-count");
 
-    const itemCount =
+    const itemCountElement =
         document.getElementById("cart-items-count");
 
-    if (!container) return;
+
+    const totalQuantity = cart.reduce(
+        (total, item) =>
+            total + Number(item.quantity),
+        0
+    );
 
 
-    /* =====================================
-       EMPTY CART
-    ===================================== */
+    if (countElement) {
+
+        countElement.textContent =
+            totalQuantity;
+
+    }
+
+
+    if (itemCountElement) {
+
+        itemCountElement.textContent =
+            totalQuantity;
+
+    }
+
+
+    if (!cartContainer) {
+        updateBill();
+        return;
+    }
+
 
     if (cart.length === 0) {
 
-        container.innerHTML = `
+        cartContainer.innerHTML = `
 
             <div class="empty-cart">
 
@@ -322,28 +292,27 @@ function updateCart() {
                 </h3>
 
                 <p>
-                    Menu se apna favourite
-                    food add karein.
+                    Menu se kuch delicious food add karein.
                 </p>
 
                 <a href="#menu">
-                    Explore Menu →
+                    Go to Menu →
                 </a>
 
             </div>
 
         `;
 
+        updateBill();
+
+        return;
+
     }
 
 
-    /* =====================================
-       CART WITH ITEMS
-    ===================================== */
+    let html = `
 
-    else {
-
-        let html = `
+        <div class="cart-table-wrapper">
 
             <table class="cart-table">
 
@@ -351,15 +320,25 @@ function updateCart() {
 
                     <tr>
 
-                        <th>Item</th>
+                        <th>
+                            Item
+                        </th>
 
-                        <th>Price</th>
+                        <th>
+                            Price
+                        </th>
 
-                        <th>Qty</th>
+                        <th>
+                            Quantity
+                        </th>
 
-                        <th>Total</th>
+                        <th>
+                            Total
+                        </th>
 
-                        <th>Action</th>
+                        <th>
+                            Action
+                        </th>
 
                     </tr>
 
@@ -367,115 +346,84 @@ function updateCart() {
 
                 <tbody>
 
-        `;
+    `;
 
 
-        cart.forEach((item, index) => {
+    cart.forEach((item, index) => {
 
-            const price = Number(item.price);
-
-            const quantity = Number(item.quantity);
-
-            const total = price * quantity;
-
-
-            html += `
-
-                <tr>
-
-                    <td>
-                        <strong>
-                            ${escapeHTML(item.name)}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ₹${price}
-                    </td>
-
-                    <td>
-
-                        <button
-                            type="button"
-                            class="quantity-btn"
-                            onclick="changeQuantity(${index}, -1)">
-                            −
-                        </button>
-
-                        <strong style="margin:0 7px;">
-                            ${quantity}
-                        </strong>
-
-                        <button
-                            type="button"
-                            class="quantity-btn"
-                            onclick="changeQuantity(${index}, 1)">
-                            +
-                        </button>
-
-                    </td>
-
-                    <td>
-                        ₹${total}
-                    </td>
-
-                    <td>
-
-                        <button
-                            type="button"
-                            class="remove-btn"
-                            onclick="removeFromCart(${index})">
-                            Remove
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            `;
-
-        });
+        const itemTotal =
+            Number(item.price) *
+            Number(item.quantity);
 
 
         html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(item.name)}
+                </td>
+
+                <td>
+                    ₹${item.price}
+                </td>
+
+                <td>
+
+                    <button
+                        class="quantity-btn"
+                        onclick="changeQuantity(${index}, -1)"
+                    >
+                        −
+                    </button>
+
+                    <strong style="margin:0 8px;">
+                        ${item.quantity}
+                    </strong>
+
+                    <button
+                        class="quantity-btn"
+                        onclick="changeQuantity(${index}, 1)"
+                    >
+                        +
+                    </button>
+
+                </td>
+
+                <td>
+                    ₹${itemTotal}
+                </td>
+
+                <td>
+
+                    <button
+                        class="remove-btn"
+                        onclick="removeItem(${index})"
+                    >
+                        Remove
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
 
                 </tbody>
 
             </table>
 
-        `;
+        </div>
+
+    `;
 
 
-        container.innerHTML = html;
-
-    }
-
-
-    /* =====================================
-       CART COUNT
-    ===================================== */
-
-    const totalItems = cart.reduce(
-        (sum, item) =>
-            sum + Number(item.quantity),
-        0
-    );
-
-
-    if (count) {
-
-        count.textContent = totalItems;
-
-    }
-
-
-    if (itemCount) {
-
-        itemCount.textContent =
-            `${totalItems} item${totalItems !== 1 ? "s" : ""}`;
-
-    }
-
+    cartContainer.innerHTML = html;
 
     updateBill();
 
@@ -488,7 +436,7 @@ function updateCart() {
 
 function escapeHTML(value) {
 
-    return String(value)
+    return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -504,79 +452,108 @@ function escapeHTML(value) {
 
 function updateBill() {
 
-    const foodTotal =
+    const subtotal =
         getCartSubtotal();
 
-    const delivery =
+    const deliveryCharge =
         getDeliveryCharge();
 
     const grandTotal =
-        foodTotal + delivery;
+        subtotal + deliveryCharge;
 
 
-    const foodElement =
+    const foodTotal =
         document.getElementById("food-total");
 
-    const deliveryElement =
+    const deliveryPrice =
         document.getElementById("delivery-price");
 
     const distanceElement =
         document.getElementById("distance");
 
-    const totalElement =
+    const grandTotalElement =
         document.getElementById("grand-total");
 
-    const hiddenDelivery =
+    const deliveryChargeInput =
         document.getElementById("delivery-charge");
 
-    const hiddenDistance =
+    const deliveryDistanceInput =
         document.getElementById("delivery-distance");
 
 
-    if (foodElement) {
+    if (foodTotal) {
 
-        foodElement.textContent =
-            `₹${foodTotal}`;
+        foodTotal.textContent =
+            `₹${subtotal}`;
 
     }
 
 
-    if (deliveryElement) {
+    if (deliveryPrice) {
 
-        deliveryElement.textContent =
-            `₹${delivery}`;
+        deliveryPrice.textContent =
+            customerLocation
+                ? `₹${deliveryCharge}`
+                : "₹0";
 
     }
 
 
     if (distanceElement) {
 
-        distanceElement.textContent =
-            `${deliveryDistance.toFixed(2)} km`;
+        if (customerLocation) {
+
+            const distance =
+                calculateDistance(
+                    SHOP_LAT,
+                    SHOP_LNG,
+                    customerLocation.lat,
+                    customerLocation.lng
+                );
+
+            distanceElement.textContent =
+                `${distance.toFixed(2)} km`;
+
+        } else {
+
+            distanceElement.textContent =
+                "0 km";
+
+        }
 
     }
 
 
-    if (totalElement) {
+    if (grandTotalElement) {
 
-        totalElement.textContent =
+        grandTotalElement.textContent =
             `₹${grandTotal}`;
 
     }
 
 
-    if (hiddenDelivery) {
+    if (deliveryChargeInput) {
 
-        hiddenDelivery.textContent =
-            `₹${delivery}`;
+        deliveryChargeInput.value =
+            deliveryCharge;
 
     }
 
 
-    if (hiddenDistance) {
+    if (deliveryDistanceInput) {
 
-        hiddenDistance.textContent =
-            `${deliveryDistance.toFixed(2)} km`;
+        const distance =
+            customerLocation
+                ? calculateDistance(
+                    SHOP_LAT,
+                    SHOP_LNG,
+                    customerLocation.lat,
+                    customerLocation.lng
+                )
+                : 0;
+
+        deliveryDistanceInput.value =
+            distance.toFixed(2);
 
     }
 
@@ -584,7 +561,7 @@ function updateBill() {
 
 
 /* =========================================
-   DISTANCE CALCULATION
+   HAVERSINE DISTANCE
 ========================================= */
 
 function calculateDistance(
@@ -606,17 +583,14 @@ function calculateDistance(
 
 
     const a =
-        Math.sin(dLat / 2) ** 2 +
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
 
-        Math.cos(
-            lat1 * Math.PI / 180
-        ) *
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
 
-        Math.cos(
-            lat2 * Math.PI / 180
-        ) *
-
-        Math.sin(dLon / 2) ** 2;
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
 
 
     const c =
@@ -633,35 +607,32 @@ function calculateDistance(
 
 
 /* =========================================
-   LOCATION
+   GET LOCATION
 ========================================= */
 
 function getLocation() {
 
-    if (!navigator.geolocation) {
-
-        alert(
-            "Your browser does not support location."
+    const status =
+        document.getElementById(
+            "location-status"
         );
 
-        return;
-
-    }
-
-
     const button =
-        document.getElementById("location-button");
+        document.getElementById(
+            "location-button"
+        );
 
-    const status =
-        document.getElementById("location-status");
 
+    if (!navigator.geolocation) {
 
-    if (button) {
+        if (status) {
 
-        button.disabled = true;
+            status.textContent =
+                "Geolocation is not supported.";
 
-        button.textContent =
-            "📍 Detecting Location...";
+        }
+
+        return;
 
     }
 
@@ -669,7 +640,17 @@ function getLocation() {
     if (status) {
 
         status.textContent =
-            "Getting your location...";
+            "📍 Getting your location...";
+
+    }
+
+
+    if (button) {
+
+        button.disabled = true;
+
+        button.textContent =
+            "Getting Location...";
 
     }
 
@@ -678,35 +659,28 @@ function getLocation() {
 
         function(position) {
 
-            const lat =
-                position.coords.latitude;
-
-            const lng =
-                position.coords.longitude;
-
-
             customerLocation = {
 
-                lat: lat,
+                lat: position.coords.latitude,
 
-                lng: lng
+                lng: position.coords.longitude
 
             };
 
 
-            deliveryDistance =
+            const distance =
                 calculateDistance(
                     SHOP_LAT,
                     SHOP_LNG,
-                    lat,
-                    lng
+                    customerLocation.lat,
+                    customerLocation.lng
                 );
 
 
             if (status) {
 
                 status.textContent =
-                    `✅ Location detected • ${deliveryDistance.toFixed(2)} km away`;
+                    `✅ Location selected • ${distance.toFixed(2)} km away`;
 
             }
 
@@ -716,99 +690,46 @@ function getLocation() {
                 button.disabled = false;
 
                 button.textContent =
-                    "✅ Location Detected";
+                    "📍 Location Updated";
 
             }
 
 
             updateBill();
 
-
-            alert(
-                `Location detected!\nDistance: ${deliveryDistance.toFixed(2)} km`
-            );
-
         },
 
-
         function(error) {
-
-            customerLocation = null;
-
-            deliveryDistance = 0;
-
-
-            if (button) {
-
-                button.disabled = false;
-
-                button.textContent =
-                    "📍 Use My Location";
-
-            }
-
 
             if (status) {
 
                 status.textContent =
-                    "Location not detected";
+                    "❌ Location nahi mil saki. Please allow location permission.";
 
             }
 
 
-            let errorMessage =
-                "Please allow location permission to place the order.";
+            if (button) {
 
+                button.disabled = false;
 
-            if (error && error.code === 1) {
-
-                errorMessage =
-                    "Location permission denied. Please allow location access.";
+                button.textContent =
+                    "📍 Get My Location";
 
             }
-
-
-            if (error && error.code === 2) {
-
-                errorMessage =
-                    "Location is unavailable. Please try again.";
-
-            }
-
-
-            if (error && error.code === 3) {
-
-                errorMessage =
-                    "Location request timed out. Please try again.";
-
-            }
-
-
-            alert(errorMessage);
-
-            updateBill();
 
         },
 
-
         {
-
             enableHighAccuracy: true,
-
             timeout: 10000,
-
             maximumAge: 0
-
         }
 
     );
 
 }
 
-
-/* =========================================
-   OLD LOCATION FUNCTION
-========================================= */
 
 function getCustomerLocation() {
 
@@ -821,28 +742,83 @@ function getCustomerLocation() {
    GOOGLE MAPS LINK
 ========================================= */
 
-function getGoogleMapsLink() {
+function getGoogleMapsLink(lat, lng) {
 
-    if (!customerLocation) {
-
-        return "Location not available";
-
-    }
-
-
-    return `https://www.google.com/maps?q=${customerLocation.lat},${customerLocation.lng}`;
+    return `https://www.google.com/maps?q=${lat},${lng}`;
 
 }
 
 
 /* =========================================
-   OWNER ORDER
+   SAVE ORDER HISTORY
+========================================= */
+
+function saveOrderHistory(order) {
+
+    let history = [];
+
+    try {
+
+        history =
+            JSON.parse(
+                localStorage.getItem(
+                    HISTORY_KEY
+                )
+            ) || [];
+
+    } catch {
+
+        history = [];
+
+    }
+
+
+    history.unshift(order);
+
+    localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(history)
+    );
+
+}
+
+
+/* =========================================
+   GET HISTORY
+========================================= */
+
+function getOrderHistory() {
+
+    try {
+
+        const history =
+            JSON.parse(
+                localStorage.getItem(
+                    HISTORY_KEY
+                )
+            ) || [];
+
+        return Array.isArray(history)
+            ? history
+            : [];
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================
+   SAVE LATEST ORDER
 ========================================= */
 
 function saveOwnerOrder(order) {
 
     localStorage.setItem(
-        "xyzLatestOrder",
+        LATEST_ORDER_KEY,
         JSON.stringify(order)
     );
 
@@ -850,234 +826,854 @@ function saveOwnerOrder(order) {
 
 
 /* =========================================
-   SHOW OWNER ORDER
+   ORDER ON WHATSAPP
 ========================================= */
 
-function showOwnerOrder(order) {
+function orderOnWhatsApp() {
 
-    const container =
-        document.getElementById("owner-order");
+    if (cart.length === 0) {
 
-    if (!container || !order) return;
+        alert(
+            "Please cart mein food add karein."
+        );
 
-
-    let itemsHTML = "";
-
-
-    if (Array.isArray(order.items)) {
-
-        order.items.forEach(item => {
-
-            const itemTotal =
-                Number(item.price) *
-                Number(item.quantity);
-
-
-            itemsHTML += `
-
-                <p>
-                    ${escapeHTML(item.name)}
-                    × ${Number(item.quantity)}
-                    = ₹${itemTotal}
-                </p>
-
-            `;
-
-        });
+        return;
 
     }
 
 
-    container.innerHTML = `
+    const name =
+        document.getElementById(
+            "customer-name"
+        ).value.trim();
 
-        <div class="owner-order-card">
 
-            <h3>
-                📦 ${escapeHTML(order.id)}
-            </h3>
+    const phone =
+        document.getElementById(
+            "customer-phone"
+        ).value.trim();
 
-            <div class="owner-row">
 
-                <span>
-                    Customer
-                </span>
+    const address =
+        document.getElementById(
+            "customer-address"
+        ).value.trim();
 
-                <strong>
-                    ${escapeHTML(order.name)}
-                </strong>
 
-            </div>
+    if (!name) {
 
-            <div class="owner-row">
+        alert("Please apna name enter karein.");
 
-                <span>
-                    Phone
-                </span>
+        return;
 
-                <strong>
-                    ${escapeHTML(order.phone)}
-                </strong>
+    }
 
-            </div>
 
-            <div class="owner-row">
+    if (!/^[0-9]{10}$/.test(phone)) {
 
-                <span>
-                    Date
-                </span>
+        alert(
+            "Please valid 10 digit phone number enter karein."
+        );
 
-                <strong>
-                    ${escapeHTML(order.time)}
-                </strong>
+        return;
 
-            </div>
+    }
 
-            <div class="owner-row">
 
-                <span>
-                    Address
-                </span>
+    if (!address) {
 
-                <strong>
-                    ${escapeHTML(order.address)}
-                </strong>
+        alert(
+            "Please delivery address enter karein."
+        );
 
-            </div>
+        return;
 
-            <div class="owner-items">
+    }
 
-                <strong>
-                    Items
-                </strong>
 
-                ${itemsHTML}
+    if (!customerLocation) {
 
-            </div>
+        alert(
+            "Please pehle apni location select karein."
+        );
 
-            <div class="owner-row">
+        return;
 
-                <span>
-                    Grand Total
-                </span>
+    }
 
-                <strong>
-                    ₹${Number(order.grandTotal || 0)}
-                </strong>
 
-            </div>
+    const subtotal =
+        getCartSubtotal();
 
-        </div>
 
-    `;
+    const distance =
+        calculateDistance(
+            SHOP_LAT,
+            SHOP_LNG,
+            customerLocation.lat,
+            customerLocation.lng
+        );
+
+
+    const deliveryCharge =
+        Math.ceil(
+            distance * DELIVERY_RATE
+        );
+
+
+    const grandTotal =
+        subtotal + deliveryCharge;
+
+
+    const orderId =
+        "XYZ-" +
+        Date.now();
+
+
+    const order = {
+
+        id: orderId,
+
+        name: name,
+
+        phone: phone,
+
+        address: address,
+
+        time: new Date().toISOString(),
+
+        status: "pending",
+
+        completedAt: null,
+
+        rating: null,
+
+        review: "",
+
+        items: cart.map(item => ({
+
+            name: item.name,
+
+            price: Number(item.price),
+
+            quantity: Number(item.quantity)
+
+        })),
+
+        subtotal: subtotal,
+
+        deliveryCharge: deliveryCharge,
+
+        grandTotal: grandTotal,
+
+        distance: Number(
+            distance.toFixed(2)
+        ),
+
+        location: getGoogleMapsLink(
+            customerLocation.lat,
+            customerLocation.lng
+        )
+
+    };
+
+
+    /* SAVE */
+
+    saveOwnerOrder(order);
+
+    saveOrderHistory(order);
+
+
+    /* UPDATE UI */
+
+    showOwnerDashboard();
+
+    showOrderHistory();
+
+    updateDashboardStats();
+
+
+    /* WHATSAPP MESSAGE */
+
+    let message =
+        `*🍽️ XYZ DHABA - NEW ORDER*%0A%0A`;
+
+    message +=
+        `*Order ID:* ${order.id}%0A`;
+
+    message +=
+        `*Customer:* ${order.name}%0A`;
+
+    message +=
+        `*Phone:* ${order.phone}%0A`;
+
+    message +=
+        `*Address:* ${order.address}%0A`;
+
+    message +=
+        `*Distance:* ${order.distance} km%0A%0A`;
+
+
+    message +=
+        `*ITEMS*%0A`;
+
+
+    order.items.forEach(item => {
+
+        message +=
+            `${item.name} × ${item.quantity} = ₹${item.price * item.quantity}%0A`;
+
+    });
+
+
+    message += `%0A`;
+
+    message +=
+        `Food Total: ₹${order.subtotal}%0A`;
+
+    message +=
+        `Delivery: ₹${order.deliveryCharge}%0A`;
+
+    message +=
+        `*Grand Total: ₹${order.grandTotal}*%0A%0A`;
+
+    message +=
+        `📍 *Customer Location:*%0A${order.location}`;
+
+
+    const whatsappURL =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+
+    /* CLEAR CART */
+
+    cart = [];
+
+    saveCart();
+
+    updateCart();
+
+
+    alert(
+        `Order ${order.id} successfully placed!`
+    );
+
 
 }
 
 
 /* =========================================
-   SAVE HISTORY
+   SHOW OWNER DASHBOARD
 ========================================= */
 
-function saveOrderHistory(order) {
+function showOwnerDashboard() {
 
-    let history = [];
+    const container =
+        document.getElementById(
+            "owner-orders"
+        );
 
-    const saved =
-        localStorage.getItem("xyzOrderHistory");
+
+    if (!container) {
+        return;
+    }
 
 
-    if (saved) {
+    let orders =
+        getOrderHistory();
+
+
+    if (currentFilter === "pending") {
+
+        orders =
+            orders.filter(
+                order =>
+                    order.status !== "completed"
+            );
+
+    }
+
+
+    if (currentFilter === "completed") {
+
+        orders =
+            orders.filter(
+                order =>
+                    order.status === "completed"
+            );
+
+    }
+
+
+    if (orders.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="dashboard-empty">
+
+                <div>
+                    ${
+                        currentFilter === "pending"
+                            ? "🟠"
+                            : currentFilter === "completed"
+                                ? "✅"
+                                : "📦"
+                    }
+                </div>
+
+                <h3>
+                    No ${
+                        currentFilter === "pending"
+                            ? "pending"
+                            : currentFilter === "completed"
+                                ? "completed"
+                                : ""
+                    } orders
+                </h3>
+
+                <p>
+                    Orders will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    orders.forEach(order => {
+
+        const completed =
+            order.status === "completed";
+
+
+        html += `
+
+            <div class="dashboard-order ${
+                completed ? "completed" : ""
+            }">
+
+                <div class="order-card-top">
+
+                    <div>
+
+                        <div class="order-id">
+                            ${escapeHTML(order.id)}
+                        </div>
+
+                        <div class="order-customer">
+                            👤 ${escapeHTML(order.name)}
+                        </div>
+
+                    </div>
+
+                    <span class="status-badge ${
+                        completed
+                            ? "status-completed"
+                            : "status-pending"
+                    }">
+
+                        ${
+                            completed
+                                ? "✅ Completed"
+                                : "🟠 Pending"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-order-info">
+
+
+                    <div class="info-box">
+
+                        <small>
+                            Phone
+                        </small>
+
+                        <strong>
+                            📱 ${escapeHTML(order.phone)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <small>
+                            Order Time
+                        </small>
+
+                        <strong>
+                            ${formatDate(order.time)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <small>
+                            Distance
+                        </small>
+
+                        <strong>
+                            📍 ${order.distance || 0} km
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-box order-address">
+
+                        <small>
+                            Delivery Address
+                        </small>
+
+                        <strong>
+                            🏠 ${escapeHTML(order.address)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <small>
+                            Location
+                        </small>
+
+                        <strong>
+
+                            <a
+                                class="location-link"
+                                href="${escapeHTML(order.location || "#")}"
+                                target="_blank"
+                            >
+                                📍 Open Map
+                            </a>
+
+                        </strong>
+
+                    </div>
+
+
+                    ${
+                        completed && order.completedAt
+                            ? `
+                                <div class="info-box">
+
+                                    <small>
+                                        Completed At
+                                    </small>
+
+                                    <strong>
+                                        ${formatDate(order.completedAt)}
+                                    </strong>
+
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+
+                <div class="dashboard-items">
+
+                    <h4>
+                        🍽️ Ordered Items
+                    </h4>
+
+
+                    ${
+                        order.items
+                            .map(item => `
+
+                                <div class="dashboard-item">
+
+                                    <span>
+                                        ${escapeHTML(item.name)}
+                                        × ${item.quantity}
+                                    </span>
+
+                                    <strong>
+                                        ₹${item.price * item.quantity}
+                                    </strong>
+
+                                </div>
+
+                            `)
+                            .join("")
+                    }
+
+                </div>
+
+
+                <div class="dashboard-total">
+
+                    <span>
+                        Grand Total
+                    </span>
+
+                    <strong>
+                        ₹${order.grandTotal}
+                    </strong>
+
+                </div>
+
+
+                ${
+                    !completed
+                        ? `
+                            <button
+                                class="complete-order-btn"
+                                onclick="completeOrder('${order.id}')"
+                            >
+                                ✅ Mark Order as Completed
+                            </button>
+                        `
+                        : `
+                            <div class="rating-box">
+
+                                <strong>
+                                    ⭐ Customer Rating
+                                </strong>
+
+                                ${
+                                    order.rating
+                                        ? `
+                                            <div class="rating-stars">
+                                                ${"⭐".repeat(order.rating)}
+                                            </div>
+
+                                            ${
+                                                order.review
+                                                    ? `
+                                                        <div class="review-text">
+                                                            "${escapeHTML(order.review)}"
+                                                        </div>
+                                                    `
+                                                    : ""
+                                            }
+                                        `
+                                        : `
+                                            <p style="color:#777;margin-top:5px;">
+                                                Customer has not rated this order yet.
+                                            </p>
+                                        `
+                                }
+
+                            </div>
+                        `
+                }
+
+            </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =========================================
+   COMPLETE ORDER
+========================================= */
+
+function completeOrder(orderId) {
+
+    const confirmComplete =
+        confirm(
+            "Kya aap is order ko Completed mark karna chahte hain?"
+        );
+
+
+    if (!confirmComplete) {
+        return;
+    }
+
+
+    let history =
+        getOrderHistory();
+
+
+    const order =
+        history.find(
+            item => item.id === orderId
+        );
+
+
+    if (!order) {
+
+        alert(
+            "Order nahi mila."
+        );
+
+        return;
+
+    }
+
+
+    order.status = "completed";
+
+    order.completedAt =
+        new Date().toISOString();
+
+
+    localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(history)
+    );
+
+
+    const latest =
+        localStorage.getItem(
+            LATEST_ORDER_KEY
+        );
+
+
+    if (latest) {
 
         try {
 
-            history = JSON.parse(saved);
+            const latestOrder =
+                JSON.parse(latest);
+
+
+            if (latestOrder.id === orderId) {
+
+                localStorage.setItem(
+                    LATEST_ORDER_KEY,
+                    JSON.stringify(order)
+                );
+
+            }
 
         } catch {
 
-            history = [];
+            /* Ignore */
 
         }
 
     }
 
 
-    if (!Array.isArray(history)) {
-
-        history = [];
-
-    }
-
-
-    const exists =
-        history.some(
-            item => item.id === order.id
-        );
-
-
-    if (!exists) {
-
-        history.unshift(order);
-
-    }
-
-
-    localStorage.setItem(
-        "xyzOrderHistory",
-        JSON.stringify(history)
-    );
-
+    showOwnerDashboard();
 
     showOrderHistory();
+
+    updateDashboardStats();
+
+
+    alert(
+        "✅ Order successfully completed!"
+    );
 
 }
 
 
 /* =========================================
-   SHOW HISTORY
+   FILTER ORDERS
+========================================= */
+
+function filterOrders(filter) {
+
+    currentFilter = filter;
+
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(button => {
+
+            button.classList.remove(
+                "active"
+            );
+
+
+            if (
+                button.dataset.filter === filter
+            ) {
+
+                button.classList.add(
+                    "active"
+                );
+
+            }
+
+        });
+
+
+    showOwnerDashboard();
+
+}
+
+
+/* =========================================
+   DASHBOARD STATS
+========================================= */
+
+function updateDashboardStats() {
+
+    const orders =
+        getOrderHistory();
+
+
+    const total =
+        orders.length;
+
+
+    const pending =
+        orders.filter(
+            order =>
+                order.status !== "completed"
+        ).length;
+
+
+    const completed =
+        orders.filter(
+            order =>
+                order.status === "completed"
+        ).length;
+
+
+    const sales =
+        orders.reduce(
+            (sum, order) =>
+                sum + Number(order.grandTotal || 0),
+            0
+        );
+
+
+    const ratedOrders =
+        orders.filter(
+            order =>
+                Number(order.rating) > 0
+        );
+
+
+    const averageRating =
+        ratedOrders.length
+            ? (
+                ratedOrders.reduce(
+                    (sum, order) =>
+                        sum + Number(order.rating),
+                    0
+                ) / ratedOrders.length
+            ).toFixed(1)
+            : "0.0";
+
+
+    const totalElement =
+        document.getElementById(
+            "stat-total"
+        );
+
+    const pendingElement =
+        document.getElementById(
+            "stat-pending"
+        );
+
+    const completedElement =
+        document.getElementById(
+            "stat-completed"
+        );
+
+    const salesElement =
+        document.getElementById(
+            "stat-sales"
+        );
+
+    const ratingElement =
+        document.getElementById(
+            "stat-rating"
+        );
+
+
+    if (totalElement) {
+        totalElement.textContent = total;
+    }
+
+    if (pendingElement) {
+        pendingElement.textContent = pending;
+    }
+
+    if (completedElement) {
+        completedElement.textContent = completed;
+    }
+
+    if (salesElement) {
+        salesElement.textContent = `₹${sales}`;
+    }
+
+    if (ratingElement) {
+        ratingElement.textContent =
+            averageRating;
+    }
+
+}
+
+
+/* =========================================
+   SHOW ORDER HISTORY
 ========================================= */
 
 function showOrderHistory() {
 
     const container =
-        document.getElementById("order-history");
-
-    if (!container) return;
-
-
-    const saved =
-        localStorage.getItem("xyzOrderHistory");
+        document.getElementById(
+            "order-history"
+        );
 
 
-    if (!saved) {
-
-        showEmptyHistory();
-
+    if (!container) {
         return;
-
     }
 
 
-    let history = [];
+    const history =
+        getOrderHistory();
 
 
-    try {
+    if (history.length === 0) {
 
-        history = JSON.parse(saved);
+        container.innerHTML = `
 
-    } catch {
+            <div class="history-empty">
 
-        showEmptyHistory();
+                <div class="empty-icon">
+                    📋
+                </div>
 
-        return;
+                <h3>
+                    No order history
+                </h3>
 
-    }
+                <p>
+                    Orders will appear here.
+                </p>
 
+            </div>
 
-    if (
-        !Array.isArray(history) ||
-        history.length === 0
-    ) {
-
-        showEmptyHistory();
+        `;
 
         return;
 
@@ -1089,63 +1685,29 @@ function showOrderHistory() {
 
     history.forEach(order => {
 
-        let items = "";
-
-
-        if (Array.isArray(order.items)) {
-
-            order.items.forEach(item => {
-
-                const subtotal =
-                    Number(item.price) *
-                    Number(item.quantity);
-
-
-                items += `
-
-                    <tr>
-
-                        <td>
-                            ${escapeHTML(item.name)}
-                        </td>
-
-                        <td>
-                            ${Number(item.quantity)}
-                        </td>
-
-                        <td>
-                            ₹${Number(item.price)}
-                        </td>
-
-                        <td>
-                            ₹${subtotal}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            });
-
-        }
+        const completed =
+            order.status === "completed";
 
 
         html += `
 
-            <div class="history-card">
+            <div class="history-card ${
+                completed
+                    ? "completed-history"
+                    : ""
+            }">
 
                 <div class="history-top">
 
+
                     <div class="history-info">
 
                         <span class="history-label">
-                            Customer Name
+                            Order ID
                         </span>
 
                         <span class="history-value">
-                            ${escapeHTML(
-                                order.name || "Customer"
-                            )}
+                            ${escapeHTML(order.id)}
                         </span>
 
                     </div>
@@ -1154,16 +1716,73 @@ function showOrderHistory() {
                     <div class="history-info">
 
                         <span class="history-label">
-                            Date
+                            Customer
                         </span>
 
                         <span class="history-value">
-                            ${escapeHTML(
-                                order.time || "Not available"
-                            )}
+                            ${escapeHTML(order.name)}
                         </span>
 
                     </div>
+
+
+                    <div class="history-info">
+
+                        <span class="history-label">
+                            Status
+                        </span>
+
+                        <span class="history-value">
+
+                            ${
+                                completed
+                                    ? "✅ Completed"
+                                    : "🟠 Pending"
+                            }
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="history-info">
+
+                        <span class="history-label">
+                            Order Time
+                        </span>
+
+                        <span class="history-value">
+                            ${formatDate(order.time)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="history-info">
+
+                        <span class="history-label">
+                            Phone
+                        </span>
+
+                        <span class="history-value">
+                            ${escapeHTML(order.phone)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="history-info">
+
+                        <span class="history-label">
+                            Total
+                        </span>
+
+                        <span class="history-value">
+                            ₹${order.grandTotal}
+                        </span>
+
+                    </div>
+
 
                 </div>
 
@@ -1198,7 +1817,33 @@ function showOrderHistory() {
 
                         <tbody>
 
-                            ${items}
+                            ${
+                                order.items
+                                    .map(item => `
+
+                                        <tr>
+
+                                            <td>
+                                                ${escapeHTML(item.name)}
+                                            </td>
+
+                                            <td>
+                                                ${item.quantity}
+                                            </td>
+
+                                            <td>
+                                                ₹${item.price}
+                                            </td>
+
+                                            <td>
+                                                ₹${item.price * item.quantity}
+                                            </td>
+
+                                        </tr>
+
+                                    `)
+                                    .join("")
+                            }
 
                         </tbody>
 
@@ -1214,12 +1859,39 @@ function showOrderHistory() {
                     </span>
 
                     <strong>
-                        ₹${Number(
-                            order.grandTotal || 0
-                        )}
+                        ₹${order.grandTotal}
                     </strong>
 
                 </div>
+
+
+                ${
+                    order.rating
+                        ? `
+                            <div class="rating-box">
+
+                                <strong>
+                                    Customer Rating
+                                </strong>
+
+                                <div class="rating-stars">
+                                    ${"⭐".repeat(order.rating)}
+                                </div>
+
+                                ${
+                                    order.review
+                                        ? `
+                                            <div class="review-text">
+                                                "${escapeHTML(order.review)}"
+                                            </div>
+                                        `
+                                        : ""
+                                }
+
+                            </div>
+                        `
+                        : ""
+                }
 
             </div>
 
@@ -1234,84 +1906,16 @@ function showOrderHistory() {
 
 
 /* =========================================
-   EMPTY HISTORY
-========================================= */
-
-function showEmptyHistory() {
-
-    const container =
-        document.getElementById("order-history");
-
-    if (!container) return;
-
-
-    container.innerHTML = `
-
-        <div class="history-empty">
-
-            <div class="empty-icon">
-                📜
-            </div>
-
-            <h3>
-                No order history yet
-            </h3>
-
-            <p>
-                Your previous orders
-                will appear here.
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================
    CLEAR HISTORY
 ========================================= */
 
 function clearHistory() {
 
-    const saved =
-        localStorage.getItem("xyzOrderHistory");
+    const history =
+        getOrderHistory();
 
 
-    if (!saved) {
-
-        alert(
-            "No order history to clear."
-        );
-
-        return;
-
-    }
-
-
-    let history = [];
-
-
-    try {
-
-        history = JSON.parse(saved);
-
-    } catch {
-
-        history = [];
-
-    }
-
-
-    if (
-        !Array.isArray(history) ||
-        history.length === 0
-    ) {
-
-        alert(
-            "No order history to clear."
-        );
+    if (history.length === 0) {
 
         return;
 
@@ -1320,372 +1924,238 @@ function clearHistory() {
 
     const confirmClear =
         confirm(
-            "Are you sure you want to clear all order history?"
+            "⚠️ Kya aap poori order history delete karna chahte hain?"
         );
 
 
-    if (!confirmClear) return;
+    if (!confirmClear) {
+        return;
+    }
 
 
     localStorage.removeItem(
-        "xyzOrderHistory"
+        HISTORY_KEY
+    );
+
+    localStorage.removeItem(
+        LATEST_ORDER_KEY
     );
 
 
-    showEmptyHistory();
+    showOwnerDashboard();
+
+    showOrderHistory();
+
+    updateDashboardStats();
+
+}
 
 
-    alert(
-        "Order history cleared successfully."
+/* =========================================
+   FORMAT DATE
+========================================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "-";
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    if (Number.isNaN(date.getTime())) {
+        return "-";
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
     );
 
 }
 
 
 /* =========================================
-   LOAD OWNER ORDER
+   LOAD LATEST ORDER
 ========================================= */
 
 function loadOwnerOrder() {
 
-    const saved =
-        localStorage.getItem("xyzLatestOrder");
+    showOwnerDashboard();
 
+    showOrderHistory();
 
-    if (!saved) {
-
-        showOrderHistory();
-
-        return;
-
-    }
-
-
-    try {
-
-        const order =
-            JSON.parse(saved);
-
-
-        if (!order || typeof order !== "object") {
-
-            showOrderHistory();
-
-            return;
-
-        }
-
-
-        showOwnerOrder(order);
-
-
-        let history = [];
-
-
-        const savedHistory =
-            localStorage.getItem("xyzOrderHistory");
-
-
-        if (savedHistory) {
-
-            try {
-
-                history =
-                    JSON.parse(savedHistory);
-
-            } catch {
-
-                history = [];
-
-            }
-
-        }
-
-
-        if (!Array.isArray(history)) {
-
-            history = [];
-
-        }
-
-
-        const exists =
-            history.some(
-                item => item.id === order.id
-            );
-
-
-        if (!exists) {
-
-            history.unshift(order);
-
-            localStorage.setItem(
-                "xyzOrderHistory",
-                JSON.stringify(history)
-            );
-
-        }
-
-
-        showOrderHistory();
-
-    } catch {
-
-        showOrderHistory();
-
-    }
+    updateDashboardStats();
 
 }
 
 
 /* =========================================
-   PLACE ORDER
+   SLIDER
 ========================================= */
 
-function orderOnWhatsApp() {
+function showSlide(index) {
 
-    if (cart.length === 0) {
-
-        alert(
-            "Please add at least one item to your cart."
+    const slides =
+        document.querySelectorAll(
+            ".slide"
         );
 
+    const dots =
+        document.querySelectorAll(
+            ".dot"
+        );
+
+
+    if (!slides.length) {
         return;
-
     }
-
-
-    const nameElement =
-        document.getElementById("customer-name");
-
-    const phoneElement =
-        document.getElementById("customer-phone");
-
-    const addressElement =
-        document.getElementById("customer-address");
 
 
     if (
-        !nameElement ||
-        !phoneElement ||
-        !addressElement
+        index < 0 ||
+        index >= slides.length
     ) {
 
-        alert(
-            "Delivery form is not available."
-        );
-
-        return;
+        index = 0;
 
     }
 
 
-    const name =
-        nameElement.value.trim();
-
-    const phone =
-        phoneElement.value.trim();
-
-    const address =
-        addressElement.value.trim();
+    slides.forEach(
+        slide =>
+            slide.classList.remove(
+                "active"
+            )
+    );
 
 
-    if (!name) {
+    dots.forEach(
+        dot =>
+            dot.classList.remove(
+                "active"
+            )
+    );
 
-        alert(
-            "Please enter your name."
+
+    slides[index].classList.add(
+        "active"
+    );
+
+
+    if (dots[index]) {
+
+        dots[index].classList.add(
+            "active"
         );
-
-        nameElement.focus();
-
-        return;
 
     }
 
 
-    if (!phone) {
+    currentSlide = index;
 
-        alert(
-            "Please enter your mobile number."
-        );
+}
 
-        phoneElement.focus();
 
-        return;
+/* =========================================
+   START SLIDER
+========================================= */
 
-    }
+function startSlider() {
 
+    setInterval(
+        () => {
 
-    if (!address) {
+            const slides =
+                document.querySelectorAll(
+                    ".slide"
+                );
 
-        alert(
-            "Please enter your delivery address."
-        );
 
-        addressElement.focus();
+            if (!slides.length) {
+                return;
+            }
 
-        return;
 
-    }
+            currentSlide =
+                (currentSlide + 1) %
+                slides.length;
 
 
-    if (!customerLocation) {
+            showSlide(currentSlide);
 
-        alert(
-            "Please click 'Use My Location' first."
-        );
-
-        return;
-
-    }
-
-
-    const subtotal =
-        getCartSubtotal();
-
-
-    const delivery =
-        getDeliveryCharge();
-
-
-    const grandTotal =
-        subtotal + delivery;
-
-
-    const order = {
-
-        id:
-            "XYZ-" +
-            Date.now(),
-
-        name:
-            name,
-
-        phone:
-            phone,
-
-        address:
-            address,
-
-        time:
-            new Date().toLocaleString(
-                "en-IN",
-                {
-                    dateStyle: "medium",
-                    timeStyle: "short"
-                }
-            ),
-
-        items:
-            cart.map(item => ({
-
-                name:
-                    item.name,
-
-                price:
-                    Number(item.price),
-
-                quantity:
-                    Number(item.quantity)
-
-            })),
-
-        subtotal:
-            subtotal,
-
-        deliveryCharge:
-            delivery,
-
-        grandTotal:
-            grandTotal,
-
-        distance:
-            Number(
-                deliveryDistance.toFixed(2)
-            ),
-
-        location:
-            getGoogleMapsLink()
-
-    };
-
-
-    /* =====================================
-       SAVE ORDER
-    ===================================== */
-
-    saveOwnerOrder(order);
-
-    saveOrderHistory(order);
-
-
-    /* =====================================
-       WHATSAPP MESSAGE
-    ===================================== */
-
-    let message =
-        `*XYZ DHABA ORDER*\n\n`;
-
-    message +=
-        `Order ID: ${order.id}\n`;
-
-    message +=
-        `Customer: ${name}\n`;
-
-    message +=
-        `Phone: ${phone}\n`;
-
-    message +=
-        `Address: ${address}\n\n`;
-
-    message +=
-        `*Items:*\n`;
-
-
-    cart.forEach(item => {
-
-        const itemTotal =
-            Number(item.price) *
-            Number(item.quantity);
-
-
-        message +=
-            `${item.name} x ${item.quantity} = ₹${itemTotal}\n`;
-
-    });
-
-
-    message +=
-        `\nFood Total: ₹${subtotal}\n`;
-
-    message +=
-        `Delivery: ₹${delivery}\n`;
-
-    message +=
-        `Distance: ${deliveryDistance.toFixed(2)} km\n`;
-
-    message +=
-        `*Grand Total: ₹${grandTotal}*\n\n`;
-
-    message +=
-        `Location: ${getGoogleMapsLink()}`;
-
-
-    const whatsappURL =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-        encodeURIComponent(message);
-
-
-    window.open(
-        whatsappURL,
-        "_blank"
+        },
+        4000
     );
 
 }
 
 
 /* =========================================
-   INITIALIZE
+   DEMO RATING FUNCTION
+========================================= */
+
+/*
+   Is function ko baad mein customer-side
+   rating system se connect kiya ja sakta hai.
+*/
+
+function rateOrder(
+    orderId,
+    rating,
+    review = ""
+) {
+
+    let history =
+        getOrderHistory();
+
+
+    const order =
+        history.find(
+            item => item.id === orderId
+        );
+
+
+    if (!order) {
+        return;
+    }
+
+
+    order.rating =
+        Number(rating);
+
+
+    order.review =
+        review;
+
+
+    localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(history)
+    );
+
+
+    showOwnerDashboard();
+
+    showOrderHistory();
+
+    updateDashboardStats();
+
+}
+
+
+/* =========================================
+   DOM READY
 ========================================= */
 
 document.addEventListener(
@@ -1697,10 +2167,6 @@ document.addEventListener(
         updateCart();
 
         loadOwnerOrder();
-
-        showOrderHistory();
-
-        showSlide(0);
 
         startSlider();
 

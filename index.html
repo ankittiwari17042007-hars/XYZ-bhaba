@@ -1,715 +1,856 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>XYZ Dhaba | Fresh & Delicious Food</title>
+    <title>XYZ Dhaba | Delicious Food</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================================
-         HEADER
-    ========================================== -->
+<!-- =========================================
+     HEADER
+========================================= -->
 
-    <header class="header">
+<header class="header">
 
-        <div class="container header-content">
+    <div class="container header-content">
 
-            <div class="logo">
-                <h1>🍛 XYZ Dhaba</h1>
-                <p>Fresh • Delicious • Homemade</p>
-            </div>
-
-            <a href="#order" class="cart-button">
-                🛒 Cart
-                <span id="cart-count">0</span>
-            </a>
-
+        <div class="logo">
+            <h1>🍽️ XYZ Dhaba</h1>
+            <p>Ghar Jaisa Swad</p>
         </div>
 
-    </header>
+        <a href="#order" class="cart-button">
+            🛒 Cart
+            <span id="cart-count">0</span>
+        </a>
+
+    </div>
+
+</header>
 
 
-    <!-- =========================================
-         HERO
-    ========================================== -->
+<!-- =========================================
+     HERO
+========================================= -->
 
-    <section class="hero">
+<section class="hero">
 
-        <div class="slider">
+    <div class="slider">
 
-            <div class="slide active">
-                <img
-                    src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1600&q=80"
-                    alt="Indian Food">
-            </div>
-
-            <div class="slide">
-                <img
-                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1600&q=80"
-                    alt="Indian Thali">
-            </div>
-
-            <div class="slide">
-                <img
-                    src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1600&q=80"
-                    alt="Indian Curry">
-            </div>
-
-            <div class="slide">
-                <img
-                    src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=1600&q=80"
-                    alt="Indian Roti">
-            </div>
-
-            <div class="slide">
-                <img
-                    src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=1600&q=80"
-                    alt="Indian Food">
-            </div>
-
-
-            <div class="hero-overlay">
-
-                <div>
-
-                    <span class="welcome-text">
-                        Welcome to XYZ Dhaba
-                    </span>
-
-                    <h2>
-                        Fresh & Delicious Food
-                    </h2>
-
-                    <p>
-                        Ghar jaisa swaad, ab aapke ghar tak.
-                    </p>
-
-                    <a href="#menu" class="hero-button">
-                        Explore Menu →
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <div class="slider-dots">
-
-                <span class="dot active" onclick="showSlide(0)"></span>
-                <span class="dot" onclick="showSlide(1)"></span>
-                <span class="dot" onclick="showSlide(2)"></span>
-                <span class="dot" onclick="showSlide(3)"></span>
-                <span class="dot" onclick="showSlide(4)"></span>
-
-            </div>
-
+        <div class="slide active">
+            <img
+                src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1600&q=80"
+                alt="Indian Food">
         </div>
 
-    </section>
+        <div class="slide">
+            <img
+                src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1600&q=80"
+                alt="Indian Food">
+        </div>
 
+        <div class="slide">
+            <img
+                src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1600&q=80"
+                alt="Indian Food">
+        </div>
 
-    <!-- =========================================
-         MENU
-    ========================================== -->
+        <div class="slide">
+            <img
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80"
+                alt="Restaurant">
+        </div>
 
-    <section id="menu" class="section menu-section">
+        <div class="slide">
+            <img
+                src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=1600&q=80"
+                alt="Delicious Food">
+        </div>
 
-        <div class="container">
+        <div class="hero-overlay">
 
-            <div class="section-heading menu-heading">
+            <div>
 
-                <span>OUR MENU</span>
+                <span class="welcome-text">
+                    Welcome to XYZ Dhaba
+                </span>
 
                 <h2>
-                    Fresh Food, Great Taste
+                    Delicious Food,<br>
+                    Ghar Jaisa Swad ❤️
                 </h2>
 
                 <p>
-                    Choose your favourite food
+                    Fresh • Tasty • Affordable
                 </p>
 
-            </div>
-
-
-            <div class="menu-grid">
-
-
-                <!-- NORMAL THALI -->
-
-                <div class="menu-card normal-thali-card">
-
-                    <div class="food-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=80"
-                            alt="Normal Thali">
-
-                    </div>
-
-
-                    <div class="normal-thali-layout">
-
-                        <div class="normal-thali-info">
-
-                            <h3>
-                                Normal Thali
-                            </h3>
-
-                            <p>
-                                Dal • Roti • Sabji • Chawal • Achar • Salad
-                            </p>
-
-                        </div>
-
-
-                        <div class="thali-action-box">
-
-                            <strong>
-                                ₹60
-                            </strong>
-
-                            <button
-                                onclick="addToCart('Normal Thali', 60)">
-                                Add
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- EXTRA ROTI -->
-
-                <div class="menu-card">
-
-                    <div class="food-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=1000&q=80"
-                            alt="Roti">
-
-                    </div>
-
-
-                    <div class="menu-content">
-
-                        <h3>
-                            Extra Roti
-                        </h3>
-
-                        <p>
-                            Freshly made soft roti.
-                        </p>
-
-
-                        <div class="menu-bottom">
-
-                            <strong>
-                                ₹6 / piece
-                            </strong>
-
-                            <button
-                                onclick="addToCart('Extra Roti', 6)">
-                                Add
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- SABJI -->
-
-                <div class="menu-card">
-
-                    <div class="food-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1000&q=80"
-                            alt="Seasonal Sabji">
-
-                    </div>
-
-
-                    <div class="menu-content">
-
-                        <h3>
-                            Seasonal Sabji
-                        </h3>
-
-                        <p>
-                            Fresh seasonal vegetable sabji.
-                        </p>
-
-
-                        <div class="menu-bottom">
-
-                            <strong>
-                                ₹30 / 250ml
-                            </strong>
-
-                            <button
-                                onclick="addToCart('Seasonal Sabji 250ml', 30)">
-                                Add
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- DAL -->
-
-                <div class="menu-card">
-
-                    <div class="food-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1000&q=80"
-                            alt="Dal Tadka">
-
-                    </div>
-
-
-                    <div class="menu-content">
-
-                        <h3>
-                            Dal Tadka
-                        </h3>
-
-                        <p>
-                            Hot and delicious dal tadka.
-                        </p>
-
-
-                        <div class="menu-bottom">
-
-                            <strong>
-                                ₹40 / 250ml
-                            </strong>
-
-                            <button
-                                onclick="addToCart('Dal Tadka 250ml', 40)">
-                                Add
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+                <a href="#menu" class="hero-button">
+                    Explore Menu 🍽️
+                </a>
 
             </div>
 
         </div>
 
-    </section>
+        <div class="slider-dots">
+
+            <span class="dot active" onclick="showSlide(0)"></span>
+            <span class="dot" onclick="showSlide(1)"></span>
+            <span class="dot" onclick="showSlide(2)"></span>
+            <span class="dot" onclick="showSlide(3)"></span>
+            <span class="dot" onclick="showSlide(4)"></span>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-    <!-- =========================================
-         ORDER
-    ========================================== -->
+<!-- =========================================
+     MENU
+========================================= -->
 
-    <section id="order" class="section order-section">
+<section class="section menu-section" id="menu">
 
-        <div class="container">
+    <div class="container">
 
+        <div class="section-heading menu-heading">
 
-            <div class="section-heading order-main-heading">
+            <span>OUR SPECIAL MENU</span>
 
-                <span>YOUR ORDER</span>
+            <h2>
+                Fresh & Delicious
+            </h2>
 
-                <h2>
-                    Place Your Order
-                </h2>
+            <p>
+                Apni pasand ka food order karein
+            </p>
 
-                <p>
-                    Fresh food delivered to your doorstep
-                </p>
-
-                <small>
-                    Delivery charge: ₹15 per km
-                </small>
-
-            </div>
+        </div>
 
 
-            <!-- IMPORTANT:
-                 Cart and Delivery Details are vertical
-            -->
-
-            <div class="order-layout">
+        <div class="menu-grid">
 
 
-                <!-- =================================
-                     CART
-                ================================== -->
+            <!-- NORMAL THALI -->
 
-                <div class="order-card">
+            <div class="menu-card normal-thali-card">
 
-                    <div class="cart-title">
+                <div class="normal-thali-layout">
 
-                        <h3>
-                            🛒 Your Cart
-                        </h3>
-
-                        <span id="cart-items-count">
-                            0 items
-                        </span>
-
-                    </div>
-
-
-                    <div class="cart-table-wrapper">
-
-                        <div id="cart-items">
-
-                            <div class="empty-cart">
-
-                                <div class="empty-icon">
-                                    🛒
-                                </div>
-
-                                <h3>
-                                    Your cart is empty
-                                </h3>
-
-                                <p>
-                                    Menu se apna favourite food add karein.
-                                </p>
-
-                                <a href="#menu">
-                                    Explore Menu →
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        class="clear-cart"
-                        onclick="clearCart()">
-                        Clear Cart
-                    </button>
-
-                </div>
-
-
-                <!-- =================================
-                     DELIVERY DETAILS
-                ================================== -->
-
-                <div class="order-card">
-
-                    <div class="order-card-header">
+                    <div class="normal-thali-info">
 
                         <h3>
-                            📦 Delivery Details
+                            🍛 Normal Thali
                         </h3>
 
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="customer-name">
-                            Your Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="customer-name"
-                            placeholder="Enter your name">
+                        <p>
+                            Dal • Roti • Sabji • Chawal • Achar • Salad
+                        </p>
 
                     </div>
 
+                    <div class="thali-action-box">
 
-                    <div class="form-group">
-
-                        <label for="customer-phone">
-                            Mobile Number
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="customer-phone"
-                            placeholder="Enter mobile number">
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="customer-address">
-                            Delivery Address
-                        </label>
-
-                        <textarea
-                            id="customer-address"
-                            rows="4"
-                            placeholder="Enter complete delivery address"></textarea>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            Delivery Location
-                        </label>
+                        <strong>
+                            ₹60
+                        </strong>
 
                         <button
-                            type="button"
-                            id="location-button"
-                            class="location-button"
-                            onclick="getLocation()">
-
-                            📍 Use My Location
-
+                            onclick="addToCart('Normal Thali', 60)"
+                        >
+                            Add +
                         </button>
 
-
-                        <div
-                            id="location-status"
-                            class="location-status">
-
-                            Location not detected
-
-                        </div>
-
                     </div>
-
-
-                    <!-- BILL -->
-
-                    <div class="bill">
-
-                        <div class="bill-row">
-
-                            <span>
-                                Food Total
-                            </span>
-
-                            <strong id="food-total">
-                                ₹0
-                            </strong>
-
-                        </div>
-
-
-                        <div class="bill-row">
-
-                            <span>
-                                Delivery
-                            </span>
-
-                            <strong id="delivery-price">
-                                ₹0
-                            </strong>
-
-                        </div>
-
-
-                        <div class="bill-row">
-
-                            <span>
-                                Distance
-                            </span>
-
-                            <strong id="distance">
-                                0.00 km
-                            </strong>
-
-                        </div>
-
-
-                        <div class="bill-divider"></div>
-
-
-                        <div class="bill-row grand-total">
-
-                            <span>
-                                Grand Total
-                            </span>
-
-                            <strong id="grand-total">
-                                ₹0
-                            </strong>
-
-                        </div>
-
-
-                        <span
-                            id="delivery-charge"
-                            style="display:none;">
-                            ₹0
-                        </span>
-
-                        <span
-                            id="delivery-distance"
-                            style="display:none;">
-                            0
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        class="whatsapp-button"
-                        onclick="orderOnWhatsApp()">
-
-                        📲 Order on WhatsApp
-
-                    </button>
-
-
-                    <p class="order-note">
-                        Order confirm karne ke liye WhatsApp par message bheja jayega.
-                    </p>
 
                 </div>
 
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================
-         OWNER ORDER
-    ========================================== -->
-
-    <section class="section owner-section">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <span>OWNER PANEL</span>
-
-                <h2>
-                    Latest Order
-                </h2>
-
             </div>
 
 
-            <div id="owner-order">
+            <!-- EXTRA ROTI -->
 
-                <div class="owner-order-card">
+            <div class="menu-card">
+
+                <div class="food-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80"
+                        alt="Roti">
+                </div>
+
+                <div class="menu-content">
 
                     <h3>
-                        📦 No order yet
+                        🫓 Extra Roti
                     </h3>
 
                     <p>
-                        Latest customer order will appear here.
+                        Fresh hot roti
                     </p>
+
+                    <div class="menu-bottom">
+
+                        <strong>
+                            ₹6 / piece
+                        </strong>
+
+                        <button
+                            onclick="addToCart('Extra Roti', 6)"
+                        >
+                            Add +
+                        </button>
+
+                    </div>
 
                 </div>
 
             </div>
 
+
+            <!-- SABJI -->
+
+            <div class="menu-card">
+
+                <div class="food-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=900&q=80"
+                        alt="Sabji">
+                </div>
+
+                <div class="menu-content">
+
+                    <h3>
+                        🥘 Seasonal Sabji
+                    </h3>
+
+                    <p>
+                        Fresh seasonal sabji
+                    </p>
+
+                    <div class="menu-bottom">
+
+                        <strong>
+                            ₹30 / 250ml
+                        </strong>
+
+                        <button
+                            onclick="addToCart('Seasonal Sabji', 30)"
+                        >
+                            Add +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DAL -->
+
+            <div class="menu-card">
+
+                <div class="food-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80"
+                        alt="Dal">
+                </div>
+
+                <div class="menu-content">
+
+                    <h3>
+                        🥣 Dal Tadka
+                    </h3>
+
+                    <p>
+                        Delicious Dal Tadka
+                    </p>
+
+                    <div class="menu-bottom">
+
+                        <strong>
+                            ₹40 / 250ml
+                        </strong>
+
+                        <button
+                            onclick="addToCart('Dal Tadka', 40)"
+                        >
+                            Add +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- =========================================
-         HISTORY
-    ========================================== -->
+<!-- =========================================
+     ORDER SECTION
+========================================= -->
 
-    <section class="section history-section">
+<section class="section order-section" id="order">
 
-        <div class="container">
+    <div class="container">
 
-            <div class="history-header">
+        <div class="section-heading order-main-heading">
 
-                <h3>
-                    📜 Order History
-                </h3>
+            <span>ORDER NOW</span>
+
+            <h2>
+                Place Your Order
+            </h2>
+
+            <p>
+                ₹15 per kilometer delivery
+            </p>
+
+            <small>
+                Fresh food directly from XYZ Dhaba
+            </small>
+
+        </div>
+
+
+        <div class="order-layout">
+
+
+            <!-- =================================
+                 CART
+            ================================= -->
+
+            <div class="order-card">
+
+                <div class="cart-title">
+
+                    <h3>
+                        🛒 Your Order
+                    </h3>
+
+                    <span>
+                        <span id="cart-items-count">0</span>
+                        item(s)
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="cart-items"
+                    class="cart-container"
+                ></div>
+
 
                 <button
-                    class="clear-history-btn"
-                    onclick="clearHistory()">
-
-                    Clear History
-
+                    class="clear-cart"
+                    onclick="clearCart()"
+                >
+                    Clear Cart
                 </button>
 
             </div>
 
 
-            <div id="order-history">
+            <!-- =================================
+                 DELIVERY DETAILS
+            ================================= -->
 
-                <div class="history-empty">
+            <div class="order-card">
 
-                    <div class="empty-icon">
-                        📜
-                    </div>
+                <div class="order-card-header">
 
                     <h3>
-                        No order history yet
+                        📦 Delivery Details
                     </h3>
 
                     <p>
-                        Your previous orders will appear here.
+                        Please enter your details
                     </p>
 
                 </div>
+
+
+                <div class="form-group">
+
+                    <label for="customer-name">
+                        👤 Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customer-name"
+                        placeholder="Enter your name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="customer-phone">
+                        📱 Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customer-phone"
+                        placeholder="Enter phone number"
+                        maxlength="10"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="customer-address">
+                        🏠 Delivery Address
+                    </label>
+
+                    <textarea
+                        id="customer-address"
+                        rows="4"
+                        placeholder="Enter complete delivery address"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        📍 Your Location
+                    </label>
+
+                    <button
+                        type="button"
+                        class="location-button"
+                        id="location-button"
+                        onclick="getCustomerLocation()"
+                    >
+                        📍 Get My Location
+                    </button>
+
+                    <p
+                        class="location-status"
+                        id="location-status"
+                    >
+                        Location not selected
+                    </p>
+
+                </div>
+
+
+                <!-- BILL -->
+
+                <div class="bill">
+
+                    <div class="bill-row">
+
+                        <span>
+                            Food Total
+                        </span>
+
+                        <strong id="food-total">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bill-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <strong id="delivery-price">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bill-row">
+
+                        <span>
+                            Distance
+                        </span>
+
+                        <strong id="distance">
+                            0 km
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bill-divider"></div>
+
+
+                    <div class="bill-row grand-total">
+
+                        <span>
+                            Grand Total
+                        </span>
+
+                        <strong id="grand-total">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                    <input
+                        type="hidden"
+                        id="delivery-charge"
+                        value="0"
+                    >
+
+                    <input
+                        type="hidden"
+                        id="delivery-distance"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <button
+                    class="whatsapp-button"
+                    onclick="orderOnWhatsApp()"
+                >
+                    📲 Order on WhatsApp
+                </button>
+
+                <p class="order-note">
+                    Your order will be sent directly to XYZ Dhaba.
+                </p>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
+<!-- =========================================
+     OWNER DASHBOARD
+========================================= -->
 
-    <footer class="footer">
+<section class="section owner-section" id="owner-dashboard">
 
-        <div class="container">
+    <div class="container">
 
-            <h3>
-                🍛 XYZ Dhaba
-            </h3>
+        <div class="section-heading">
+
+            <span>OWNER PANEL</span>
+
+            <h2>
+                📊 Order Dashboard
+            </h2>
 
             <p>
-                Fresh • Delicious • Homemade
+                Manage your XYZ Dhaba orders
             </p>
-
-            <small>
-                © 2026 XYZ Dhaba. All Rights Reserved.
-            </small>
 
         </div>
 
-    </footer>
+
+        <!-- DASHBOARD STATS -->
+
+        <div class="dashboard-stats">
 
 
-    <script src="script.js"></script>
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📦
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Orders
+                    </span>
+
+                    <strong id="stat-total">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card pending-stat">
+
+                <div class="stat-icon">
+                    🟠
+                </div>
+
+                <div>
+
+                    <span>
+                        Pending
+                    </span>
+
+                    <strong id="stat-pending">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card completed-stat">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div>
+
+                    <span>
+                        Completed
+                    </span>
+
+                    <strong id="stat-completed">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card sales-stat">
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Sales
+                    </span>
+
+                    <strong id="stat-sales">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card rating-stat">
+
+                <div class="stat-icon">
+                    ⭐
+                </div>
+
+                <div>
+
+                    <span>
+                        Average Rating
+                    </span>
+
+                    <strong id="stat-rating">
+                        0.0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- DASHBOARD FILTER -->
+
+        <div class="dashboard-controls">
+
+            <div class="dashboard-title">
+
+                <h3>
+                    Orders
+                </h3>
+
+                <p>
+                    Manage incoming orders
+                </p>
+
+            </div>
+
+
+            <div class="order-filters">
+
+                <button
+                    class="filter-btn active"
+                    data-filter="all"
+                    onclick="filterOrders('all')"
+                >
+                    All
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-filter="pending"
+                    onclick="filterOrders('pending')"
+                >
+                    🟠 Pending
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-filter="completed"
+                    onclick="filterOrders('completed')"
+                >
+                    ✅ Completed
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- OWNER ORDERS -->
+
+        <div id="owner-orders">
+
+            <div class="dashboard-empty">
+
+                <div>
+                    📦
+                </div>
+
+                <h3>
+                    No orders yet
+                </h3>
+
+                <p>
+                    New orders will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- OLD ID KEPT FOR COMPATIBILITY -->
+
+        <div id="owner-order" style="display:none;"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     ORDER HISTORY
+========================================= -->
+
+<section class="section history-section">
+
+    <div class="container">
+
+        <div class="history-header">
+
+            <div>
+
+                <span class="history-small-title">
+                    ORDER RECORDS
+                </span>
+
+                <h2>
+                    📋 Order History
+                </h2>
+
+            </div>
+
+            <button
+                class="clear-history-btn"
+                onclick="clearHistory()"
+            >
+                🗑️ Clear History
+            </button>
+
+        </div>
+
+
+        <div id="order-history">
+
+            <div class="history-empty">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                <h3>
+                    No order history
+                </h3>
+
+                <p>
+                    Completed and pending orders will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <h3>
+            🍽️ XYZ Dhaba
+        </h3>
+
+        <p>
+            Ghar Jaisa Swad, Har Order Mein ❤️
+        </p>
+
+        <small>
+            © 2026 XYZ Dhaba. All Rights Reserved.
+        </small>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
 
 </body>
-
 </html>

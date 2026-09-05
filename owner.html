@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XYZ Dhaba - Owner Dashboard</title>
+<link rel="stylesheet" href="owner.css">
+</head>
+
+<body>
+
+<header class="owner-header">
+    <div class="container">
+        <div>
+            <h1>XYZ Dhaba</h1>
+            <p>Owner Dashboard</p>
+        </div>
+
+        <button class="logout-btn" onclick="logoutOwner()">
+            Logout
+        </button>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- LOGIN -->
+    <section id="owner-login" class="login-section">
+
+        <div class="login-card">
+
+            <div class="login-icon">🔐</div>
+
+            <h2>Owner Login</h2>
+            <p>Login to manage XYZ Dhaba orders</p>
+
+            <div class="form-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    id="owner-username"
+                    placeholder="Enter username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="owner-password"
+                    placeholder="Enter password"
+                >
+            </div>
+
+            <button class="login-btn" onclick="loginOwner()">
+                Login
+            </button>
+
+            <p id="login-message"></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DASHBOARD -->
+    <section id="owner-dashboard" class="dashboard-section">
+
+        <div class="dashboard-heading">
+            <div>
+                <span>WELCOME OWNER</span>
+                <h2>Dashboard</h2>
+                <p>Manage your XYZ Dhaba orders</p>
+            </div>
+        </div>
+
+
+        <!-- STATS -->
+        <div class="dashboard-stats">
+
+            <div class="stat-card pending-stat">
+                <div class="stat-icon">📦</div>
+                <div>
+                    <span>Pending Orders</span>
+                    <strong id="pending-count">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card completed-stat">
+                <div class="stat-icon">✅</div>
+                <div>
+                    <span>Completed Orders</span>
+                    <strong id="completed-count">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card sales-stat">
+                <div class="stat-icon">💰</div>
+                <div>
+                    <span>Total Sales</span>
+                    <strong id="total-sales">₹0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card rating-stat">
+                <div class="stat-icon">⭐</div>
+                <div>
+                    <span>Average Rating</span>
+                    <strong id="average-rating">0.0</strong>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ORDERS -->
+        <section class="orders-section">
+
+            <div class="section-title">
+                <div>
+                    <span>ORDER MANAGEMENT</span>
+                    <h2>Orders</h2>
+                </div>
+
+                <button class="refresh-btn" onclick="loadOwnerOrders()">
+                    🔄 Refresh
+                </button>
+            </div>
+
+
+            <!-- FILTERS -->
+            <div class="order-filters">
+
+                <button
+                    class="filter-btn active"
+                    onclick="filterOrders('all', this)">
+                    All
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterOrders('pending', this)">
+                    Pending
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterOrders('completed', this)">
+                    Completed
+                </button>
+
+            </div>
+
+
+            <!-- ORDER LIST -->
+            <div id="owner-orders">
+
+                <div class="dashboard-empty">
+                    <div>📦</div>
+                    <h3>No Orders Yet</h3>
+                    <p>Customer orders will appear here.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ORDER HISTORY -->
+        <section class="history-section">
+
+            <div class="section-title">
+
+                <div>
+                    <span>ORDER RECORDS</span>
+                    <h2>Order History</h2>
+                </div>
+
+                <button
+                    class="clear-history-btn"
+                    onclick="clearOrderHistory()">
+                    Clear History
+                </button>
+
+            </div>
+
+            <div id="order-history">
+
+                <div class="history-empty">
+                    <div>📋</div>
+                    <h3>No Completed Orders</h3>
+                    <p>Completed orders will appear here.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+<!-- RATING MODAL -->
+<div id="rating-modal" class="rating-modal">
+
+    <div class="rating-modal-content">
+
+        <button
+            class="close-modal"
+            onclick="closeRatingModal()">
+            ×
+        </button>
+
+        <h2>Rate Order</h2>
+
+        <p>Select rating</p>
+
+        <div class="rating-stars">
+
+            <button onclick="selectRating(1)">★</button>
+            <button onclick="selectRating(2)">★</button>
+            <button onclick="selectRating(3)">★</button>
+            <button onclick="selectRating(4)">★</button>
+            <button onclick="selectRating(5)">★</button>
+
+        </div>
+
+        <textarea
+            id="rating-review"
+            placeholder="Write a review..."></textarea>
+
+        <button
+            class="submit-rating-btn"
+            onclick="submitRating()">
+            Submit Rating
+        </button>
+
+    </div>
+
+</div>
+
+
+<footer class="owner-footer">
+    <p>© 2026 XYZ Dhaba</p>
+    <small>Owner Dashboard</small>
+</footer>
+
+
+<script src="owner.js"></script>
+
+</body>
+</html>

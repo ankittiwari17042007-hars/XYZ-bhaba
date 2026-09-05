@@ -377,10 +377,17 @@ a {
     color: #777;
 }
 
+
+/* IMPORTANT FIX
+   Cart and Delivery Details
+   ALWAYS ONE BELOW ANOTHER
+*/
+
 .order-layout {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
     gap: 25px;
+    width: 100%;
 }
 
 .order-card {
@@ -388,6 +395,8 @@ a {
     padding: 22px;
     border-radius: 14px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    width: 100%;
+    min-width: 0;
 }
 
 .order-card-header {
@@ -417,7 +426,9 @@ a {
 }
 
 .cart-table-wrapper {
+    width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .cart-table {
@@ -431,12 +442,14 @@ a {
     padding: 11px;
     text-align: left;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .cart-table td {
     padding: 11px;
     border-bottom: 1px solid #eee;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .quantity-btn {
@@ -547,12 +560,20 @@ a {
     padding: 15px;
     border-radius: 10px;
     margin-top: 20px;
+    width: 100%;
 }
 
 .bill-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 15px;
     padding: 6px 0;
+}
+
+.bill-row span,
+.bill-row strong {
+    min-width: 0;
 }
 
 .bill-divider {
@@ -638,6 +659,7 @@ a {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    gap: 15px;
 }
 
 .history-header h3 {
@@ -736,4 +758,254 @@ a {
     background: white;
     text-align: center;
     padding: 35px 20px;
-    border-radius:
+    border-radius: 14px;
+}
+
+.history-empty .empty-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.history-empty h3 {
+    margin-bottom: 5px;
+}
+
+.history-empty p {
+    color: #777;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.footer h3 {
+    color: #f39c12;
+    font-size: 23px;
+    margin-bottom: 5px;
+}
+
+.footer p {
+    color: #ddd;
+    margin-bottom: 8px;
+}
+
+.footer small {
+    color: #999;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .slider {
+        height: 420px;
+    }
+
+    .hero-overlay h2 {
+        font-size: 35px;
+    }
+
+    .welcome-text {
+        font-size: 21px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .normal-thali-card {
+        grid-column: auto;
+    }
+
+    .section {
+        padding: 45px 0;
+    }
+
+    .section-heading h2 {
+        font-size: 32px;
+    }
+
+    .menu-heading h2,
+    .order-main-heading h2 {
+        font-size: 35px;
+    }
+
+    /*
+       IMPORTANT:
+       Still vertical on tablet
+    */
+
+    .order-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .order-card {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        width: 94%;
+    }
+
+    .header {
+        padding: 11px 0;
+    }
+
+    .logo h1 {
+        font-size: 21px;
+    }
+
+    .logo p {
+        font-size: 10px;
+    }
+
+    .cart-button {
+        padding: 8px 11px;
+        font-size: 13px;
+    }
+
+    .slider {
+        height: 360px;
+    }
+
+    .hero-overlay {
+        padding: 15px;
+    }
+
+    .hero-overlay h2 {
+        font-size: 29px;
+    }
+
+    .hero-overlay p {
+        font-size: 15px;
+    }
+
+    .welcome-text {
+        font-size: 18px;
+        padding: 8px 14px;
+    }
+
+    .hero-button {
+        padding: 10px 17px;
+    }
+
+    .section {
+        padding: 38px 0;
+    }
+
+    .section-heading h2 {
+        font-size: 28px;
+    }
+
+    .menu-heading h2,
+    .order-main-heading h2 {
+        font-size: 30px;
+    }
+
+    .order-main-heading p {
+        font-size: 18px;
+    }
+
+    .food-image {
+        height: 190px;
+    }
+
+    .normal-thali-layout {
+        grid-template-columns: 1fr 105px;
+    }
+
+    .normal-thali-info {
+        padding: 15px;
+    }
+
+    .normal-thali-info h3 {
+        font-size: 21px;
+    }
+
+    .normal-thali-info p {
+        font-size: 12px;
+    }
+
+    .thali-action-box strong {
+        font-size: 20px;
+    }
+
+    .order-card {
+        padding: 16px;
+    }
+
+    .cart-title h3 {
+        font-size: 25px;
+    }
+
+    /*
+       Cart table stays scrollable instead
+       of squeezing the price/action columns.
+    */
+
+    .cart-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .cart-table {
+        min-width: 560px;
+    }
+
+    .bill {
+        padding: 13px;
+    }
+
+    .bill-row {
+        font-size: 14px;
+    }
+
+    .grand-total {
+        font-size: 18px;
+    }
+
+    .history-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .clear-history-btn {
+        width: 100%;
+    }
+
+    .history-top {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .history-card {
+        padding: 15px;
+    }
+
+    .owner-row {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+}

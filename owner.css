@@ -108,4 +108,609 @@ button{
 
 .form-group label{
     display:block;
-    font
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.form-group input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    font-size:15px;
+}
+
+.form-group input:focus{
+    border-color:#e67e22;
+}
+
+.login-btn{
+    width:100%;
+    border:none;
+    background:#20bd5a;
+    color:#fff;
+    padding:13px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:800;
+}
+
+#login-message{
+    margin-top:12px;
+    color:#e53935;
+    font-size:13px;
+}
+
+
+/* =========================================
+   DASHBOARD
+========================================= */
+
+.dashboard-section{
+    display:none;
+    padding:35px 0 60px;
+}
+
+.dashboard-heading{
+    margin-bottom:25px;
+}
+
+.dashboard-heading span,
+.section-title span{
+    color:#e67e22;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1.5px;
+}
+
+.dashboard-heading h2{
+    font-size:38px;
+    line-height:1.2;
+}
+
+.dashboard-heading p{
+    color:#777;
+}
+
+
+/* =========================================
+   STATS
+========================================= */
+
+.dashboard-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:35px;
+}
+
+.stat-card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.07);
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.stat-icon{
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f5f5f5;
+    border-radius:10px;
+    font-size:25px;
+}
+
+.stat-card span{
+    display:block;
+    color:#777;
+    font-size:12px;
+}
+
+.stat-card strong{
+    display:block;
+    font-size:23px;
+}
+
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+.orders-section,
+.history-section{
+    background:#fff;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    margin-bottom:30px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:28px;
+}
+
+.refresh-btn{
+    border:none;
+    background:#3498db;
+    color:#fff;
+    padding:10px 15px;
+    border-radius:7px;
+    font-weight:700;
+}
+
+
+/* =========================================
+   FILTERS
+========================================= */
+
+.order-filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.filter-btn{
+    border:1px solid #ddd;
+    background:#fff;
+    color:#555;
+    padding:8px 16px;
+    border-radius:20px;
+    font-weight:700;
+}
+
+.filter-btn.active{
+    background:#20bd5a;
+    color:#fff;
+    border-color:#20bd5a;
+}
+
+
+/* =========================================
+   ORDER CARD
+========================================= */
+
+.dashboard-order{
+    border:1px solid #eee;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:15px;
+    background:#fff;
+}
+
+.dashboard-order.completed{
+    background:#fafafa;
+}
+
+.order-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.order-id{
+    font-weight:800;
+    color:#e67e22;
+}
+
+.order-customer{
+    font-weight:800;
+}
+
+.status-badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.status-pending{
+    background:#fff0d0;
+    color:#b86b00;
+}
+
+.status-completed{
+    background:#dff8e8;
+    color:#159447;
+}
+
+
+/* =========================================
+   ORDER INFO
+========================================= */
+
+.dashboard-order-info{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.info-box{
+    background:#f8f8f8;
+    padding:12px;
+    border-radius:8px;
+}
+
+.info-box strong{
+    display:block;
+    font-size:12px;
+    color:#777;
+    margin-bottom:2px;
+}
+
+.order-address{
+    grid-column:1/-1;
+}
+
+.location-link{
+    color:#3498db;
+    font-weight:700;
+}
+
+
+/* =========================================
+   ORDER ITEMS
+========================================= */
+
+.dashboard-items{
+    border-top:1px solid #eee;
+    padding-top:15px;
+}
+
+.dashboard-item{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:7px 0;
+    border-bottom:1px dashed #eee;
+    font-size:14px;
+}
+
+.dashboard-total{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+    padding-top:12px;
+    border-top:1px solid #ddd;
+    font-size:18px;
+    font-weight:800;
+}
+
+.dashboard-total strong{
+    color:#159447;
+}
+
+.complete-order-btn{
+    width:100%;
+    border:none;
+    background:#20bd5a;
+    color:#fff;
+    padding:12px;
+    border-radius:7px;
+    font-weight:800;
+    margin-top:15px;
+}
+
+.complete-order-btn:hover{
+    background:#159447;
+}
+
+
+/* =========================================
+   RATING
+========================================= */
+
+.rating-box{
+    margin-top:15px;
+    padding:14px;
+    background:#fffaf2;
+    border-radius:9px;
+}
+
+.rating-stars{
+    display:flex;
+    gap:5px;
+    margin:10px 0;
+}
+
+.rating-stars button{
+    border:none;
+    background:transparent;
+    font-size:28px;
+    color:#ddd;
+}
+
+.rating-stars button.selected{
+    color:#f39c12;
+}
+
+.review-text{
+    color:#666;
+    font-size:14px;
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.dashboard-empty,
+.history-empty{
+    text-align:center;
+    padding:45px 15px;
+    color:#777;
+}
+
+.dashboard-empty div,
+.history-empty div{
+    font-size:45px;
+    margin-bottom:5px;
+}
+
+.dashboard-empty h3,
+.history-empty h3{
+    color:#333;
+    margin-bottom:4px;
+}
+
+
+/* =========================================
+   HISTORY
+========================================= */
+
+.history-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.clear-history-btn{
+    border:none;
+    background:#e53935;
+    color:#fff;
+    padding:9px 14px;
+    border-radius:7px;
+    font-weight:700;
+}
+
+.history-card{
+    border:1px solid #eee;
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:12px;
+}
+
+.completed-history{
+    background:#fafafa;
+}
+
+.history-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:12px;
+}
+
+.history-info{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.history-label{
+    display:block;
+    color:#888;
+    font-size:11px;
+    font-weight:700;
+}
+
+.history-value{
+    font-weight:700;
+}
+
+.history-items-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.history-items-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:450px;
+}
+
+.history-items-table th,
+.history-items-table td{
+    padding:8px;
+    text-align:left;
+    border-bottom:1px solid #eee;
+    font-size:13px;
+}
+
+.history-total{
+    text-align:right;
+    margin-top:12px;
+    font-size:18px;
+    font-weight:800;
+}
+
+
+/* =========================================
+   RATING MODAL
+========================================= */
+
+.rating-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:2000;
+}
+
+.rating-modal-content{
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    border-radius:14px;
+    padding:28px;
+    position:relative;
+    text-align:center;
+}
+
+.close-modal{
+    position:absolute;
+    right:15px;
+    top:10px;
+    border:none;
+    background:none;
+    font-size:30px;
+    color:#777;
+}
+
+.rating-modal-content h2{
+    margin-bottom:5px;
+}
+
+.rating-modal-content>p{
+    color:#777;
+}
+
+.rating-modal .rating-stars{
+    justify-content:center;
+    margin:15px 0;
+}
+
+.rating-modal .rating-stars button{
+    font-size:35px;
+}
+
+.rating-modal textarea{
+    width:100%;
+    min-height:100px;
+    resize:vertical;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:11px;
+    outline:none;
+}
+
+.submit-rating-btn{
+    width:100%;
+    border:none;
+    background:#20bd5a;
+    color:#fff;
+    padding:12px;
+    border-radius:8px;
+    font-weight:800;
+    margin-top:12px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.owner-footer{
+    background:#222;
+    color:#fff;
+    text-align:center;
+    padding:25px;
+}
+
+.owner-footer p{
+    color:#f39c12;
+    font-weight:800;
+}
+
+.owner-footer small{
+    color:#999;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:900px){
+
+    .dashboard-stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:94%;
+    }
+
+    .owner-header h1{
+        font-size:21px;
+    }
+
+    .logout-btn{
+        padding:8px 12px;
+        font-size:12px;
+    }
+
+    .login-card{
+        padding:25px 18px;
+    }
+
+    .dashboard-heading h2{
+        font-size:30px;
+    }
+
+    .dashboard-stats{
+        grid-template-columns:1fr;
+    }
+
+    .orders-section,
+    .history-section{
+        padding:16px;
+    }
+
+    .section-title{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .dashboard-order-info,
+    .history-info{
+        grid-template-columns:1fr;
+    }
+
+    .order-address{
+        grid-column:auto;
+    }
+
+    .order-card-top,
+    .history-top{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
